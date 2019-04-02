@@ -1,4 +1,4 @@
-import GeneComponent from "./component/sequence/gene";
+import GeneComponent, { GeneData } from "./component/sequence/gene";
 import { select, Selection } from "d3-selection";
 const genes = [
     { name: "gene 1", length: 1000, strand: 1 },
@@ -8,7 +8,7 @@ const genes = [
 const geneComponent = GeneComponent();
 
 
-const myGenes = select("g#genes");
+const myGenes = select<SVGGElement, Array<GeneData>>("g#genes");
 
 myGenes.datum(genes).call(geneComponent, 1000, 5, 10);
 

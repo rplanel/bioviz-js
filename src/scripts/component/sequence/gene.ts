@@ -9,16 +9,17 @@ export interface GeneData {
 }
 
 export default function () {
-  function gene(_selection: Selection<SVGGElement, Array<GeneData>, SVGElement, any>, width: number = 1000, geneOffset: number = 5, geneHeight: number = 20) {
+  function gene(_selection: Selection<SVGGElement, Array<GeneData>, HTMLElement, any>, width: number = 1000, geneOffset: number = 5, geneHeight: number = 20) {
     _selection.each(function (_data: Array<GeneData>) {
       const sumGeneOffset = (_data.length - 1) * geneOffset;
       const sumLength = _data.reduce((accum, gene) => accum + gene.length, 0);
       const xScale = scaleLinear().domain([0, sumLength - sumGeneOffset]).range([0, width])
       const container = select(this);
-      const genes = container.selectAll('.gene').data(_data);
+      const genes = container.selectAll<SVGGElement, GeneData>('.gene').data(_data);
 
       // ENTER
       const enterGenes = genes.enter().append('g').classed("gene", true);
+
       enterGenes.append("path");
 
       // EXIT
