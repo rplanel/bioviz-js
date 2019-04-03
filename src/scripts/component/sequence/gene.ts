@@ -57,11 +57,11 @@ export default function () {
       updateGenes.attr("transform", d => "translate(" + d.position.x + "," + d.position.y + ")");
       updateGenes
         .select<SVGPathElement>("path")
-        .style("fill", "lightgrey")
+        .style("fill", d => d.strand === "+" ? "indianred": "steelblue")
         .attr(
           "transform",
           ({ strand, position: { width } }) => (strand === "-")
-            ? "translate(" + width + "," + geneHeight + ") rotate(180)"
+            ? "translate(0," + (geneHeight + 5)  + ") translate(" + width + "," + geneHeight + ") rotate(180)"
             : null
         )
         .attr("d", d => arrowShape(d, geneHeight))

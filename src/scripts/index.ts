@@ -44,7 +44,7 @@ const genes: Array<GeneData> = [
 
 
 function draw(centerGenome: number) {
-    const svg = select<SVGSVGElement, any>("svg").attr("width", width + 100).attr("height", 900);
+    const svg = select<SVGSVGElement, any>("svg").attr("width", width + 1).attr("height", 900);
     const genomeAxisElem = svg.select<SVGElement>("#axis");
     const geneElem = svg.select<SVGElement>("#genes");
     genomeAxisElem
