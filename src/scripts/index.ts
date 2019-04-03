@@ -3,11 +3,17 @@ import GenomeAxis from "./component/sequence/genome-axis";
 import { select } from "d3-selection";
 import { of } from "rxjs";
 
+
+
 const width = 1500;
-const genomeWindowSize = 6000;
+let genomeWindowSize = 6000;
+let centerWindow = 23000;
 const geneComponent = GeneComponent();
 const genomeAxis = GenomeAxis();
-const clickHandler = ([begin, end]: [number, number]) => draw((end + begin) / 2);
+const clickHandler = ([begin, end]: [number, number]) => {
+    centerWindow = (end + begin) / 2;
+    draw();
+};
 const genes: Array<GeneData> = [
     {
         name: "gene 1",
@@ -41,22 +47,33 @@ const genes: Array<GeneData> = [
     }
 ]
 
+select("#zoom-in").on("click", function () {
+    genomeWindowSize -= 1000;
+    draw()
+});
+select("#zoom-out").on("click", function () {
+    genomeWindowSize += 1000;
+    draw()
+});
 
-
-function draw(centerGenome: number) {
+/*
+    FUNCTIONS
+*/
+function draw() {
     const svg = select<SVGSVGElement, any>("svg").attr("width", width + 1).attr("height", 900);
     const genomeAxisElem = svg.select<SVGElement>("#axis");
     const geneElem = svg.select<SVGElement>("#genes");
     genomeAxisElem
-        .datum(getGenomeWindow(centerGenome, genomeWindowSize))
+        .datum(getGenomeWindow(centerWindow, genomeWindowSize))
         .call(genomeAxis, width, 0);
     geneElem
         .datum<Array<GeneData>>(genes)
         .call(geneComponent, genomeAxis.scale(), 40);
 }
-draw(23000);
+draw();
 function getGenomeWindow(middle: number, genomeWindowSize: number): [number, number] {
     const halfWindow = genomeWindowSize / 2;
     return [middle - halfWindow, middle + halfWindow]
 
 }
+
