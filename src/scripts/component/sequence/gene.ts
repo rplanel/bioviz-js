@@ -57,7 +57,7 @@ export default function () {
       updateGenes.attr("transform", d => "translate(" + d.position.x + "," + d.position.y + ")");
       updateGenes
         .select<SVGPathElement>("path")
-        .style("fill", d => d.strand === "+" ? "indianred": "steelblue")
+        .style("fill", d => d.strand === "+" ? "darkred": "darkblue")
         .attr(
           "transform",
           ({ strand, position: { width } }) => (strand === "-")
