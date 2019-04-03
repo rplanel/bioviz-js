@@ -1,21 +1,12 @@
 import { GeneData, PositionedGeneData } from "../component/sequence/gene";
-import { scaleLinear } from "d3-scale";
 import { extent } from "d3-array";
+import { ScaleLinear } from "d3-scale";
 
 export default function linearGene(
   data: Array<GeneData>,
-  width: number,
-  geneOffset: number
+  xScale: ScaleLinear<number, number>,
+  yPosition: number = 20
 ) {
-  const sequenceInterval = extent(data.reduce(
-    (accum, gene) => [...accum, gene.begin, gene.end],
-    [] as Array<number>
-  ));
-  
-  const xScale = scaleLinear()
-    .domain([sequenceInterval[0] || 0, sequenceInterval[1] || 0])
-    .range([0, width])
-
   return data.reduce(function (
     accum: PositionedGeneData[],
     gene: GeneData,
@@ -28,7 +19,7 @@ export default function linearGene(
       ...gene,
       position: {
         x,
-        y: 0,
+        y: yPosition,
         width
       }
     });
