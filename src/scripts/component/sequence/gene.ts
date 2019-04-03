@@ -2,7 +2,8 @@ import { select, Selection } from "d3-selection"
 import { ScaleLinear, scaleLinear } from "d3-scale";
 import { arrowShape } from "./gene-shapes";
 import linearGene from "../../layout/linear-gene";
-
+import { of } from "rxjs";
+import { mergeMap } from "rxjs/operators";
 
 type Strand = "+" | "-";
 
@@ -12,6 +13,9 @@ export interface GeneData {
   begin: number,
   end: number,
   gene: string
+  eventHandler: {
+    click: ([begin, end]: [number, number]) => void
+  }
 }
 export interface PositionedGeneData extends GeneData {
   position: {
@@ -61,6 +65,11 @@ export default function () {
             : null
         )
         .attr("d", d => arrowShape(d, geneHeight))
+        .on("click", d => of(d).pipe(
+          mergeMap(d => of<[number, number]>([d.begin, d.end])
+          )
+        ).subscribe(d.eventHandler.click)
+        );
     })
   }
   return gene;
