@@ -25,6 +25,7 @@
     "d3-scale": "^3.0.0",
     "d3-selection": "^1.4.0",
     "parcel-bundler": "^1.12.3",
-    "rxjs": "^6.4.0"
+    "rxjs": "^6.4.0",
+    "tslint": "^5.15.0"
   }
 }
