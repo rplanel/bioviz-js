@@ -3,10 +3,16 @@ import { scaleLinear } from "d3-scale";
 import { arrowShape } from "./gene-shapes";
 import linearGene from "../../layout/linear-gene";
 
+
+type Strand = "+" | "-";
+
 export interface GeneData {
   name: string,
   length: number,
-  strand: number
+  strand: Strand,
+  begin: number,
+  end: number,
+  gene: string
 }
 export interface PositionedGeneData extends GeneData {
   position: {
@@ -25,9 +31,6 @@ export default function () {
     geneHeight: number = 20
   ) {
     _selection.each(function (_data: Array<GeneData>) {
-      const sumGeneOffset = (_data.length - 1) * geneOffset;
-      const sumLength = _data.reduce((accum, gene) => accum + gene.length, 0);
-      const xScale = scaleLinear().domain([0, sumLength - sumGeneOffset]).range([0, width])
       const container = select(this);
       const genes = container
         .selectAll<SVGGElement, PositionedGeneData>('.gene')
@@ -50,7 +53,7 @@ export default function () {
         .style("fill", "lightgrey")
         .attr(
           "transform",
-          ({ strand, position: { width } }) => (strand === -1)
+          ({ strand, position: { width } }) => (strand === "-")
             ? "translate(" + width + "," + geneHeight + ") rotate(180)"
             : null
         )
