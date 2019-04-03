@@ -3,6 +3,7 @@ import GenomeAxis from "./component/sequence/genome-axis";
 import { select } from "d3-selection";
 
 const width = 1500;
+const genomeWindowSize = 6000
 const genes: Array<GeneData> = [
     { name: "gene 1", strand: "-", begin: 20815, end: 21078, gene: "insA" },
     { name: "gene 2", strand: "+", begin: 21181, end: 21399, gene: "yaaY" },
@@ -17,10 +18,17 @@ const genomeAxisElem = svg.select<SVGElement>("#axis");
 const geneElem = svg.select<SVGElement>("#genes");
 
 genomeAxisElem
-    .datum<[number, number]>([20000, 26000])
+    .datum(getGenomeWindow(23000, genomeWindowSize))
     .call(genomeAxis, width, 0);
 
 geneElem
     .datum<Array<GeneData>>(genes)
     .call(geneComponent, genomeAxis.scale(), 40);
 
+
+
+function getGenomeWindow(middle: number, genomeWindowSize: number): [number, number] {
+    const halfWindow = genomeWindowSize / 2;
+    return [middle - halfWindow, middle + halfWindow]
+
+}
