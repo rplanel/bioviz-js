@@ -1,11 +1,12 @@
 import GeneComponent, { GeneData } from "./component/sequence/gene";
-import { select, Selection } from "d3-selection";
+import { select } from "d3-selection";
 const genes = [
-    { name: "gene 1", length: 1000, strand: 1 },
-    { name: "gene 2", length: 500, strand: -1 },
-    { name: "gene 3", length: 500, strand: 1 },
-    { name: "gene 4", length: 20, strand: 1 },
-    { name: "gene 3", length: 250, strand: -1 },
+    { name: "gene 1", strand: "-", begin: 20815, end: 21078, gene: "insA" },
+    { name: "gene 2", strand: "+", begin: 21181, end: 21399, gene: "yaaY" },
+    { name: "gene 3", strand: "+", begin: 21407, end: 22348, gene: "ribF" },
+    { name: "gene 4", strand: "+", begin: 22391, end: 25207, gene: "ileS" }
+
+
 
 ]
 
