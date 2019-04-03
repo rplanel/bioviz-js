@@ -1,5 +1,5 @@
 import { select, Selection } from "d3-selection"
-import { scaleLinear } from "d3-scale";
+import { ScaleLinear, scaleLinear } from "d3-scale";
 import { arrowShape } from "./gene-shapes";
 import linearGene from "../../layout/linear-gene";
 
@@ -8,7 +8,6 @@ type Strand = "+" | "-";
 
 export interface GeneData {
   name: string,
-  length: number,
   strand: Strand,
   begin: number,
   end: number,
@@ -25,21 +24,25 @@ export interface PositionedGeneData extends GeneData {
 
 export default function () {
   function gene(
-    _selection: Selection<SVGGElement, Array<GeneData>, HTMLElement, any>,
-    width: number = 1000,
-    geneOffset: number = 5,
-    geneHeight: number = 20
+    _selection: Selection<SVGElement, Array<GeneData>, HTMLElement, any>,
+    xScale: ScaleLinear<number, number>,
+    geneHeight: number = 30,
+    yPosition: number = 60
   ) {
     _selection.each(function (_data: Array<GeneData>) {
       const container = select(this);
       const genes = container
         .selectAll<SVGGElement, PositionedGeneData>('.gene')
-        .data(linearGene(_data, width, geneOffset));
+        .data(linearGene(_data, xScale, yPosition));
 
       // ENTER
-      const enterGenes = genes.enter().append('g').classed("gene", true);
+      const enterGenes = genes
+        .enter()
+        .append<SVGGElement>('g')
+        .classed("gene", true);
 
       enterGenes.append("path");
+
       // EXIT
       genes.exit().remove()
 
@@ -47,9 +50,9 @@ export default function () {
       const updateGenes = genes.merge(enterGenes);
 
       // set the positions
-      updateGenes.attr("transform", d => "translate(" + d.position.x + ",0)");
+      updateGenes.attr("transform", d => "translate(" + d.position.x + "," + d.position.y + ")");
       updateGenes
-        .select("path")
+        .select<SVGPathElement>("path")
         .style("fill", "lightgrey")
         .attr(
           "transform",
@@ -58,13 +61,8 @@ export default function () {
             : null
         )
         .attr("d", d => arrowShape(d, geneHeight))
-
-
-
-
     })
   }
-
   return gene;
 
 }
