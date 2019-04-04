@@ -1,9 +1,7 @@
 import GeneComponent, { GeneData } from "./component/sequence/gene";
 import GenomeAxis from "./component/sequence/genome-axis";
 import { select } from "d3-selection";
-import { of } from "rxjs";
-
-
+import { drag } from "d3-drag";
 
 const width = 1500;
 let genomeWindowSize = 6000;
@@ -47,6 +45,11 @@ const genes: Array<GeneData> = [
     }
 ]
 
+
+draw();
+
+
+
 select("#zoom-in").on("click", function () {
     genomeWindowSize -= 1000;
     draw()
@@ -70,7 +73,7 @@ function draw() {
         .datum<Array<GeneData>>(genes)
         .call(geneComponent, genomeAxis.scale(), 40);
 }
-draw();
+
 function getGenomeWindow(middle: number, genomeWindowSize: number): [number, number] {
     const halfWindow = genomeWindowSize / 2;
     return [middle - halfWindow, middle + halfWindow]
