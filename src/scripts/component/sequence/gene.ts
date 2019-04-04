@@ -4,7 +4,7 @@ import { arrowShape } from "./gene-shapes";
 import linearGene from "../../layout/linear-gene";
 import { of } from "rxjs";
 import { mergeMap } from "rxjs/operators";
-
+import { drag } from "d3-drag";
 type Strand = "+" | "-";
 
 export interface GeneData {
@@ -57,19 +57,24 @@ export default function () {
       updateGenes.attr("transform", d => "translate(" + d.position.x + "," + d.position.y + ")");
       updateGenes
         .select<SVGPathElement>("path")
-        .style("fill", d => d.strand === "+" ? "darkred": "darkblue")
+        .style("fill", d => d.strand === "+" ? "darkred" : "darkblue")
         .attr(
           "transform",
           ({ strand, position: { width } }) => (strand === "-")
-            ? "translate(0," + (geneHeight + 5)  + ") translate(" + width + "," + geneHeight + ") rotate(180)"
+            ? "translate(0," + (geneHeight + 5) + ") translate(" + width + "," + geneHeight + ") rotate(180)"
             : null
         )
         .attr("d", d => arrowShape(d, geneHeight))
-        .on("click", d => of(d).pipe(
-          mergeMap(d => of<[number, number]>([d.begin, d.end])
-          )
-        ).subscribe(d.eventHandler.click)
+        .on("click", d => of(d)
+          .pipe(mergeMap(d => of<[number, number]>([d.begin, d.end])))
+          .subscribe(d.eventHandler.click)
+        )
+        .call(
+          drag().on("start", d => console.log(event))
+            .on("drag", d => console.log(event))
+            .on("end", d => console.log(event))
         );
+      ;
     })
   }
   return gene;
