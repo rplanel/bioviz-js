@@ -1,25 +1,21 @@
-import { GeneData, PositionedGeneData } from "./gene";
+import gene, { GeneData, PositionedGeneData } from "./gene";
 import { path } from "d3-path";
 export function arrowShape(
     data: PositionedGeneData,
     geneHeight: number,
     arrowWidth: number = 20
 ) {
-    const { position: { x, y, width } } = data;
+    const { position: { width } } = data;
+    return (width < arrowWidth)
+        ? generatePath([[0, geneHeight], [width, geneHeight / 2]])
+        : generatePath([[0, geneHeight], [width - arrowWidth, geneHeight], [width, geneHeight / 2], [width - arrowWidth, 0]])
+}
+
+function generatePath(linesTo: Array<[number, number]>) {
+    const addLineTo = ([x, y]: [number, number]) => genePath.lineTo(x, y);
     const genePath = path();
-    if (width < arrowWidth) {
-        genePath.moveTo(0, 0)
-        genePath.moveTo(0, geneHeight)
-        genePath.moveTo(width, geneHeight / 2)
-        genePath.closePath();
-    }
-    else {
-        genePath.moveTo(0, 0);
-        genePath.lineTo(0, geneHeight);
-        genePath.lineTo(width - arrowWidth, geneHeight);
-        genePath.lineTo(width, geneHeight / 2);
-        genePath.lineTo(width - arrowWidth, 0);
-        genePath.closePath();
-    }
+    genePath.moveTo(0, 0);
+    linesTo.forEach(addLineTo);
+    genePath.closePath();
     return genePath.toString();
 }
