@@ -1,0 +1,10 @@
+.genome-browser-background {
+  fill: white;
+  cursor: move;
+}
+svg.active * {
+  fill-opacity: 0.6 !important;
+}
+.gene {
+  cursor: pointer;
+}
