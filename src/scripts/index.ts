@@ -2,6 +2,7 @@ import { GeneData } from "./component/sequence/gene";
 import { select, event } from "d3-selection";
 import { scaleLinear } from "d3-scale";
 import GenomeBrowser, { GenomeBrowserData } from "./component/genome-browser";
+import { color } from "d3";
 
 const width = 1500;
 const height = 300;
@@ -18,7 +19,7 @@ const geneData: GeneData[] = [
     name: "gene 2",
     strand: "+",
     begin: 21181,
-    end: 21399,
+    end: 21465,
     gene: "yaaY",
   },
   {
@@ -34,7 +35,29 @@ const geneData: GeneData[] = [
     begin: 22391,
     end: 25207,
     gene: "ileS"
-  }
+  },
+  {
+    name: "gene 4",
+    strand: "-",
+    begin: 25304,
+    end: 25956,
+    gene: "foo"
+  },
+  {
+    name: "gene 4",
+    strand: "+",
+    begin: 26004,
+    end: 26329,
+    gene: "foo"
+  },
+  {
+    name: "gene 4",
+    strand: "+",
+    begin: 29004,
+    end: 29429,
+    gene: "foo"
+  },
+
 ];
 
 const genomeBrowserData: GenomeBrowserData[] = [{
@@ -108,10 +131,16 @@ function draw() {
       const newGenomeBrowser = {
         ...genomesBrowser,
         genes: visibleGenes.map(function (gene) {
-          gene.eventHandler = {
-            click: clickHandler
-          };
-          return gene;
+          const fill = gene.strand === "+" ? color("darkred") : color("darkblue");
+          const stroke = (fill) ? fill.darker(1).toString() : "lighgray"
+          return {
+            ...gene,
+            eventHandler: {
+              click: clickHandler
+            },
+            fill: (fill) ? fill.toString() : "lightgray",
+            stroke
+          }
         }),
         scale: xScale,
         eventHandler: {
