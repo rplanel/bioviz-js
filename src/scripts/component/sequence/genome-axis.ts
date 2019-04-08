@@ -6,9 +6,9 @@ import { format } from "d3-format";
 export default function () {
   let xScale = scaleLinear()
     .domain([0, 0])
-    .range([0,])
+    .range([0,0])
   function genomeAxis(
-    _selection: Selection<SVGElement, [number, number], HTMLElement, any>,
+    _selection: Selection<SVGElement, [number, number], SVGElement, any>,
     width: number,
     yPosition: number = 0
   ) {
