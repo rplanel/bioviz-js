@@ -36,37 +36,35 @@ export default function () {
     _selection.each(function (_data: Array<GenomeBrowserData>) {
       const container = select(this);
       const genomeBrowser = container
-        .selectAll<SVGGElement, GenomeBrowserData>("g.genome-browser")
+        .selectAll<SVGElement, GenomeBrowserData>(".genome-browser")
         .data(_data);
 
       //ENTER
-      const genomeBrowerE = genomeBrowser
+      const genomeBrowserE = genomeBrowser
         .enter()
-        .append<SVGGElement>("g")
+        .append<SVGElement>("g")
         .classed("genome-browser", true);
 
-      genomeBrowerE.append("rect")
-        .classed("genome-browser-background", true)
-        .style("fill-opacity", 0);
+      genomeBrowserE.append("rect")
+        .classed("genome-browser-background", true);
 
 
-      genomeBrowerE.append("g").classed("axis", true);
-      genomeBrowerE.append("g").classed("genes", true);
+      genomeBrowserE.append("g").classed("axis", true);
+      genomeBrowserE.append("g").classed("genes", true);
 
       //EXIT
       genomeBrowser.exit().remove();
 
       //UPDATE
-      const genomesBrowserU = genomeBrowser.merge(genomeBrowerE);
+      const genomesBrowserU = genomeBrowser.merge(genomeBrowserE);
       genomesBrowserU
         .select<SVGRectElement>("rect.genome-browser-background")
         .attr("width", width)
-        .attr("height", height)
-        .call(
+        .attr("height", height).call(
           drag<SVGRectElement, GenomeBrowserData>()
-            .on("start", d => {
+            .on("start", (d: GenomeBrowserData) => {
+
               if (d.eventHandler) {
-                console.log(this);
                 d.eventHandler.dragstarted(this);
               }
             })
