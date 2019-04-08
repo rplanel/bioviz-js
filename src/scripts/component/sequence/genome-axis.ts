@@ -27,13 +27,13 @@ export default function () {
         .tickFormat(format(".3s"));
 
       const genomeAxisSelection = container
-        .selectAll<SVGGElement, [number, number]>("g.genome-axis")
+        .selectAll<SVGElement, [number, number]>("g.genome-axis")
         .data([_data]);
 
       // ENTER
       const genomeAxisSelectionEnter = genomeAxisSelection
         .enter()
-        .append<SVGGElement>("g")
+        .append<SVGElement>("g")
         .classed("genome-axis", true);
 
       genomeAxisSelectionEnter
@@ -61,15 +61,10 @@ export default function () {
         .text(title);
 
 
-      const test = genomeAxisSelectionUpdate
-        .select<SVGElement>("g.axis-elems")
-        .attr("transform", "translate(0, 50)");
-
-      test.call(genomeAxisComponent);
-      //test.transition().call(genomeAxisComponent);
-
-
-
+      genomeAxisSelectionUpdate
+        .select<SVGSVGElement>("g.axis-elems")
+        .attr("transform", "translate(0, 50)")
+        .call(genomeAxisComponent);
     });
 
   }
