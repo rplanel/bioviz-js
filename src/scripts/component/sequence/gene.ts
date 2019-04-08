@@ -14,7 +14,9 @@ export interface GeneData {
   strand: Strand,
   begin: number,
   end: number,
-  gene: string
+  gene: string,
+  fill?: string,
+  stroke?: string
 }
 export interface PositionedGeneData extends GeneData {
   position: {
@@ -56,7 +58,11 @@ export default function () {
       updateGenes.attr("transform", d => "translate(" + d.position.x + "," + d.position.y + ")");
       updateGenes
         .select<SVGPathElement>("path")
-        .style("fill", d => d.strand === "+" ? "darkred" : "darkblue")
+        .style("fill", d => d.fill || null)
+        .style("fill-opacity", 0.85)
+        .style("stroke", d => d.stroke || null)
+        .style("stroke-width", '1px')
+        .style("stroke-opacity", 0.8)
         .attr(
           "transform",
           ({ strand, position: { width } }) => (strand === "-")
