@@ -2,32 +2,33 @@ import { axisTop } from "d3-axis";
 import { Selection, select } from "d3-selection";
 import { scaleLinear, ScaleLinear } from "d3-scale";
 import { format } from "d3-format";
+import { GenericAxisData } from "../../types";
+
 
 export default function () {
   let xScale = scaleLinear()
     .domain([0, 0])
-    .range([0,0])
+    .range([0, 0])
+
   function genomeAxis(
-    _selection: Selection<SVGElement, [number, number], SVGElement, any>,
+    _selection: Selection<SVGElement, GenericAxisData, SVGElement, any>,
     width: number,
     yPosition: number = 0
   ) {
 
-    _selection.each(function (_data: [number, number]) {
+    _selection.each(function (_data) {
       const container = select(this)
         .attr("transform", "translate(0," + yPosition + ")");
 
-      const title = "Genome XXX (bp)";
-
       xScale = scaleLinear()
-        .domain([_data[0], _data[1]])
+        .domain(_data.interval)
         .range([0, width])
 
       const genomeAxisComponent = axisTop(xScale)
         .tickFormat(format(".3s"));
 
       const genomeAxisSelection = container
-        .selectAll<SVGElement, [number, number]>("g.genome-axis")
+        .selectAll<SVGElement, GenericAxisData>("g.genome-axis")
         .data([_data]);
 
       // ENTER
@@ -57,8 +58,8 @@ export default function () {
         .select<SVGTextElement>(".title > text")
         .style("fill", "black")
         .style("font-family", "monospace")
-        .attr("transform", "translate(" + (width / 2 + title.length * 8 / 2) + ",20)")
-        .text(title);
+        .attr("transform", d => "translate(" + (width / 2 + d.title.length * 8 / 2) + ",20)")
+        .text(d => d.title);
 
 
       genomeAxisSelectionUpdate
