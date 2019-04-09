@@ -4,27 +4,8 @@ import { arrowShape } from "./gene-shapes";
 import linearGene from "../../layout/linear-gene";
 import { of } from "rxjs";
 import { mergeMap } from "rxjs/operators";
-type Strand = "+" | "-";
 
-export interface GeneData {
-  eventHandler?: {
-    click: ([begin, end]: [number, number]) => void
-  },
-  name: string,
-  strand: Strand,
-  begin: number,
-  end: number,
-  gene: string,
-  fill?: string,
-  stroke?: string
-}
-export interface PositionedGeneData extends GeneData {
-  position: {
-    x: number,
-    y: number,
-    width: number
-  }
-}
+import { GeneData, PositionedGeneData } from "../../types";
 
 
 export default function () {
