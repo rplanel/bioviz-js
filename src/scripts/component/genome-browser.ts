@@ -1,32 +1,19 @@
 import { select, Selection } from "d3-selection"
 
-import GeneComponent, { GeneData } from "./sequence/gene";
+import GeneComponent from "./sequence/gene";
 import GenomeAxis from "./sequence/genome-axis";
+import GlobalGenomeAxis from "./sequence/genome-axis-with-selection";
 import { drag } from "d3-drag";
 
+//types
+import { GenomeBrowserData } from "../types";
 
-
-export interface GenomeBrowserData {
-  width: number,
-  genomeWindow: {
-    center: number,
-    size: number
-  },
-  eventHandler?: {
-    dragstarted: (elem: SVGElement) => void,
-    dragged: () => void,
-    dragended: (elem: SVGElement) => void
-  },
-  currentMousePosition: number,
-  genes: GeneData[],
-  x: number,
-  y: number
-}
 
 
 export default function () {
   const genomeAxis = GenomeAxis();
   const geneComponent = GeneComponent();
+  const globalGenomeAxisComponent = GlobalGenomeAxis();
 
   function genomeBrowser(
     _selection: Selection<SVGElement, Array<GenomeBrowserData>, HTMLElement, any>,
@@ -49,6 +36,7 @@ export default function () {
         .classed("genome-browser-background", true);
 
 
+      genomeBrowserE.append("g").classed("chromosome-axis", true);
       genomeBrowserE.append("g").classed("axis", true);
       genomeBrowserE.append("g").classed("genes", true);
 
@@ -79,14 +67,21 @@ export default function () {
               }
             })
         );
+
+      genomesBrowserU
+        .select<SVGElement>("g.chromosome-axis")
+        .datum(({ axis: { global } }) => global)
+        .call(globalGenomeAxisComponent, width, 0);
+
       genomesBrowserU
         .select<SVGElement>("g.axis")
-        .datum(({ genomeWindow: { center, size } }): [number, number] => getGenomeWindow(center, size))
-        .call(genomeAxis, width, 0);
+        .datum(({ axis: { chromosome } }) => chromosome)
+        .call(genomeAxis, width, 70);
 
       genomesBrowserU
         .select<SVGElement>(".genes")
-        .datum(({ genes }) => genes)
+        .attr("transform", "translate(0, 80)")
+        .datum(({ chromosome: { genes } }) => genes)
         .call(geneComponent, genomeAxis.scale(), 40)
 
 
@@ -95,9 +90,3 @@ export default function () {
   return genomeBrowser;
 }
 
-
-function getGenomeWindow(center: number, genomeWindowSize: number): [number, number] {
-  const halfWindow = genomeWindowSize / 2;
-  return [center - halfWindow, center + halfWindow]
-
-}
