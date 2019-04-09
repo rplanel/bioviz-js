@@ -1,12 +1,15 @@
-import { GeneData } from "./component/sequence/gene";
+import { GeneData, GenomeBrowserData } from "./types";
 import { select, event } from "d3-selection";
 import { scaleLinear } from "d3-scale";
-import GenomeBrowser, { GenomeBrowserData } from "./component/genome-browser";
+import GenomeBrowser from "./component/genome-browser";
 import { color } from "d3";
+import genomeBrowser from "./component/genome-browser";
+import { filter } from "rxjs/operators";
 
 const width = 1500;
 const height = 300;
 const genomeBrowserComponent = GenomeBrowser();
+
 const geneData: GeneData[] = [
   {
     name: "gene 1",
@@ -19,7 +22,7 @@ const geneData: GeneData[] = [
     name: "gene 2",
     strand: "+",
     begin: 21181,
-    end: 21465,
+    end: 21400,
     gene: "yaaY",
   },
   {
@@ -59,7 +62,7 @@ const geneData: GeneData[] = [
   },
 
 ];
-
+const chromosomeSize = 75000;
 const genomeBrowserData: GenomeBrowserData[] = [{
   width: 1500,
   genomeWindow: {
@@ -67,10 +70,26 @@ const genomeBrowserData: GenomeBrowserData[] = [{
     size: 6000
   },
   currentMousePosition: 0,
-  genes: geneData,
-  x: 0,
-  y: 0
+  chromosome: {
+    size: chromosomeSize,
+    genes: geneData
+  },
+  axis: {
+    global: {
+      title: "Genome XXXX (" + chromosomeSize + " bp)",
+      interval: [0, chromosomeSize],
+      window: [0, 0]
+    },
+    chromosome: {
+      title: "Chromosome X ",
+      interval: [0, 0]
+    }
+  }
 }];
+const svg = select<SVGElement, any>("svg")
+  .attr("width", width + 1)
+  .attr("height", height);
+
 
 draw();
 
@@ -91,8 +110,8 @@ select("#zoom-out").on("click", function () {
 function draw() {
   // 
   const computedGenomeBrowserData: GenomeBrowserData[] = genomeBrowserData
-    .map(function (genomesBrowser, i) {
-      const { width, genomeWindow: { center, size }, genes } = genomesBrowser;
+    .map(function (genomesBrowser: GenomeBrowserData, i) {
+      const { width, genomeWindow: { center, size }, chromosome: { genes } } = genomesBrowser;
       const genomeWindowBoundaries = getGenomeWindow(center, size);
       const xScale = scaleLinear()
         .domain(genomeWindowBoundaries)
@@ -107,7 +126,6 @@ function draw() {
       const visibleGenes = genes.filter(
         gene => gene.end > genomeWindowBoundaries[0] || gene.begin < genomeWindowBoundaries[1]
       );
-
 
       const dragStartCallback = function (elem: SVGElement) {
         select(elem).classed("active", true);
@@ -128,21 +146,39 @@ function draw() {
         select(elem).classed("active", false);
       }
 
+      const globalAxisWindow = getGenomeWindow(center, size);
+
       const newGenomeBrowser = {
         ...genomesBrowser,
-        genes: visibleGenes.map(function (gene) {
-          const fill = gene.strand === "+" ? color("darkred") : color("darkblue");
-          const stroke = (fill) ? fill.darker(1).toString() : "lighgray"
-          return {
-            ...gene,
-            eventHandler: {
-              click: clickHandler
-            },
-            fill: (fill) ? fill.toString() : "lightgray",
-            stroke
-          }
-        }),
+        chromosome: {
+          ...genomesBrowser.chromosome,
+          genes: visibleGenes.map(function (gene) {
+            const fill = gene.strand === "+" ? color("darkred") : color("darkblue");
+            const stroke = (fill) ? fill.darker(1).toString() : "lighgray"
+            return {
+              ...gene,
+              eventHandler: {
+                click: clickHandler
+              },
+              fill: (fill) ? fill.toString() : "lightgray",
+              stroke
+            }
+          })
+        },
         scale: xScale,
+        axis: {
+          ...genomesBrowser.axis,
+          global: {
+            ...genomesBrowser.axis.global,
+            window: globalAxisWindow
+          },
+          chromosome: {
+            ...genomesBrowser.axis.chromosome,
+            interval: globalAxisWindow
+
+          }
+
+        },
         eventHandler: {
           dragged: draggedCallback,
           dragstarted: dragStartCallback,
@@ -153,9 +189,7 @@ function draw() {
       return newGenomeBrowser;
 
     });
-  const svg = select<SVGElement, any>("svg")
-    .attr("width", width + 1)
-    .attr("height", height);
+
 
   svg
     .datum(computedGenomeBrowserData)
