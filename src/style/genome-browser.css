@@ -8,3 +8,11 @@ svg.active * {
 .gene {
   cursor: pointer;
 }
+
+
+.genome-axis-window {
+  fill: lightgrey;
+  fill-opacity: 0.7;
+  stroke: lightslategray;
+  rx: 2;
+}
