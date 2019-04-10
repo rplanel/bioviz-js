@@ -47,6 +47,13 @@ export interface State {
   }
 }
 
+
+export interface SelectedChromosomeData {
+  window: [number, number],
+  genes: GeneData[],
+  rule: GenericAxisData
+}
+
 export interface GenomeBrowserData {
   width: number,
   //currentMousePosition: number,
@@ -55,11 +62,7 @@ export interface GenomeBrowserData {
     genes: GeneData[],
     rule: BrushableAxisData
   },
-  selectedChromosome: {
-    window: [number, number],
-    genes: GeneData[],
-    rule: GenericAxisData
-  },
+  selectedChromosome: SelectedChromosomeData,
   eventHandler?: {
     dragstarted: (elem: SVGElement) => void,
     dragged: () => void,

@@ -124,10 +124,8 @@ function getGenomeBrowserData(state: State) {
       const { selection: [x1, x2] } = event;
       const newwindow: [number, number] = [scale.invert(x1), scale.invert(x2)];
       state.window = newwindow;
-      const newData = getGenomeBrowserData(state);
       genomeBrowserComponent.updateSelectedChromosome(
-        newData.selectedChromosome.rule,
-        newData.selectedChromosome.genes
+        getGenomeBrowserData(state)
       );
     }
   };
