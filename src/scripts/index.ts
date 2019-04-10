@@ -5,6 +5,7 @@ import GenomeBrowser from "./component/genome-browser";
 import { color } from "d3";
 import genomeBrowser from "./component/genome-browser";
 import { filter } from "rxjs/operators";
+import { schemeSet1 } from "d3-scale-chromatic";
 
 const width = 1500;
 const height = 300;
@@ -78,7 +79,8 @@ const genomeBrowserData: GenomeBrowserData[] = [{
     global: {
       title: "Genome XXXX (" + chromosomeSize + " bp)",
       interval: [0, chromosomeSize],
-      window: [0, 0]
+      window: [0, 0],
+
     },
     chromosome: {
       title: "Chromosome X ",
@@ -109,10 +111,18 @@ select("#zoom-out").on("click", function () {
 */
 function draw() {
   // 
-  const computedGenomeBrowserData: GenomeBrowserData[] = genomeBrowserData
+  const computedGenomeBrowserData: GenomeBrowserData[] = updateGenomeBrowserData(genomeBrowserData);
+  svg
+    .datum(computedGenomeBrowserData)
+    .call(genomeBrowserComponent, width, height);
+
+}
+
+function updateGenomeBrowserData(genomeBrowserData: GenomeBrowserData[]) {
+  return genomeBrowserData
     .map(function (genomesBrowser: GenomeBrowserData, i) {
       const { width, genomeWindow: { center, size }, chromosome: { genes } } = genomesBrowser;
-      const genomeWindowBoundaries = getGenomeWindow(center, size);
+      const genomeWindowBoundaries = getChromosomeInterval(center, size);
       const xScale = scaleLinear()
         .domain(genomeWindowBoundaries)
         .range([0, width]);
@@ -121,11 +131,25 @@ function draw() {
         genomesBrowser.genomeWindow.center = (end + begin) / 2;
         draw();
       };
-
       // Filter genes in order to display those visible
       const visibleGenes = genes.filter(
         gene => gene.end > genomeWindowBoundaries[0] || gene.begin < genomeWindowBoundaries[1]
       );
+      // Callback when brushed => modify data and redraw the genome + axis
+      const brushedCallback = function (scale: any) {
+        if (!event.sourceEvent) return;
+        if (event.selection) {
+          const { selection: [x1, x2] } = event;
+          const window = [scale.invert(x1), scale.invert(x2)];
+          genomeBrowserData[i].genomeWindow.center = (window[0] + window[1]) / 2;
+          genomeBrowserData[i].genomeWindow.size = window[1] - window[0];
+          const newData = updateGenomeBrowserData(genomeBrowserData);
+          newData.forEach(function (data) {
+            genomeBrowserComponent.updateGenome(data.axis.chromosome, data.chromosome.genes);
+          })
+        }
+      };
+
 
       const dragStartCallback = function (elem: SVGElement) {
         select(elem).classed("active", true);
@@ -136,7 +160,6 @@ function draw() {
       const draggedCallback = function () {
         const mousePosition = xScale
           .invert(event.x);
-
         const diff = genomesBrowser.currentMousePosition - mousePosition;
         genomesBrowser.currentMousePosition = mousePosition;
         genomeBrowserData[i].genomeWindow.center += diff;
@@ -145,14 +168,13 @@ function draw() {
       const dragendedCallback = function (elem: SVGElement) {
         select(elem).classed("active", false);
       }
-
-      const globalAxisWindow = getGenomeWindow(center, size);
-
+      const globalAxisWindow = getChromosomeInterval(center, size);
       const newGenomeBrowser = {
         ...genomesBrowser,
         chromosome: {
           ...genomesBrowser.chromosome,
           genes: visibleGenes.map(function (gene) {
+            // const fillPalette = schemeSet1(gene.strand);
             const fill = gene.strand === "+" ? color("darkred") : color("darkblue");
             const stroke = (fill) ? fill.darker(1).toString() : "lighgray"
             return {
@@ -170,7 +192,10 @@ function draw() {
           ...genomesBrowser.axis,
           global: {
             ...genomesBrowser.axis.global,
-            window: globalAxisWindow
+            window: globalAxisWindow,
+            eventHandler: {
+              brushed: brushedCallback
+            }
           },
           chromosome: {
             ...genomesBrowser.axis.chromosome,
@@ -191,12 +216,9 @@ function draw() {
     });
 
 
-  svg
-    .datum(computedGenomeBrowserData)
-    .call(genomeBrowserComponent, width, height);
-
 }
-function getGenomeWindow(center: number, genomeWindowSize: number): [number, number] {
+
+function getChromosomeInterval(center: number, genomeWindowSize: number): [number, number] {
   const halfWindow = genomeWindowSize / 2;
   return [center - halfWindow, center + halfWindow]
 
