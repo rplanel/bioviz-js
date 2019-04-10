@@ -1,3 +1,4 @@
+import { ScaleLinear } from "d3-scale";
 export type Strand = "+" | "-";
 
 export interface GeneData {
@@ -26,8 +27,11 @@ export interface GenericAxisData {
   interval: [number, number]
 }
 
-export interface GlobalAxisData extends GenericAxisData {
-  window: [number, number]
+export interface BrushableAxisData extends GenericAxisData {
+  window: [number, number],
+  eventHandler?: {
+    brushed: (scale: ScaleLinear<number, number>) => void
+  }
 }
 
 
@@ -44,7 +48,7 @@ export interface GenomeBrowserData {
     genes: GeneData[]
   },
   axis: {
-    global: GlobalAxisData,
+    global: BrushableAxisData,
     chromosome: GenericAxisData
 
   }
