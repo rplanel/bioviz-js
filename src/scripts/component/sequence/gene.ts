@@ -1,5 +1,6 @@
 import { select, Selection } from "d3-selection"
-import { ScaleLinear, scaleLinear } from "d3-scale";
+import { ScaleLinear } from "d3-scale";
+
 import { arrowShape } from "./gene-shapes";
 import linearGene from "../../layout/linear-gene";
 import { of } from "rxjs";
