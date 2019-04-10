@@ -34,24 +34,32 @@ export interface BrushableAxisData extends GenericAxisData {
   }
 }
 
-
+export interface State {
+  width: number,
+  chromosomeSize: number,
+  window: [number, number],
+  genes: GeneData[],
+  chromosome: {
+    title: string,
+  },
+  selectedChromosome: {
+    title: string
+  }
+}
 
 export interface GenomeBrowserData {
   width: number,
-  genomeWindow: {
-    center: number,
-    size: number
-  },
-  currentMousePosition: number,
+  //currentMousePosition: number,
   chromosome: {
     size: number,
-    genes: GeneData[]
+    genes: GeneData[],
+    rule: BrushableAxisData
   },
-  axis: {
-    global: BrushableAxisData,
-    chromosome: GenericAxisData
-
-  }
+  selectedChromosome: {
+    window: [number, number],
+    genes: GeneData[],
+    rule: GenericAxisData
+  },
   eventHandler?: {
     dragstarted: (elem: SVGElement) => void,
     dragged: () => void,

@@ -73,9 +73,13 @@ export default function () {
             })
         );
       genomesBrowserU.each(function (data) {
-        const { chromosome: { genes }, axis: { chromosome, global } } = data;
-        updateWholeChromosomeAxis(global);
-        updateSelectedChromosome(chromosome, genes);
+        const {
+          chromosome: { rule: chromosomeRule },
+          selectedChromosome: { genes: selectedGenes, rule: selectedChromosomeRule },
+          // axis: { chromosome, global }
+        } = data;
+        updateWholeChromosomeAxis(chromosomeRule);
+        updateSelectedChromosome(selectedChromosomeRule, selectedGenes);
       });
     });
   }
@@ -98,7 +102,7 @@ export default function () {
     if (genomesBrowserU) {
       genomesBrowserU
         .select<SVGElement>("g.chromosome-axis")
-        .datum(({ axis: { global } }) => global)
+        .datum(axis)
         .call(wholeChromosomeRule, width, 0);
     }
   }
