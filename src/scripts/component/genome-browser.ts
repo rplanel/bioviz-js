@@ -1,25 +1,28 @@
-import { select, Selection } from "d3-selection"
-
 import GeneComponent from "./sequence/gene";
 import GenomeAxis from "./sequence/genome-axis";
-import GlobalGenomeAxis from "./sequence/genome-axis-with-selection";
+import BrushableGenomeAxis from "./sequence/brushable-genome-axis";
+// D3
+import { select, Selection } from "d3-selection";
 import { drag } from "d3-drag";
 
 //types
-import { GenomeBrowserData } from "../types";
+import { GeneData, GenomeBrowserData, GenericAxisData, BrushableAxisData } from "../types";
 
 
 
 export default function () {
-  const genomeAxis = GenomeAxis();
+  const selectedChromosomeAxis = GenomeAxis();
   const geneComponent = GeneComponent();
-  const globalGenomeAxisComponent = GlobalGenomeAxis();
+  const wholeChromosomeAxis = BrushableGenomeAxis();
+  let width = 900;
+  let genomesBrowserU: Selection<SVGElement, GenomeBrowserData, SVGElement, any> | null = null;
 
   function genomeBrowser(
     _selection: Selection<SVGElement, Array<GenomeBrowserData>, HTMLElement, any>,
-    width: number,
+    w: number,
     height: number
   ) {
+    width = w;
     _selection.each(function (_data: Array<GenomeBrowserData>) {
       const container = select(this);
       const genomeBrowser = container
@@ -44,11 +47,12 @@ export default function () {
       genomeBrowser.exit().remove();
 
       //UPDATE
-      const genomesBrowserU = genomeBrowser.merge(genomeBrowserE);
+      genomesBrowserU = genomeBrowser.merge(genomeBrowserE);
       genomesBrowserU
         .select<SVGRectElement>("rect.genome-browser-background")
         .attr("width", width)
-        .attr("height", height).call(
+        .attr("height", height)
+        .call(
           drag<SVGRectElement, GenomeBrowserData>()
             .on("start", (d: GenomeBrowserData) => {
 
@@ -67,26 +71,40 @@ export default function () {
               }
             })
         );
-
-      genomesBrowserU
-        .select<SVGElement>("g.chromosome-axis")
-        .datum(({ axis: { global } }) => global)
-        .call(globalGenomeAxisComponent, width, 0);
-
+      genomesBrowserU.each(function (data) {
+        const { chromosome: { genes }, axis: { chromosome, global } } = data;
+        updateWholeChromosomeAxis(global);
+        updateSelectedChromosome(chromosome, genes);
+      });
+    });
+  }
+  function updateSelectedChromosome(axis: GenericAxisData, genes: GeneData[]) {
+    if (genomesBrowserU !== null) {
       genomesBrowserU
         .select<SVGElement>("g.axis")
-        .datum(({ axis: { chromosome } }) => chromosome)
-        .call(genomeAxis, width, 70);
+        .datum(axis)
+        .call(selectedChromosomeAxis, width, 70);
 
       genomesBrowserU
         .select<SVGElement>(".genes")
         .attr("transform", "translate(0, 80)")
-        .datum(({ chromosome: { genes } }) => genes)
-        .call(geneComponent, genomeAxis.scale(), 40)
+        .datum(genes)
+        .call(geneComponent, selectedChromosomeAxis.scale(), 30)
+    }
+  };
 
-
-    });
+  function updateWholeChromosomeAxis(axis: BrushableAxisData) {
+    if (genomesBrowserU) {
+      genomesBrowserU
+        .select<SVGElement>("g.chromosome-axis")
+        .datum(({ axis: { global } }) => global)
+        .call(wholeChromosomeAxis, width, 0);
+    }
   }
+
+  genomeBrowser.updateSelectedChromosome = updateSelectedChromosome;
   return genomeBrowser;
 }
+
+
 
