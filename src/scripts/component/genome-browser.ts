@@ -1,6 +1,6 @@
 import GeneComponent from "./sequence/gene";
-import GenomeAxis from "./axis/genome-axis";
-import BrushableGenomeAxis from "./axis/brushable-genome-axis";
+import GenomeAxis from "./rules/genome-rule";
+import BrushableGenomeAxis from "./rules/brushable-genome-rule";
 // D3
 import { select, Selection } from "d3-selection";
 import { drag } from "d3-drag";
