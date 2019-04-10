@@ -1,9 +1,9 @@
-import gene, { GeneData, PositionedGeneData } from "./gene";
+import { PositionedGeneData} from "../../types";
 import { path } from "d3-path";
 export function arrowShape(
     data: PositionedGeneData,
     geneHeight: number,
-    arrowWidth: number = 20
+    arrowWidth: number = 10
 ) {
     const { position: { width } } = data;
     return (width < arrowWidth)
