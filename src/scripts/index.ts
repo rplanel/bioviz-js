@@ -145,7 +145,7 @@ function updateGenomeBrowserData(genomeBrowserData: GenomeBrowserData[]) {
           genomeBrowserData[i].genomeWindow.size = window[1] - window[0];
           const newData = updateGenomeBrowserData(genomeBrowserData);
           newData.forEach(function (data) {
-            genomeBrowserComponent.updateGenome(data.axis.chromosome, data.chromosome.genes);
+            genomeBrowserComponent.updateSelectedChromosome(data.axis.chromosome, data.chromosome.genes);
           })
         }
       };

@@ -1,6 +1,6 @@
 import GeneComponent from "./sequence/gene";
-import GenomeAxis from "./sequence/genome-axis";
-import BrushableGenomeAxis from "./sequence/brushable-genome-axis";
+import GenomeAxis from "./axis/genome-axis";
+import BrushableGenomeAxis from "./axis/brushable-genome-axis";
 // D3
 import { select, Selection } from "d3-selection";
 import { drag } from "d3-drag";
@@ -40,6 +40,7 @@ export default function () {
 
 
       genomeBrowserE.append("g").classed("chromosome-axis", true);
+      genomeBrowserE.append("g").classed("selected-chromosome", true);
       genomeBrowserE.append("g").classed("axis", true);
       genomeBrowserE.append("g").classed("genes", true);
 
