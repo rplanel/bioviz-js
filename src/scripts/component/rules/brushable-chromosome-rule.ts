@@ -1,10 +1,8 @@
 import { BrushableAxisData, GenericAxisData } from "../../types";
 import { select, Selection } from "d3-selection";
 import { scaleLinear } from "d3-scale";
-import GenomeAxis from "./genome-rule";
+import GenomeAxis from "./chromosome-rule";
 import { brushX, BrushBehavior } from "d3-brush";
-import { html } from "d3";
-
 
 export default function () {
   const genomeAxisComponent = GenomeAxis();

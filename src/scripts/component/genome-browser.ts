@@ -1,6 +1,6 @@
 import GeneComponent from "./sequence/gene";
-import GenomeAxis from "./rules/genome-rule";
-import BrushableGenomeAxis from "./rules/brushable-genome-rule";
+import ChromosomeRule from "./rules/chromosome-rule";
+import BrushableChromosomeRule from "./rules/brushable-chromosome-rule";
 // D3
 import { select, Selection } from "d3-selection";
 import { drag } from "d3-drag";
@@ -11,9 +11,9 @@ import { GeneData, GenomeBrowserData, GenericAxisData, BrushableAxisData } from 
 
 
 export default function () {
-  const selectedChromosomeAxis = GenomeAxis();
+  const selectedChromosomeRule = ChromosomeRule();
   const geneComponent = GeneComponent();
-  const wholeChromosomeAxis = BrushableGenomeAxis();
+  const wholeChromosomeRule = BrushableChromosomeRule();
   let width = 900;
   let genomesBrowserU: Selection<SVGElement, GenomeBrowserData, SVGElement, any> | null = null;
 
@@ -84,13 +84,13 @@ export default function () {
       genomesBrowserU
         .select<SVGElement>("g.axis")
         .datum(axis)
-        .call(selectedChromosomeAxis, width, 70);
+        .call(selectedChromosomeRule, width, 70);
 
       genomesBrowserU
         .select<SVGElement>(".genes")
         .attr("transform", "translate(0, 80)")
         .datum(genes)
-        .call(geneComponent, selectedChromosomeAxis.scale(), 30)
+        .call(geneComponent, selectedChromosomeRule.scale(), 30)
     }
   };
 
@@ -99,7 +99,7 @@ export default function () {
       genomesBrowserU
         .select<SVGElement>("g.chromosome-axis")
         .datum(({ axis: { global } }) => global)
-        .call(wholeChromosomeAxis, width, 0);
+        .call(wholeChromosomeRule, width, 0);
     }
   }
 
