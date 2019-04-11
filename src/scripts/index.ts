@@ -3,12 +3,12 @@ import { select, event } from "d3-selection";
 import { scaleOrdinal } from "d3-scale";
 import GenomeBrowser from "./component/genome-browser";
 import { color } from "d3";
+import { format as d3Format } from "d3-format";
 import { schemeSet1, schemeDark2, schemeCategory10 } from "d3-scale-chromatic";
 
 const width = 1500;
 const height = 300;
 const genomeBrowserComponent = GenomeBrowser();
-
 const geneColor = scaleOrdinal(
   // schemeDark2
   // schemeCategory10
@@ -129,7 +129,7 @@ function getGenomeBrowserData(state: State) {
     chromosome: { title: chromosomeTitle },
     selectedChromosome: { title: selectedChromosomeTitle }
   } = state;
-
+  const intervalFormatter = d3Format(".3s");
   // Callback when brushed => modify data and redraw the genome + axis
   const brushedCallback = function (scale: any) {
     if (!event.sourceEvent) return;
@@ -182,7 +182,7 @@ function getGenomeBrowserData(state: State) {
       }),
       rule: {
         title: selectedChromosomeTitle
-          + " [" + window[0] + ", " + window[1] + "]",
+          + " [" + intervalFormatter(window[0]) + ", " + intervalFormatter(window[1]) + "]",
         interval: window
       }
     },
