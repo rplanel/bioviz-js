@@ -1,13 +1,19 @@
 import { GeneData, GenomeBrowserData, State } from "./types";
 import { select, event } from "d3-selection";
-import { scaleLinear } from "d3-scale";
+import { scaleOrdinal } from "d3-scale";
 import GenomeBrowser from "./component/genome-browser";
 import { color } from "d3";
-import { schemeSet1 } from "d3-scale-chromatic";
+import { schemeSet1, schemeDark2, schemeCategory10 } from "d3-scale-chromatic";
 
 const width = 1500;
 const height = 300;
 const genomeBrowserComponent = GenomeBrowser();
+
+const geneColor = scaleOrdinal(
+  // schemeDark2
+  // schemeCategory10
+  schemeSet1
+);
 
 const geneData: GeneData[] = [
   {
@@ -35,7 +41,14 @@ const geneData: GeneData[] = [
     name: "gene 4",
     strand: "+",
     begin: 22391,
-    end: 25207,
+    end: 23207,
+    gene: "ileS"
+  },
+  {
+    name: "gene 4",
+    strand: "+",
+    begin: 23391,
+    end: 24207,
     gene: "ileS"
   },
   {
@@ -156,8 +169,8 @@ function getGenomeBrowserData(state: State) {
       genes: genes.filter(
         (gene: GeneData) => gene.end > window[0] && gene.begin < window[1]
       ).map(function (gene) {
-        const fill = gene.strand === "+" ? color("darkred") : color("darkblue");
-        const stroke = (fill) ? fill.darker(1).toString() : "lighgray"
+        const fill = color(geneColor(gene.strand));
+        const stroke = (fill) ? fill.darker(1).toString() : "lighgray";
         return {
           ...gene,
           eventHandler: {
@@ -173,9 +186,6 @@ function getGenomeBrowserData(state: State) {
         interval: window
       }
     },
-    // eventHandler: {
-
-    // }
   }
 }
 
