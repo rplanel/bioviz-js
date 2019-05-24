@@ -85,7 +85,7 @@ export default function () {
       selectedChromosomeUpdate
         .select<SVGElement>("." + classes.genes)
         .datum<GeneData[]>(d => d.genes)
-        .call(geneComponent, ruleComponent.scale(), 30, 70);
+        .call(geneComponent, ruleComponent.scale(), 20, 70);
 
     });
 
