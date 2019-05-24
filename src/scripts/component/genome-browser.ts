@@ -41,20 +41,17 @@ export default function () {
         .append<SVGElement>("g")
         .classed("genome-browser", true);
 
-      
-
-
       genomeBrowserE.append("g").classed(classes.chromosomeRule, true);
       genomeBrowserE.append("g")
-      .classed(classes.selectedChromosome, true)
-      .attr("transform", "translate(0,70)");
-      
+        .classed(classes.selectedChromosome, true)
+        .attr("transform", "translate(0,70)");
+
       //EXIT
       genomeBrowser.exit().remove();
 
       //UPDATE
       genomesBrowserU = genomeBrowser.merge(genomeBrowserE);
-   
+
 
       genomesBrowserU.each(function (data) {
         const {
