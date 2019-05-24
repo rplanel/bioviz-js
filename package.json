@@ -1,6 +1,6 @@
 {
   "name": "bioviz-js",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Library to visualize biological data",
   "main": "src/scripts/index.js",
   "repository": "git@gitlab.pasteur.fr:rplanel/bioviz-js.git",
