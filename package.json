@@ -22,10 +22,10 @@
     "preversion": "npm run lint",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
-    "dev": "parcel src/scripts/index.ts",
+    "dev": "parcel src/scripts/main-genome-browser.ts",
     "start": "parcel src/index.html",
-    "watch": "parcel watch ./src/index.html",
-    "build": "parcel build ./src/index.html",
+    "watch": "parcel watch src/scripts/main-genome-browser.ts",
+    "build": "parcel build src/scripts/main-genome-browser.ts",
     "compile": "tsc",
     "lint": "tslint -p tsconfig.json",
     "test": "echo \"No test specified, not cool :(\" && exit 0"
