@@ -61,19 +61,19 @@ export default function () {
           drag<SVGRectElement, SelectedChromosomeData>()
             .on("start", (d: SelectedChromosomeData) => {
 
-              if (d.eventHandler) {
-                d.eventHandler.dragstarted(this);
-              }
+              // if (d.eventHandler) {
+              //   d.eventHandler.dragstarted(this);
+              // }
             })
             .on("drag", d => {
-              if (d.eventHandler) {
-                d.eventHandler.dragged();
-              }
+              // if (d.eventHandler) {
+              //   d.eventHandler.dragged();
+              // }
             })
             .on("end", d => {
-              if (d.eventHandler) {
-                d.eventHandler.dragended(this);
-              }
+              // if (d.eventHandler) {
+              //   d.eventHandler.dragended(this);
+              // }
             })
         );
 
