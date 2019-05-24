@@ -1,4 +1,4 @@
-import { GeneData, PositionedGeneData } from "../component/sequence/gene";
+import { GeneData, PositionedGeneData } from "../types";
 import { extent } from "d3-array";
 import { ScaleLinear } from "d3-scale";
 
