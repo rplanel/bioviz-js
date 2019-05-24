@@ -4,7 +4,7 @@ import { scaleOrdinal } from "d3-scale";
 import GenomeBrowser from "./component/genome-browser";
 import { color } from "d3";
 import { format as d3Format } from "d3-format";
-import { schemeSet1, schemeDark2, schemeCategory10 } from "d3-scale-chromatic";
+import { schemeSet1 } from "d3-scale-chromatic";
 
 const width = 1500;
 const height = 300;
