@@ -2,16 +2,33 @@
   "name": "bioviz-js",
   "version": "0.1.0",
   "description": "Library to visualize biological data",
-  "main": "src/scripts/index.js",
+  "main": "./lib/index.js",
   "repository": "git@gitlab.pasteur.fr:rplanel/bioviz-js.git",
   "author": "Remi Planel <rplanel@pasteur.fr>",
   "license": "MIT",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "keywords": [
+    "D3",
+    "bioinformatics",
+    "dataviz",
+    "visualization"
+  ],
   "scripts": {
+    "prepare": "npm run compile",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags",
     "dev": "parcel src/scripts/index.ts",
     "start": "parcel src/index.html",
     "watch": "parcel watch ./src/index.html",
     "build": "parcel build ./src/index.html",
-    "compile": "tsc"
+    "compile": "tsc",
+    "lint": "tslint -p tsconfig.json",
+    "test": "echo \"No test specified, not cool :(\" && exit 0"
   },
   "devDependencies": {
     "rxjs-tslint": "^0.1.7",
