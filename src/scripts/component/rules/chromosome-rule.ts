@@ -1,6 +1,6 @@
 import { axisTop } from "d3-axis";
 import { Selection, select } from "d3-selection";
-import { scaleLinear, ScaleLinear } from "d3-scale";
+import { scaleLinear } from "d3-scale";
 import { format } from "d3-format";
 import { GenericAxisData } from "../../types";
 
