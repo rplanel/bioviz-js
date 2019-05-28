@@ -29,10 +29,13 @@
     "compile": "tsc",
     "watch-ts": "tsc -w",
     "lint": "tslint -p tsconfig.json",
-    "test": "echo \"No test specified, not cool :(\" && exit 0"
+    "test": "jest"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.13",
+    "jest": "^24.8.0",
     "rxjs-tslint": "^0.1.7",
+    "ts-jest": "^24.0.2",
     "typescript": "^3.4.1"
   },
   "dependencies": {
