@@ -29,6 +29,7 @@ export interface GenericAxisData {
 
 export interface BrushableAxisData extends GenericAxisData {
   window: [number, number],
+  maxWindowSize: number,
   eventHandler?: {
     brushed: (scale: ScaleLinear<number, number>) => void
   }

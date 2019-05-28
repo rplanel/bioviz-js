@@ -159,6 +159,7 @@ function getGenomeBrowserData(state: State) {
         title: chromosomeTitle + " (" + chromosomeSize + " bp)",
         interval: chromInterval,
         window,
+        maxWindowSize: chromosomeSize,
         eventHandler: {
           brushed: brushedCallback
         }
