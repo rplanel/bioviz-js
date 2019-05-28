@@ -9,4 +9,4 @@ export { default as GenomeBrowser } from "./component/genome-browser";
 export { default as SelectedChromosome } from "./component/selected-chromosome";
 
 // layout
-export { default as LinearGene } from "./layout/linear-gene";
+export { default as linearGene } from "./layout/linear-gene";
