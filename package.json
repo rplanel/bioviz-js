@@ -27,6 +27,7 @@
     "watch": "parcel watch src/scripts/main-genome-browser.ts",
     "build": "parcel build src/scripts/main-genome-browser.ts",
     "compile": "tsc",
+    "watch-ts": "tsc -w",
     "lint": "tslint -p tsconfig.json",
     "test": "echo \"No test specified, not cool :(\" && exit 0"
   },
