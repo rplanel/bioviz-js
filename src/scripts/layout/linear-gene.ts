@@ -9,9 +9,7 @@ export default function linearGene(
 ) {
   return data.reduce(function (
     accum: PositionedGeneData[],
-    gene: GeneData,
-    i: number,
-    data: GeneData[]
+    gene: GeneData
   ) {
     const x = xScale(gene.begin);
     const width = xScale(gene.end) - x;
