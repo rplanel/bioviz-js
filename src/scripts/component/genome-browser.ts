@@ -1,12 +1,10 @@
-import GeneComponent from "./sequence/gene";
-import ChromosomeRule from "./rules/chromosome-rule";
 import SelectedChromosome from "./selected-chromosome";
 import BrushableChromosomeRule from "./rules/brushable-chromosome-rule";
 // D3
 import { select, Selection } from "d3-selection";
 
 //types
-import { GeneData, GenomeBrowserData, GenericAxisData, BrushableAxisData, SelectedChromosomeData } from "../types";
+import { GenomeBrowserData, BrushableAxisData, SelectedChromosomeData } from "../types";
 
 
 
@@ -15,8 +13,6 @@ export default function () {
     chromosomeRule: "chromosome-rule",
     selectedChromosome: "selected-chromosomes"
   };
-  const selectedChromosomeRule = ChromosomeRule();
-  const geneComponent = GeneComponent();
   const wholeChromosomeRule = BrushableChromosomeRule();
   const selectedChromosomeComponent = SelectedChromosome();
 
