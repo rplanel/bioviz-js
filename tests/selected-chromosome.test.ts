@@ -33,13 +33,17 @@ describe("Test Selected Chromosome", () => {
     '<div><svg width="500"><g id="container"></g></svg></div>';
   const container = select("svg")
     .select<SVGGElement>("g");
-
+  const width = 1500;
   container
     .datum<SelectedChromosomeData[]>(data)
-    .call(selectedChromosomeComponent, 1500);
+    .call(selectedChromosomeComponent, width);
 
   // Start tests
   test("Test data to DOM elements", () => {
     expect(container.html()).toBe(result);
+  })
+  test("Width background rectangle", () => {
+    const displayWidth = parseInt(container.select(".genome-browser-background").attr("width"));
+    expect(displayWidth).toBe(width);
   })
 })
