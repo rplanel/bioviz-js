@@ -11,7 +11,7 @@ import { GeneData, PositionedGeneData } from "../../types";
 
 export default function () {
   function gene(
-    _selection: Selection<SVGElement, Array<GeneData>, SVGElement, any>,
+    _selection: Selection<SVGGElement, Array<GeneData>, any, any>,
     xScale: ScaleLinear<number, number>,
     geneHeight: number = 30,
     yPosition: number = 60

@@ -78,12 +78,12 @@ export default function () {
         );
 
       selectedChromosomeUpdate
-        .select<SVGElement>("." + classes.rule)
+        .select<SVGGElement>("." + classes.rule)
         .datum<GenericAxisData>(d => d.rule)
         .call(ruleComponent, width, 0)
 
       selectedChromosomeUpdate
-        .select<SVGElement>("." + classes.genes)
+        .select<SVGGElement>("." + classes.genes)
         .datum<GeneData[]>(d => d.genes)
         .call(geneComponent, ruleComponent.scale(), 20, 70);
 
