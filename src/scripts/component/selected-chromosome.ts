@@ -11,14 +11,14 @@ import { drag } from "d3-drag";
 export default function () {
   const classes = {
     selectedChromosome: "selected-chromosome",
-    rule: "rule",
+    ruler: "chromosome-ruler",
     genes: "genes"
   };
   const ruleComponent = ChromosomeRule();
   const geneComponent = Gene();
 
   function selectedChromosome(
-    _selection: Selection<SVGElement, SelectedChromosomeData[], SVGElement, any>,
+    _selection: Selection<SVGGElement, SelectedChromosomeData[], any, any>,
     width: number
   ) {
     _selection.each(function (_data: SelectedChromosomeData[]) {
@@ -39,7 +39,7 @@ export default function () {
 
       selectedChromosomeEnter
         .append("g")
-        .classed(classes.rule, true);
+        .classed(classes.ruler, true);
 
       selectedChromosomeEnter
         .append("g")
@@ -78,8 +78,8 @@ export default function () {
         );
 
       selectedChromosomeUpdate
-        .select<SVGGElement>("." + classes.rule)
-        .datum<GenericAxisData>(d => d.rule)
+        .select<SVGGElement>("." + classes.ruler)
+        .datum<GenericAxisData>(d => d.ruler)
         .call(ruleComponent, width, 0)
 
       selectedChromosomeUpdate
