@@ -16,7 +16,7 @@ export default function () {
   const tickFormat = format(".3s");
   const brushHeight = 50;
   function globalGenomeAxis(
-    _selection: Selection<SVGElement, BrushableAxisData, SVGElement, any>,
+    _selection: Selection<SVGGElement, BrushableAxisData, any, any>,
     width: number,
     yPosition: number,
   ) {

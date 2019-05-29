@@ -73,7 +73,7 @@ export default function () {
   function updateWholeChromosomeAxis(axis: BrushableAxisData) {
     if (genomesBrowserU) {
       genomesBrowserU
-        .select<SVGElement>("." + classes.chromosomeRule)
+        .select<SVGGElement>("." + classes.chromosomeRule)
         .datum(axis)
         .call(wholeChromosomeRule, width, 0);
     }
