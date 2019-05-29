@@ -11,7 +11,7 @@ export default function () {
     .range([0, 0])
 
   function genomeAxis(
-    _selection: Selection<SVGGElement, GenericAxisData, SVGElement, any>,
+    _selection: Selection<SVGGElement, GenericAxisData, any, any>,
     width: number,
     yPosition: number = 0
   ) {
