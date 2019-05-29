@@ -1,7 +1,7 @@
 import { BrushableAxisData, GenericAxisData } from "../../types";
 import { select, Selection, event } from "d3-selection";
 import { scaleLinear } from "d3-scale";
-import GenomeAxis from "./chromosome-rule";
+import GenomeAxis from "./chromosome";
 import { brushX, BrushBehavior } from "d3-brush";
 import { format } from "d3-format";
 

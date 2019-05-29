@@ -1,7 +1,7 @@
 // D3
 import { select, Selection } from "d3-selection";
 import { SelectedChromosomeData, GenericAxisData, GeneData } from "../types";
-import ChromosomeRule from "./rules/chromosome-rule";
+import ChromosomeRule from "./ruler/chromosome";
 import Gene from "./sequence/gene";
 import { drag } from "d3-drag";
 

@@ -1,5 +1,5 @@
 import SelectedChromosome from "./selected-chromosome";
-import BrushableChromosomeRule from "./rules/brushable-chromosome-rule";
+import BrushableChromosomeRule from "./ruler/brushable-chromosome";
 // D3
 import { select, Selection } from "d3-selection";
 

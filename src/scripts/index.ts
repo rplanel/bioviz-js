@@ -1,5 +1,5 @@
-export { default as BrushableChromosomeRuler } from "./component/rules/brushable-chromosome-rule";
-export { default as ChromosomeRuler } from "./component/rules/chromosome-rule";
+export { default as BrushableChromosomeRuler } from "./component/ruler/brushable-chromosome";
+export { default as ChromosomeRuler } from "./component/ruler/chromosome";
 // sequences
 export * from "./component/sequence/gene-shapes";
 export { default as Gene } from "./component/sequence/gene";
