@@ -10,7 +10,7 @@ import { GenomeBrowserData, BrushableAxisData, SelectedChromosomeData } from "..
 
 export default function () {
   const classes = {
-    chromosomeRule: "chromosome-rule",
+    chromosomeRuler: "chromosome-ruler",
     selectedChromosome: "selected-chromosomes"
   };
   const wholeChromosomeRule = BrushableChromosomeRule();
@@ -37,7 +37,7 @@ export default function () {
         .append<SVGElement>("g")
         .classed("genome-browser", true);
 
-      genomeBrowserE.append("g").classed(classes.chromosomeRule, true);
+      genomeBrowserE.append("g").classed(classes.chromosomeRuler, true);
       genomeBrowserE.append("g")
         .classed(classes.selectedChromosome, true)
         .attr("transform", "translate(0,70)");
@@ -51,8 +51,8 @@ export default function () {
 
       genomesBrowserU.each(function (data) {
         const {
-          chromosome: { rule: chromosomeRule },
-          selectedChromosome: { genes: selectedGenes, rule: selectedChromosomeRule },
+          chromosome: { ruler: chromosomeRule },
+          selectedChromosome: { genes: selectedGenes, ruler: selectedChromosomeRule },
           // axis: { chromosome, global }
         } = data;
         updateWholeChromosomeAxis(chromosomeRule);
@@ -64,7 +64,7 @@ export default function () {
   function updateSelectedChromosome(data: GenomeBrowserData) {
     if (genomesBrowserU !== null) {
       genomesBrowserU
-        .select<SVGElement>("." + classes.selectedChromosome)
+        .select<SVGGElement>("." + classes.selectedChromosome)
         .datum<SelectedChromosomeData[]>([data.selectedChromosome])
         .call(selectedChromosomeComponent, width);
     }
@@ -73,7 +73,7 @@ export default function () {
   function updateWholeChromosomeAxis(axis: BrushableAxisData) {
     if (genomesBrowserU) {
       genomesBrowserU
-        .select<SVGGElement>("." + classes.chromosomeRule)
+        .select<SVGGElement>("." + classes.chromosomeRuler)
         .datum(axis)
         .call(wholeChromosomeRule, width, 0);
     }

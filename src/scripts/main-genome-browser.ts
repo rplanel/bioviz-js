@@ -155,7 +155,7 @@ function getGenomeBrowserData(state: State) {
     chromosome: {
       size: chromosomeSize,
       genes,
-      rule: {
+      ruler: {
         title: chromosomeTitle + " (" + chromosomeSize + " bp)",
         interval: chromInterval,
         window,
@@ -181,7 +181,7 @@ function getGenomeBrowserData(state: State) {
           stroke
         }
       }),
-      rule: {
+      ruler: {
         title: selectedChromosomeTitle
           + " [" + intervalFormatter(window[0]) + ", " + intervalFormatter(window[1]) + "]",
         interval: window

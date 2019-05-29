@@ -52,7 +52,7 @@ export interface State {
 export interface SelectedChromosomeData {
   window: [number, number],
   genes: GeneData[],
-  rule: GenericAxisData
+  ruler: GenericAxisData
 }
 
 export interface GenomeBrowserData {
@@ -61,7 +61,7 @@ export interface GenomeBrowserData {
   chromosome: {
     size: number,
     genes: GeneData[],
-    rule: BrushableAxisData
+    ruler: BrushableAxisData
   },
   selectedChromosome: SelectedChromosomeData,
   eventHandler?: {

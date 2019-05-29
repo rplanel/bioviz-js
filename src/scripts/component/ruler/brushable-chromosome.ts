@@ -8,8 +8,8 @@ import { format } from "d3-format";
 export default function () {
   const genomeAxisComponent = GenomeAxis();
   const htmlClassName = {
-    componentContainer: "whole-chromosome-rule",
-    genericRule: "generic-rule",
+    componentContainer: "whole-chromosome-ruler",
+    genericRuler: "generic-ruler",
     brushSelection: "brush-selection"
   };
 
@@ -76,7 +76,7 @@ export default function () {
         .classed(htmlClassName.componentContainer, true);
 
       globalAxisEnter.append("g")
-        .classed(htmlClassName.genericRule, true);
+        .classed(htmlClassName.genericRuler, true);
 
 
       const brushSelectionEnter = globalAxisEnter.append("g")
@@ -105,7 +105,7 @@ export default function () {
         .call(brush.move, [genomicToPx(_data.window[0]), genomicToPx(_data.window[1])]);
 
       globalAxisUpdate
-        .select<SVGGElement>("." + htmlClassName.genericRule)
+        .select<SVGGElement>("." + htmlClassName.genericRuler)
         .datum((d: BrushableAxisData): GenericAxisData => ({ title: d.title, interval: [d.interval[0], d.interval[1]] }))
         .call(genomeAxisComponent, width, yPosition);
 
