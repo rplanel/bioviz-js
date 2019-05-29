@@ -2,9 +2,6 @@ import { arrowShape } from "../src/scripts/component/sequence/gene-shapes";
 import { scaleLinear } from "d3-scale";
 import { GeneData } from "../src/scripts/types";
 import linearGene from "../src/scripts/layout/linear-gene";
-import { line } from "d3";
-
-
 
 describe("Test gene shapes", () => {
   const data: GeneData[] = [{
