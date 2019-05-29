@@ -105,7 +105,7 @@ export default function () {
         .call(brush.move, [genomicToPx(_data.window[0]), genomicToPx(_data.window[1])]);
 
       globalAxisUpdate
-        .select<SVGElement>("." + htmlClassName.genericRule)
+        .select<SVGGElement>("." + htmlClassName.genericRule)
         .datum((d: BrushableAxisData): GenericAxisData => ({ title: d.title, interval: [d.interval[0], d.interval[1]] }))
         .call(genomeAxisComponent, width, yPosition);
 
