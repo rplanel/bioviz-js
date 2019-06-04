@@ -1,22 +1,12 @@
-import { GeneData, GenomeBrowserData, State } from "./types";
-import { select, event, BaseEvent, ClientPointEvent } from "d3-selection";
-import { scaleOrdinal } from "d3-scale";
+import { GeneData, GenomeBrowserData, GenomeBrowserState } from "./types";
+import { select, event } from "d3-selection";
 import GenomeBrowser from "./component/genome-browser";
-import { color } from "d3";
-import { format as d3Format } from "d3-format";
-import { schemeSet1 } from "d3-scale-chromatic";
 import genomeBrowserLayout from "./layout/genome-browser";
 
 
 const width = 1500;
 const height = 300;
 const genomeBrowserComponent = GenomeBrowser();
-const geneColor = scaleOrdinal(
-  // schemeDark2
-  // schemeCategory10
-  schemeSet1
-);
-
 const geneData: GeneData[] = [
   {
     name: "gene 1",
@@ -78,7 +68,7 @@ const geneData: GeneData[] = [
 ];
 
 
-const state: State = {
+const state: GenomeBrowserState = {
   width: 1500,
   chromosomeSize: 75000,
   window: [20000, 26000],
@@ -115,24 +105,25 @@ select("#zoom-out").on("click", function () {
     FUNCTIONS
 */
 function draw() {
-  // 
+  // Get the data
   const computedGenomeBrowserData: GenomeBrowserData =
     genomeBrowserLayout(state, brushHandler, clickHandler);
 
+  // Convert the data to DOM objects
   genomeBrowsers
     .datum([computedGenomeBrowserData])
     .call(genomeBrowserComponent, width, height);
 
 }
 
-function clickHandler([begin, end]: [number, number], state: State) {
+function clickHandler([begin, end]: [number, number], state: GenomeBrowserState) {
   const centerGene = (end + begin) / 2;
   const sizeWindow = state.window[1] - state.window[0];
   state.window = [centerGene - sizeWindow / 2, centerGene + sizeWindow / 2];
   draw();
 }
 
-function brushHandler(scale: any, state: State) {
+function brushHandler(scale: any, state: GenomeBrowserState) {
   if (!event.sourceEvent) return;
   if (event.selection) {
     const { selection: [x1, x2] } = event;

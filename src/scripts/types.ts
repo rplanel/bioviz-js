@@ -35,7 +35,7 @@ export interface BrushableAxisData extends GenericAxisData {
   }
 }
 
-export interface State {
+export interface GenomeBrowserState {
   width: number,
   chromosomeSize: number,
   window: [number, number],

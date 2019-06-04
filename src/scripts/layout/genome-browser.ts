@@ -1,4 +1,4 @@
-import { State, GeneData } from "../types";
+import { GenomeBrowserState, GeneData } from "../types";
 
 import { event } from "d3-selection";
 import { format as d3Format } from "d3-format";
@@ -12,7 +12,7 @@ const geneColor = scaleOrdinal(
   schemeSet1
 );
 export default function genomeBrowserData(
-  state: State,
+  state: GenomeBrowserState,
   brushHandler: any,
   clickHandler: any
 ) {
