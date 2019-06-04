@@ -50,7 +50,7 @@ describe("Test Genome Browser", () => {
 
   const genomeBrowserData = genomeBrowserDataLayout(
     genomeBrowserState,
-    (scale, state: GenomeBrowserState) => console.log(scale),
+    (scale, state: GenomeBrowserState) => [scale, state],
     (geneLocation, state: GenomeBrowserState) => console.log(geneLocation)
   );
   const data: GenomeBrowserData[] = [genomeBrowserData];
@@ -61,15 +61,23 @@ describe("Test Genome Browser", () => {
   container
     .datum<GenomeBrowserData[]>(data)
     .call(genomeBrowserComponent);
+
+
+  // 
   test("Test all dom element", () => {
     // This is test is too much. Should find a smarter one that won't break
     // for small changement.
     expect(container.html()).toBe(result);
   })
+
+
+  // 
   test("Test transform data", () => {
     expect(genomeBrowserData.selectedChromosome.genes.length).toBe(2);
   });
 
+
+  // 
   test("test window data", () => {
     expect(genomeBrowserData.selectedChromosome.window).toBe(genomeBrowserState.window);
     expect(genomeBrowserData.selectedChromosome.window).toBe(genomeBrowserData.chromosome.ruler.window);
