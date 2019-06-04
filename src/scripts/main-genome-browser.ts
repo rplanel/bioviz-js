@@ -130,7 +130,7 @@ function brushHandler(scale: any, state: GenomeBrowserState) {
     const newwindow: [number, number] = [scale.invert(x1), scale.invert(x2)];
     state.window = newwindow;
     genomeBrowserComponent.updateSelectedChromosome(
-      genomeBrowserLayout(state, brushHandler, clickHandler)
+      genomeBrowserLayout(state, brushHandler, clickHandler).selectedChromosome
     );
   }
 }
