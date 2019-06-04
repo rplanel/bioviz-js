@@ -1,4 +1,8 @@
-import { GenomeBrowserState, GeneData, GenomeBrowserData } from "../types";
+import {
+  GenomeBrowserState,
+  GeneData,
+  GenomeBrowserData
+} from "../types";
 import { format as d3Format } from "d3-format";
 import { scaleOrdinal } from "d3-scale";
 import { color } from "d3";
@@ -11,8 +15,8 @@ const geneColor = scaleOrdinal(
 );
 export default function genomeBrowserData(
   state: GenomeBrowserState,
-  brushHandler: any,
-  clickHandler: any
+  brushHandler: (scale: any, state: GenomeBrowserState) => void,
+  clickHandler: (geneLocation: [number, number], state: GenomeBrowserState) => void
 ): GenomeBrowserData {
   const {
     window,

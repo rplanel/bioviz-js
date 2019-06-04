@@ -1,6 +1,6 @@
 import GenomeBrowser from "../src/scripts/component/genome-browser";
 import genomeBrowserDataLayout from "../src/scripts/layout/genome-browser";
-import { GenomeBrowserData, GeneData } from "../src/scripts/types";
+import { GenomeBrowserData, GeneData, GenomeBrowserState } from "../src/scripts/types";
 import { select } from "d3-selection";
 
 describe("Test Genome Browser", () => {
@@ -47,10 +47,11 @@ describe("Test Genome Browser", () => {
     }
   }
 
+
   const genomeBrowserData = genomeBrowserDataLayout(
     genomeBrowserState,
-    () => console.log("brush"),
-    () => console.log("click")
+    (scale, state: GenomeBrowserState) => console.log(scale),
+    (geneLocation, state: GenomeBrowserState) => console.log(geneLocation)
   );
   const data: GenomeBrowserData[] = [genomeBrowserData];
   document.body.innerHTML =
