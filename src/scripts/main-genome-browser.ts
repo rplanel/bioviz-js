@@ -1,10 +1,12 @@
 import { GeneData, GenomeBrowserData, State } from "./types";
-import { select, event } from "d3-selection";
+import { select, event, BaseEvent, ClientPointEvent } from "d3-selection";
 import { scaleOrdinal } from "d3-scale";
 import GenomeBrowser from "./component/genome-browser";
 import { color } from "d3";
 import { format as d3Format } from "d3-format";
 import { schemeSet1 } from "d3-scale-chromatic";
+import genomeBrowserLayout from "./layout/genome-browser";
+
 
 const width = 1500;
 const height = 300;
@@ -115,80 +117,31 @@ select("#zoom-out").on("click", function () {
 function draw() {
   // 
   const computedGenomeBrowserData: GenomeBrowserData =
-    getGenomeBrowserData(state);
+    genomeBrowserLayout(state, brushHandler, clickHandler);
+
   genomeBrowsers
     .datum([computedGenomeBrowserData])
     .call(genomeBrowserComponent, width, height);
 
 }
 
-function getGenomeBrowserData(state: State) {
-  const {
-    window,
-    width,
-    chromosomeSize,
-    genes,
-    chromosome: { title: chromosomeTitle },
-    selectedChromosome: { title: selectedChromosomeTitle }
-  } = state;
-  const intervalFormatter = d3Format(".3s");
-  // Callback when brushed => modify data and redraw the genome + axis
-  const brushedCallback = function (scale: any) {
-    if (!event.sourceEvent) return;
-    if (event.selection) {
-      const { selection: [x1, x2] } = event;
-      const newwindow: [number, number] = [scale.invert(x1), scale.invert(x2)];
-      state.window = newwindow;
-      genomeBrowserComponent.updateSelectedChromosome(
-        getGenomeBrowserData(state)
-      );
-    }
-  };
-  const clickHandler = function ([begin, end]: [number, number]) {
-    const centerGene = (end + begin) / 2;
-    const sizeWindow = window[1] - window[0];
-    state.window = [centerGene - sizeWindow / 2, centerGene + sizeWindow / 2];
-    draw();
-  };
+function clickHandler([begin, end]: [number, number], state: State) {
+  const centerGene = (end + begin) / 2;
+  const sizeWindow = state.window[1] - state.window[0];
+  state.window = [centerGene - sizeWindow / 2, centerGene + sizeWindow / 2];
+  draw();
+}
 
-  const chromInterval: [number, number] = [0, chromosomeSize]
-  return {
-    width,
-    chromosome: {
-      size: chromosomeSize,
-      genes,
-      ruler: {
-        title: chromosomeTitle + " (" + chromosomeSize + " bp)",
-        interval: chromInterval,
-        window,
-        maxWindowSize: chromosomeSize,
-        eventHandler: {
-          brushed: brushedCallback
-        }
-      }
-    },
-    selectedChromosome: {
-      window,
-      genes: genes.filter(
-        (gene: GeneData) => gene.end > window[0] && gene.begin < window[1]
-      ).map(function (gene) {
-        const fill = color(geneColor(gene.strand));
-        const stroke = (fill) ? fill.darker(1).toString() : "lighgray";
-        return {
-          ...gene,
-          eventHandler: {
-            click: clickHandler
-          },
-          fill: (fill) ? fill.toString() : "lightgray",
-          stroke
-        }
-      }),
-      ruler: {
-        title: selectedChromosomeTitle
-          + " [" + intervalFormatter(window[0]) + ", " + intervalFormatter(window[1]) + "]",
-        interval: window
-      }
-    },
+function brushHandler(scale: any, state: State) {
+  if (!event.sourceEvent) return;
+  if (event.selection) {
+    const { selection: [x1, x2] } = event;
+    const newwindow: [number, number] = [scale.invert(x1), scale.invert(x2)];
+    state.window = newwindow;
+    genomeBrowserComponent.updateSelectedChromosome(
+      genomeBrowserLayout(state, brushHandler, clickHandler)
+    );
   }
 }
+
 
