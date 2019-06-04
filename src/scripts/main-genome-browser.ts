@@ -90,9 +90,11 @@ const state: State = {
 }
 
 
-const svg = select<SVGElement, any>("svg")
+const genomeBrowsers = select<SVGElement, any>("svg")
   .attr("width", width + 1)
-  .attr("height", height);
+  .attr("height", height)
+  .append<SVGGElement>("g")
+  .classed("genome-browsers", true);
 
 draw();
 
@@ -114,7 +116,7 @@ function draw() {
   // 
   const computedGenomeBrowserData: GenomeBrowserData =
     getGenomeBrowserData(state);
-  svg
+  genomeBrowsers
     .datum([computedGenomeBrowserData])
     .call(genomeBrowserComponent, width, height);
 

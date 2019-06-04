@@ -17,24 +17,23 @@ export default function () {
   const selectedChromosomeComponent = SelectedChromosome();
 
   let width = 900;
-  let genomesBrowserU: Selection<SVGElement, GenomeBrowserData, SVGElement, any> | null = null;
+  let genomesBrowserU: Selection<SVGGElement, GenomeBrowserData, SVGElement, any> | null = null;
 
+  
   function genomeBrowser(
-    _selection: Selection<SVGElement, Array<GenomeBrowserData>, HTMLElement, any>,
-    w: number,
-    height: number
+    _selection: Selection<SVGGElement, Array<GenomeBrowserData>, HTMLElement, any>
   ) {
-    width = w;
+    // width = w;
     _selection.each(function (_data: Array<GenomeBrowserData>) {
       const container = select(this);
       const genomeBrowser = container
-        .selectAll<SVGElement, GenomeBrowserData>(".genome-browser")
+        .selectAll<SVGGElement, GenomeBrowserData>(".genome-browser")
         .data(_data);
 
       //ENTER
       const genomeBrowserE = genomeBrowser
         .enter()
-        .append<SVGElement>("g")
+        .append<SVGGElement>("g")
         .classed("genome-browser", true);
 
       genomeBrowserE.append("g").classed(classes.chromosomeRuler, true);
