@@ -10,6 +10,7 @@ import { GenomeBrowserData, BrushableAxisData, SelectedChromosomeData } from "..
 
 export default function () {
   const classes = {
+    perDataRootContainer: "genome-browser",
     chromosomeRuler: "chromosome-ruler",
     selectedChromosome: "selected-chromosomes"
   };
@@ -19,22 +20,21 @@ export default function () {
   let width = 900;
   let genomesBrowserU: Selection<SVGGElement, GenomeBrowserData, SVGElement, any> | null = null;
 
-  
+
   function genomeBrowser(
     _selection: Selection<SVGGElement, Array<GenomeBrowserData>, HTMLElement, any>
   ) {
-    // width = w;
     _selection.each(function (_data: Array<GenomeBrowserData>) {
       const container = select(this);
       const genomeBrowser = container
-        .selectAll<SVGGElement, GenomeBrowserData>(".genome-browser")
+        .selectAll<SVGGElement, GenomeBrowserData>("." + classes.perDataRootContainer)
         .data(_data);
 
       //ENTER
       const genomeBrowserE = genomeBrowser
         .enter()
         .append<SVGGElement>("g")
-        .classed("genome-browser", true);
+        .classed(classes.perDataRootContainer, true);
 
       genomeBrowserE.append("g").classed(classes.chromosomeRuler, true);
       genomeBrowserE.append("g")
@@ -47,24 +47,19 @@ export default function () {
       //UPDATE
       genomesBrowserU = genomeBrowser.merge(genomeBrowserE);
 
-
       genomesBrowserU.each(function (data) {
-        const {
-          chromosome: { ruler: chromosomeRule },
-          selectedChromosome: { genes: selectedGenes, ruler: selectedChromosomeRule },
-          // axis: { chromosome, global }
-        } = data;
+        const { chromosome: { ruler: chromosomeRule }, selectedChromosome } = data;
         updateWholeChromosomeAxis(chromosomeRule);
-        updateSelectedChromosome(data);
+        updateSelectedChromosome(selectedChromosome);
       });
     });
   }
 
-  function updateSelectedChromosome(data: GenomeBrowserData) {
+  function updateSelectedChromosome(data: SelectedChromosomeData) {
     if (genomesBrowserU !== null) {
       genomesBrowserU
         .select<SVGGElement>("." + classes.selectedChromosome)
-        .datum<SelectedChromosomeData[]>([data.selectedChromosome])
+        .datum<SelectedChromosomeData[]>([data])
         .call(selectedChromosomeComponent, width);
     }
   }
@@ -78,6 +73,7 @@ export default function () {
     }
   }
   genomeBrowser.updateSelectedChromosome = updateSelectedChromosome;
+  genomeBrowser.updateWholeChromosomeAxis = updateWholeChromosomeAxis;
   return genomeBrowser;
 }
 
