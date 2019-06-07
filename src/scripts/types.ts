@@ -1,4 +1,5 @@
 import { ScaleLinear } from "d3-scale";
+import { HierarchyNode } from "d3";
 export type Strand = "+" | "-";
 
 export interface GeneData {
@@ -69,4 +70,18 @@ export interface GenomeBrowserData {
     dragged: () => void,
     dragended: (elem: SVGElement) => void
   }
+}
+
+
+// Phyotree
+
+export interface RawPhyloTreeNode {
+  name: string,
+  branchLength: number,
+  children?: RawPhyloTreeNode[],
+  lengthFromRoot?: number
+}
+
+export interface PhyloTreeNode extends RawPhyloTreeNode {
+  lengthFromRoot: number
 }
