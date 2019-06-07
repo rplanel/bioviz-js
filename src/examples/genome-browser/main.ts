@@ -1,7 +1,7 @@
-import { GeneData, GenomeBrowserData, GenomeBrowserState } from "./types";
+import { GeneData, GenomeBrowserData, GenomeBrowserState } from "../../scripts/types";
 import { select, event } from "d3-selection";
-import GenomeBrowser from "./component/genome-browser";
-import genomeBrowserLayout from "./layout/genome-browser";
+import GenomeBrowser from "../../scripts/component/genome-browser";
+import genomeBrowserLayout from "../../scripts/layout/genome-browser";
 
 
 const width = 1500;
