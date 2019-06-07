@@ -14,7 +14,7 @@ describe("Test gene componennt", () => {
     end: 50,
     gene: "insA",
     eventHandler: {
-      click: (geneLocation) => console.log(geneLocation)
+      click: (geneLocation) => [...geneLocation]
     }
   },
   {
@@ -23,6 +23,9 @@ describe("Test gene componennt", () => {
     begin: 60,
     end: 100,
     gene: "yaaY",
+    eventHandler: {
+      click: (geneLocation) => [...geneLocation]
+    }
   }];
   let window = [0, 120];
   const geneComponent = Gene();
@@ -43,16 +46,15 @@ describe("Test gene componennt", () => {
   });
 
   test("Click", () => {
-    const result = '<g class=\"gene\" transform=\"translate(0,60)\"><path style=\"fill-opacity: 0.85; stroke-width: 1px; stroke-opacity: 0.8;\" transform=\"translate(0,35) translate(533.3333333333333,30) rotate(180)\" d=\"M0,0L0,30L523.3333333333333,30L533.3333333333333,15L523.3333333333333,0Z\"></path></g><g class=\"gene\" transform=\"translate(666.6666666666667,60)\"><path style=\"fill-opacity: 0.85; stroke-width: 1px; stroke-opacity: 0.8;\" d=\"M0,0L0,30L523.3333333333333,30L533.3333333333333,15L523.3333333333333,0Z\"></path></g>';
+    const result = '<g class=\"gene\" transform=\"translate(0,60)\"><path style=\"fill-opacity: 0.85; stroke-width: 1px; stroke-opacity: 0.8;\" transform=\"translate(0,35) translate(400,30) rotate(180)\" d=\"M0,0L0,30L390,30L400,15L390,0Z\"></path></g><g class=\"gene\" transform=\"translate(500,60)\"><path style=\"fill-opacity: 0.85; stroke-width: 1px; stroke-opacity: 0.8;\" d=\"M0,0L0,30L390,30L400,15L390,0Z\"></path></g>';
     const path = container.selectAll(".gene").select<SVGPathElement>("path");
     if (path) {
       path.dispatch("click");
       window = [10, 100]
-      xScale.domain(window);
+      xScale.domain(window).range([0, 900]);
       container
         .datum<GeneData[]>(data)
         .call(geneComponent, xScale);
-      // path.dispatchEvent(new Event('click'));
       expect(container.html()).toBe(result);
     }
   });
