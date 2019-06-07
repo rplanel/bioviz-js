@@ -26,7 +26,9 @@ describe("Test Chromosome Ruler", () => {
       .call(brushableChromosomeRulerComponent, 1500, 20);
     expect(container.html()).toBe(result);
   })
-
+  test("Test end event when selection bigger than max", () => {
+    
+  });
 });
 
 

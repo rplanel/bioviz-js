@@ -58,7 +58,10 @@ export default function () {
         .select<SVGTextElement>(".title > text")
         .style("fill", "black")
         .style("font-family", "monospace")
-        .attr("transform", d => "translate(" + (width / 2 + d.title.length * 8 / 2) + ",20)")
+        .attr(
+          "transform",
+          d => "translate(" + (width / 2 + d.title.length * 8 / 2) + ",20)"
+        )
         .text(d => d.title);
 
 
