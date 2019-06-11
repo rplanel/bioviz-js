@@ -82,7 +82,7 @@ export default function () {
       kx = dx / (rightNode.x + s + tx),
       ky = dy / (deepestNode.data.lengthFromRoot || 1);
 
-
+    console.log(nodeSize);
     if (nodeSize) {
       pointPhylotreeRoot.eachBefore(sizeNode)
     } else {
@@ -119,8 +119,8 @@ export default function () {
 }
 
 function defaultSeparation(a: HierarchyNode<PhyloTreeNode> | null, b: HierarchyNode<PhyloTreeNode> | null) {
-  // return 1;
-  return (a && b && a.parent === b.parent) ? 1 : 2;
+  return 1;
+  // return (a && b && a.parent === b.parent) ? 1 : 2;
 }
 
 
