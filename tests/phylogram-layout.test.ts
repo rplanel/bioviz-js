@@ -46,7 +46,7 @@ describe("Test layout", () => {
     return (curr.data.name === "child10") ? curr : acc;
   }, pointData)
   test("Root node middle height", () => {
-    expect(pointData.x).toBe(405);
+    expect(pointData.x).toBe(375);
   })
 
   // Test X
@@ -68,4 +68,16 @@ describe("Test layout", () => {
       expect(nodes.r).toBe(2);
     }
   })
+
+  // Change how define size
+  test("nodeSize", () => {
+    const xStep = 50;
+    const newData = phylogramLayout.nodeSize([xStep, 100])(data);
+    let yExpected = 0;
+    newData.leaves().forEach(leaf => {
+      expect(leaf.x).toBe(yExpected);
+      yExpected += xStep;
+    });
+  });
+
 })
