@@ -1,4 +1,3 @@
-
 import { PhyloTreeNode } from "../../types";
 import { select, Selection } from "d3-selection";
 import { HierarchyPointNode } from "d3-hierarchy";
@@ -43,7 +42,6 @@ export default function () {
       // Links
       phylogramU.select<SVGGElement>("." + classes.links)
         .datum(d => {
-          console.log(d.links());
           return d.links()
         })
         .call(linkComponent);
