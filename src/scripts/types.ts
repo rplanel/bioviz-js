@@ -79,7 +79,7 @@ export interface RawPhyloTreeNode {
   name: string,
   branchLength: number,
   children?: RawPhyloTreeNode[],
-  lengthFromRoot?: number,
+  // lengthFromRoot?: number,
   nodes?: {
     r?: number,
     fill?: string,
@@ -90,5 +90,7 @@ export interface RawPhyloTreeNode {
 
 export interface PhyloTreeNode extends RawPhyloTreeNode {
   lengthFromRoot: number
-
+  // leftForNode: number,
+  labelWidth: number,
+  width: number
 }
