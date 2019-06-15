@@ -40,6 +40,8 @@ export default function () {
       // text
       nodeE.append<SVGTextElement>("text")
         .classed(classes.label, true)
+        .attr("dy", "0.31em")
+        .attr("font-family","monospace")
         .attr("x", ({ data: { nodes } }) => (nodes && nodes.r) ? (nodes.r) + 2 : defaultR + 2);
 
       const nodeU = node.merge(nodeE)
