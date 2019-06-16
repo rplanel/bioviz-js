@@ -21,7 +21,7 @@ const data: RawPhyloTreeNode = {
     },
     {
       "name": "Level-1-1",
-      branchLength: 0.3,
+      branchLength: 0.4,
       nodes: {
         r: 8,
         fill: "red"
