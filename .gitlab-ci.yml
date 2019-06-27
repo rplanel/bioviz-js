@@ -9,20 +9,18 @@ stages:
   - test
   - deploy 
   
-before_script:   
-  - cd website   
-  - npm install
 
-  
 test:     
   stage: test     
-  script:         
+  script:
     - npm install
     - npm run test
 
 pages:
   stage: deploy
   script:
+    - cd website
+    - npm install
     - npm run build
     - cd ..
     - mkdir public

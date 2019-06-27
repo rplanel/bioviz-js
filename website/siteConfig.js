@@ -21,8 +21,8 @@ const users = [
 ];
 
 const siteConfig = {
-  title: 'Test Site', // Title for your website.
-  tagline: 'A website for testing',
+  title: 'bioviz-js', // Title for your website.
+  tagline: 'A library to visualize biological data',
   url: 'http://rplanel.pages.pasteur.fr', // Your website URL
   baseUrl: '/bioviz-js/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
@@ -30,8 +30,8 @@ const siteConfig = {
   //   baseUrl: '/test-site/',
 
   // Used for publishing and more
-  projectName: 'test-site',
-  organizationName: 'facebook',
+  projectName: 'biovis-js',
+  organizationName: 'Pasteur Institut',
   // For top-level user or org sites, the organization is still the same.
   // e.g., for the https://JoelMarcey.github.io site, it would be set like...
   //   organizationName: 'JoelMarcey'
@@ -48,14 +48,14 @@ const siteConfig = {
   users,
 
   /* path to images for header/footer */
-  headerIcon: 'img/favicon.ico',
+  headerIcon: 'img/LogoC3BI_white.png',
   footerIcon: 'img/favicon.ico',
   favicon: 'img/favicon.ico',
 
   /* Colors for website */
   colors: {
-    primaryColor: '#8e8408',
-    secondaryColor: '#635c05',
+    primaryColor: '#414144',
+    secondaryColor: 'E3E9EB',
   },
 
   /* Custom fonts for website */
@@ -73,7 +73,7 @@ const siteConfig = {
   */
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
-  copyright: `Copyright © ${new Date().getFullYear()} Your Name or Your Company Name`,
+  copyright: `Copyright © ${new Date().getFullYear()} Pasteur Institut`,
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks.
@@ -93,14 +93,14 @@ const siteConfig = {
   twitterImage: 'img/undraw_tweetstorm.svg',
 
   // Show documentation's last contributor's name.
-  // enableUpdateBy: true,
+  enableUpdateBy: true,
 
   // Show documentation's last update time.
   // enableUpdateTime: true,
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
-  //   repoUrl: 'https://github.com/facebook/test-site',
+  repoUrl: 'https://gitlab.pasteur.fr/rplanel/bioviz-js',
 };
 
 module.exports = siteConfig;
