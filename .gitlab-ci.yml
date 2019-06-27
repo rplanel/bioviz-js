@@ -15,8 +15,10 @@ before_script:
   
 pages:
   script:
-    - npm install
-    - ./node_modules/.bin/gatsby build --prefix-paths
+    - npm run build
+    - cd ..
+    - mkdir public
+    - mv website/build/test-site/* public
   artifacts:
     paths:
       - public
