@@ -6,14 +6,22 @@ cache:
   - node_modules/
 
 stages:
-  - pages
-  - test 
+  - test
+  - deploy 
   
 before_script:   
   - cd website   
   - npm install
+
   
+test:     
+  stage: test     
+  script:         
+    - npm install
+    - npm run test
+
 pages:
+  stage: deploy
   script:
     - npm run build
     - cd ..
@@ -24,8 +32,3 @@ pages:
       - public
   only:
     - master
-test:     
-  stage: test     
-  script:         
-    - npm install
-    - npm run test
