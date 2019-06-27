@@ -9,7 +9,10 @@ stages:
   - pages
   - test 
   
-
+before_script:   
+  - cd website   
+  - npm install
+  
 pages:
   script:
     - npm install
