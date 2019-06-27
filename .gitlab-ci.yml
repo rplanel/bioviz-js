@@ -6,8 +6,19 @@ cache:
   - node_modules/
 
 stages:
+  - pages
   - test 
   
+
+pages:
+  script:
+    - npm install
+    - ./node_modules/.bin/gatsby build --prefix-paths
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
 test:     
   stage: test     
   script:         
