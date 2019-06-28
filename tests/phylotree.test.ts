@@ -1,7 +1,7 @@
 import Phylotree from "../src/scripts/component/tree/phylotree";
 import Phylogram from "../src/scripts/layout/phylogram";
 import { RawPhyloTreeNode, PhyloTreeNode } from "../src/scripts/types";
-import { select, Selection } from "d3-selection";
+import { select } from "d3-selection";
 import { HierarchyPointNode } from "d3";
 
 const rootName = "root";
@@ -10,7 +10,7 @@ const rootFill = "green"
 const data: RawPhyloTreeNode = {
   "name": rootName,
   branchLength: 0,
-  nodes: {
+  node: {
     r: rootRadius,
     fill: rootFill
   },
@@ -18,14 +18,14 @@ const data: RawPhyloTreeNode = {
     {
       "name": "child0",
       branchLength: 0.5,
-      nodes: {
+      node: {
         fill: "blue"
       }
     },
     {
       "name": "child1",
       branchLength: 0.6,
-      nodes: {
+      node: {
         r: 8,
         fill: "red"
       },
