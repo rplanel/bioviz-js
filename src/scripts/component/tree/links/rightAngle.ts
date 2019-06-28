@@ -1,5 +1,5 @@
 import { select, Selection } from "d3-selection";
-import { HierarchyPointLink } from "d3-hierarchy";
+import { HierarchyPointLink, HierarchyLink } from "d3-hierarchy";
 import { PhyloTreeNode } from "../../../types";
 
 
@@ -30,14 +30,13 @@ export default function () {
       const linksU = links.merge(linksE);
 
       linksU
-      .attr("d", ({ source, target }) => {
-        return "M" + target.y + " " + target.x
-          + " H" + source.y
-          + " V" + source.x;
-      })
-      .attr("fill", "none")
-      .attr("stroke-width", 2)
-      .attr("stroke", "black");
+        .attr("d", ({ source, target }) => {
+          return "M" + target.y + " " + target.x
+            + " H" + source.y
+            + " V" + source.x;
+        })
+        .attr("stroke-width", d => d.source.data.link.strokeWidth)
+        .attr("stroke", d => d.source.data.link.strokeColor);
 
     });
   }

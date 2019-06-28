@@ -7,8 +7,7 @@ export default function () {
   function genericNode(
     _selection: Selection<SVGGElement, HierarchyPointNode<PhyloTreeNode>[], any, any>
   ) {
-    const defaultR = 4;
-    const defaultFill = "#000";
+
     const classes = {
       node: "generic-node",
       label: "label"
@@ -27,22 +26,15 @@ export default function () {
 
       // circle 
       nodeE.append<SVGCircleElement>("circle")
-        .attr("r",
-          ({ data: { nodes } }) => (nodes && nodes.r) ? nodes.r : defaultR
-        )
-        .attr("fill",
-          ({ data: { nodes } }) => (nodes && nodes.fill) ? nodes.fill : defaultFill
-        )
-        .attr(
-          "stroke-width",
-          ({ data: { nodes } }) => (nodes && nodes.strokeWidth) ? nodes.strokeWidth : 10
-        )
+        .attr("r", d => d.data.node.r)
+        .attr("fill", d => d.data.node.fill)
+        .attr("stroke-width", d => d.data.node.strokeWidth)
       // text
       nodeE.append<SVGTextElement>("text")
         .classed(classes.label, true)
         .attr("dy", "0.31em")
-        .attr("font-family","monospace")
-        .attr("x", ({ data: { nodes } }) => (nodes && nodes.r) ? (nodes.r) + 2 : defaultR + 2);
+        .attr("font-family", "monospace")
+        .attr("x", d => d.data.node.r);
 
       const nodeU = node.merge(nodeE)
         .attr("transform", d => `translate(${d.y}, ${d.x})`)
@@ -69,5 +61,6 @@ export default function () {
     });
 
   }
+
   return genericNode
 }

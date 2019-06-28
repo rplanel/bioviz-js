@@ -1,5 +1,4 @@
 import { ScaleLinear } from "d3-scale";
-import { HierarchyNode } from "d3";
 export type Strand = "+" | "-";
 
 export interface GeneData {
@@ -79,18 +78,40 @@ export interface RawPhyloTreeNode {
   name: string,
   branchLength: number,
   children?: RawPhyloTreeNode[],
-  // lengthFromRoot?: number,
-  nodes?: {
-    r?: number,
-    fill?: string,
-    strokeWidth?: number
-  }
+  node?: PartialNodeInfo,
+  link?: PartialLinkInfo
 }
 
+export type PartialNodeInfo = {
+  r?: number,
+  fill?: string,
+  strokeWidth?: number
+}
 
-export interface PhyloTreeNode extends RawPhyloTreeNode {
-  lengthFromRoot: number
-  // leftForNode: number,
-  labelWidth: number,
-  width: number
+export type PartialLinkInfo = {
+  strokeWidth?: number,
+  strokeColor?: string
+}
+
+export interface PhyloTreeNode {
+  name: string;
+  branchLength: number;
+  lengthFromRoot: number;
+  labelWidth: number;
+  width: number;
+  children?: RawPhyloTreeNode[];
+  node: {
+    r: number;
+    fill: string;
+    strokeWidth: number;
+  };
+  link: {
+    strokeWidth: number;
+    strokeColor: string;
+  };
+}
+
+export interface Phylotree {
+  marginLeft: number,
+
 }

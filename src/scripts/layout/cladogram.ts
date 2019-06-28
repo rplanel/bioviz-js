@@ -5,10 +5,10 @@ export default function () {
   let dx = 1;
   let dy = 1;
   let nodeSize: boolean | null = null;
-  let separation = defaultSeparation;
+  let separation: (a: d3.HierarchyPointNode<RawPhyloTreeNode>, b:d3.HierarchyPointNode<RawPhyloTreeNode>) => number = defaultSeparation;
   function cladogram(data: RawPhyloTreeNode) {
     // Apply the layout hierarchy.
-    cluster()
+    cluster<RawPhyloTreeNode>()
       .separation(separation)
       (hierarchy(data))
     return data;
@@ -28,8 +28,8 @@ export default function () {
     return cladogram;
   }
 
-  cladogram.separation = function <T>(
-    separationCb: (a: d3.HierarchyNode<T>, b:d3.HierarchyNode<T>) => number
+  cladogram.separation = function(
+    separationCb: (a: d3.HierarchyPointNode<RawPhyloTreeNode>, b:d3.HierarchyPointNode<RawPhyloTreeNode>) => number
   ) {
     separation = separationCb;
   }

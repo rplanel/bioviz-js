@@ -35,6 +35,14 @@ export default function () {
 
       // UPDATE
       const phylogramU = phylogram.merge(phylogramE);
+
+      // translate depending on the root node size
+      // phylogramU.attr("transform", ({ data: { node: nodes, link: links } }) => {
+      //   let marginLeft = 0;
+      //   marginLeft += (nodes && nodes.r !== undefined) ? nodes.r : nodeComponent.getDefautR();
+      //   marginLeft += (links && links.strokeWidth !== undefined) ? links.strokeWidth / 2 : linkComponent.getDefaultStrokeWidth() / 2;
+      //   return `translate(${marginLeft},0)`;
+      // })
       // Nodes
       phylogramU.select<SVGGElement>('.' + classes.nodes)
         .datum(d => d.descendants().reverse())
