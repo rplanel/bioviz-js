@@ -57,9 +57,9 @@ container
 
 describe("Test phylotree component", () => {
 
-  const phylogramGroup = container.selectAll(".phylogram");
+  const phylogramGroup = container.selectAll(".phylotree");
   const rootNode = container
-    .selectAll<SVGGElement, HierarchyPointNode<PhyloTreeNode>>(".phylogram")
+    .selectAll<SVGGElement, HierarchyPointNode<PhyloTreeNode>>(".phylotree")
     .selectAll<SVGGElement, HierarchyPointNode<PhyloTreeNode>>(".generic-node")
     .filter(d => d.data.name === "root");
 

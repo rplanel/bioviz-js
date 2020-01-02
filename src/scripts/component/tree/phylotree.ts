@@ -12,14 +12,16 @@ export default function () {
       HierarchyPointNode<PhyloTreeNode>[], any, any>
   ) {
     const classes = {
-      root: "phylogram",
+      root: "phylotree",
       nodes: "nodes",
       links: "links"
     };
     _selection.each(function (_data) {
 
+
+
       const phylogram = select(this)
-        .selectAll<SVGGElement, HierarchyPointNode<PhyloTreeNode>>("g" + classes.root)
+        .selectAll<SVGGElement, HierarchyPointNode<PhyloTreeNode>>("." + classes.root)
         .data(_data);
 
 
