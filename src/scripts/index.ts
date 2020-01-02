@@ -6,6 +6,7 @@ export { default as Gene } from "./component/sequence/gene";
 
 
 export { default as GenomeBrowser } from "./component/genome-browser";
+export { default as GenomeScan } from "./component/genome/genome-scan";
 export { default as SelectedChromosome } from "./component/selected-chromosome";
 
 // layout
