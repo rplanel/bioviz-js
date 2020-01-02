@@ -25,6 +25,7 @@
     "dev": "parcel src/scripts/main-genome-browser.ts",
     "start-genome-browser": "parcel src/examples/genome-browser/index.html",
     "start-phylotree": "parcel src/examples/phylotree/index.html",
+    "start-genome-scan": "parcel src/examples/genome-scan/index.html",
     "watch": "parcel watch src/scripts/main-genome-browser.ts",
     "build": "parcel build src/scripts/main-genome-browser.ts",
     "compile": "tsc",
@@ -33,25 +34,29 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.13",
-    "docusaurus-init": "^1.11.1",
-    "jest": "^24.8.0",
+    "@types/jest": "^24.0.25",
+    "@types/node": "^13.1.2",
+    "docusaurus-init": "^1.14.1",
+    "jest": "^24.9.0",
     "rxjs-tslint": "^0.1.7",
-    "ts-jest": "^24.0.2",
-    "typescript": "^3.4.1"
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.4"
   },
   "dependencies": {
     "@types/d3": "^5.7.1",
+    "@types/plotly.js": "^1.44.22",
     "@types/rx": "^4.1.1",
-    "d3": "^5.9.2",
+    "d3": "^5.15.0",
     "d3-axis": "^1.0.12",
-    "d3-brush": "^1.0.6",
-    "d3-drag": "^1.2.3",
-    "d3-path": "^1.0.7",
-    "d3-scale": "^3.0.0",
-    "d3-selection": "^1.4.0",
-    "parcel-bundler": "^1.12.3",
-    "rxjs": "^6.4.0",
-    "tslint": "^5.15.0"
+    "d3-brush": "^1.1.5",
+    "d3-drag": "^1.2.5",
+    "d3-path": "^1.0.9",
+    "d3-scale": "^3.2.1",
+    "d3-selection": "^1.4.1",
+    "parcel-bundler": "^1.12.4",
+    "plotly.js": "^1.51.3",
+    "plotly.js-dist": "^1.51.3",
+    "rxjs": "^6.5.4",
+    "tslint": "^5.20.1"
   }
 }
