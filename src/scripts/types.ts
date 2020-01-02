@@ -115,3 +115,14 @@ export interface Phylotree {
   marginLeft: number,
 
 }
+
+
+// Genome Scan
+
+export interface GenomeScanData {
+  marker: string;
+  chr: string;
+  pos: string;
+  lod: string
+}
+
