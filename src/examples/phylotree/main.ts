@@ -2,7 +2,7 @@
 import PhylogramLayout from "../../scripts/layout/phylogram";
 import CladogramLayout from "../../scripts/layout/cladogram";
 import { RawPhyloTreeNode, } from "../../scripts/types";
-import { select } from "d3-selection";
+import { select, event } from "d3-selection";
 import Phylotree from "../../scripts/component/tree/phylotree";
 import { cluster, hierarchy } from "d3-hierarchy";
 import { defaultSeparation } from "../../scripts/layout/phylotree";
@@ -58,25 +58,44 @@ const marginLeft =
 const width = 1000;
 const height = 200;
 const size: [number, number] = [height, width - marginLeft];
+const phylotreeDatas = [];
 
-
-const isPhylogram = true;
-const phylotreeData = (isPhylogram)
-  ? PhylogramLayout()
-    // .nodeSize([40, width - marginLeft])
-    .size(size)(data)
-  : cluster<RawPhyloTreeNode>()
-    .separation(defaultSeparation)
-    .size(size)(hierarchy(data))
-
-console.log(phylotreeData)
-
-select("svg")
+let isPhylogram = true;
+const container = select("svg")
   .attr("width", width)
   .attr("height", height)
   .append("g")
-  .classed("phylotree", true)
-  // .attr("transform", `translate(${marginLeft},0)`)
-  .datum([phylotreeData])
-  .call(phylotreeComponent);
+  .classed("phylotrees", true)
 
+update(container)
+
+
+function update(container) {
+  phylotreeDatas[0]  = (isPhylogram)
+    ? PhylogramLayout()
+      // .nodeSize([40, width - marginLeft])
+      .size(size)(data)
+    : CladogramLayout()
+      .size(size)(data)
+
+  container
+    // .attr("transform", `translate(${marginLeft},0)`)
+    .datum(phylotreeDatas)
+    .call(phylotreeComponent);
+
+}
+
+
+
+// Attach event to select button
+select("#tree-layout-select").on("change", () => {
+  console.log(event);
+  if (event.srcElement.value === "phylogram") {
+    isPhylogram = true;
+    update(container)
+  }
+  else {
+    isPhylogram = false;
+    update(container)
+  }
+})
