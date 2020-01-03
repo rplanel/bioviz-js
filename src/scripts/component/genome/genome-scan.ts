@@ -1,59 +1,111 @@
-import Plotly from "plotly.js-dist";
-import { Data, Layout } from "plotly.js";
-import { Selection } from "d3-selection";
+import Plotly, { Layout } from "plotly.js-dist";
+import { Data } from "plotly.js";
+import { select, Selection } from "d3-selection";
 import { nest } from "d3-collection";
-import { GenomeScanData } from "../../types";
+import { max } from "d3-array";
+import { scaleLinear, ScaleLinear } from "d3-scale";
+
+import { LodScoreOnChromosome, GenomeScanData, SignificanceThreshold } from "../../types";
 
 export default function () {
     function genomeScan(_selection: Selection<HTMLDivElement, GenomeScanData[], any, any>) {
         const container = _selection.node();
-        _selection.each(function (_data) {
-            const chrDatas: Array<{ key: string, values: GenomeScanData[] }> = nest<GenomeScanData>()
-                .key(d => d.chr)
-                .entries(_data);
-            console.log(chrDatas);
-            const chrCount = chrDatas.length;
-            const traces = chrDatas.map((dataPerChr, i): Data => {
-                let j = i + 1;
-                // const type = "scatter";
-                // const mode = "lines";
-                return {
-                    type: "scatter",
-                    xaxis: "x" + j,
-                    yaxis: "y",
-                    name: "chr. " + dataPerChr.key,
-                    mode: "lines",
-                    x: dataPerChr.values.map(d => {
-                        return parseFloat(d.pos)
-                    }),
-                    y: dataPerChr.values.map(d => parseFloat(d.lod)),
-                    text: dataPerChr.values.map(d => d.marker),
-                }
-            });
-            var layout = chrDatas.reduce((acc, curr, i) => {
-                const xaxisIndex = (i === 0) ? "" : i + 1;
-                const xaxisKey = "xaxis" + xaxisIndex;
-                acc[xaxisKey] = {
-                    ...acc[xaxisKey],
-                    title: curr.key,
-                    showticklabels: false,
-                    showgrid: false,
-                    zeroline: false,
-                }
-                return acc;
+        _selection.each(function ({ lod_score_on_chromosome, significance_thresholds }: GenomeScanData) {
+            const maxLodScoreStr = max(lod_score_on_chromosome, d => d.lod);
+            if (maxLodScoreStr) {
+                const significanceThresholdsLength = significance_thresholds.length;
+                const thresholdColor = scaleLinear<string, string>().domain([90, 100]).range(["orange", "green"])
+                const maxLodScore = parseFloat(maxLodScoreStr);
+                const chrDatas: Array<{ key: string, values: LodScoreOnChromosome[] }> = nest<LodScoreOnChromosome>()
+                    .key(d => d.chr)
+                    .entries(lod_score_on_chromosome);
+                const chrCount = chrDatas.length;
+                const traces = chrDatas.map((dataPerChr, i): Data => {
+                    const j = i + 1;
+                    return {
+                        type: "scatter",
+                        xaxis: "x" + j,
+                        yaxis: "y",
+                        name: "chr " + dataPerChr.key,
+                        mode: "lines",
+                        x: dataPerChr.values.map(d => {
+                            return parseFloat(d.pos)
+                        }),
+                        y: dataPerChr.values.map(d => parseFloat(d.lod)),
+                        text: dataPerChr.values.map(d => d.marker),
+                    }
+                });
 
-            }, {
-                grid: {
-                    rows: 1,
-                    columns: chrCount,
-                    pattern: 'coupled',
+                const initLayout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
+                    height: 650,
+                    shapes: thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).map((significance_threshold, i) => {
+                        return {
+                            layer: 'below',
+                            type: 'rect',
+                            xref: 'paper',
+                            x0: 0,
+                            y0: significance_threshold.y0,
+                            x1: 1,
+                            y1: significance_threshold.y1,
+                            opacity: 0.2,
+                            fillcolor: significance_threshold.color,
+                            line: {
+                                width: 0,
+                            },
+                            name: significance_threshold.significance,
+                        }
+                    }),
+
+                    showlegend: true,
+                    grid: {
+                        rows: 1,
+                        columns: chrCount,
+                        pattern: 'coupled',
+
+                    },
                 }
-            });
-            if (container) {
-                Plotly.newPlot(container, traces, layout);
+                const layout = chrDatas.reduce((acc, curr, i) => {
+                    const xaxisIndex = (i === 0) ? "" : i + 1;
+                    const xaxisKey = "xaxis" + xaxisIndex;
+                    acc[xaxisKey] = {
+                        ...acc[xaxisKey],
+                        title: curr.key,
+                        showticklabels: false,
+                        showgrid: false,
+                        zeroline: false,
+                    }
+
+                    return acc;
+
+                }, initLayout);
+                if (container) {
+                    console.log(layout);
+                    const yaxis = layout.yaxis;
+                    layout.yaxis = {
+                        ...yaxis,
+                        title: "LOD score",
+                    }
+                    Plotly.react(container, traces, layout, { responsive: true });
+
+                }
+            }
+
+        })
+    }
+
+    function thresholdInterval(significanceThresholds: SignificanceThreshold[], max: number, colorScale: ScaleLinear<string, string>) {
+        const significanceThresholdsLength = significanceThresholds.length;
+        return significanceThresholds.map((st, i, arr) => {
+            return {
+                ...st,
+                y0: st.threshold,
+                y1: (i < significanceThresholdsLength - 1) ? arr[i + 1].threshold : max,
+                color: colorScale(parseFloat(st.significance))
             }
         })
     }
+
+    
 
     return genomeScan;
 }
