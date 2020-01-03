@@ -119,10 +119,25 @@ export interface Phylotree {
 
 // Genome Scan
 
-export interface GenomeScanData {
+export interface LodScoreOnChromosome {
   marker: string;
   chr: string;
   pos: string;
   lod: string
+}
+
+export interface SignificanceThreshold {
+  significance: string;
+  threshold: number;
+}
+
+export interface SignificanceThresholdRaw {
+  significance: string;
+  threshold: string;
+}
+
+export interface GenomeScanData {
+  lod_score_on_chromosome: LodScoreOnChromosome[];
+  significance_thresholds: SignificanceThreshold[];
 }
 
