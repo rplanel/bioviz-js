@@ -1,27 +1,26 @@
-import Plotly, { Layout } from "plotly.js-dist";
+
+import Plotly, { Layout, PlotData } from "plotly.js-dist";
 
 import { Selection } from "d3-selection";
+import { PlotCoefData, CoefType } from "src/scripts/types";
 export default function () {
-    function qtlCoefficient(_selection: Selection<HTMLDivElement, any, any, any>) {
-        _selection.each(function (_data) {
+    function qtlCoefficient(_selection: Selection<HTMLDivElement, PlotCoefData[], any, any>) {
+        _selection.each(function (_data: PlotCoefData[]) {
             const container = this;
-            console.log(_data);
-            const traces = ["A", "B", "C", "D", "E", "F", "G", "H"].map((key) => {
-                return extractTrace(_data, key);
-            })
+            const coefTypes: CoefType[] = ["A", "B", "C", "D", "E", "F", "G", "H"];
+            const traces = coefTypes.map(
+                (key: CoefType) => {
+                    return extractTrace(_data, key);
+                })
             const traceLod = extractTrace(_data, "lod");
-            // // traceLod.xaxis = "x2";
             traceLod.yaxis = "y2";
             traces.push(traceLod);
-            // const trace = extractTrace(_data, "A");
-            console.log(traces);
             const layout = {
                 height: 650,
                 grid: {
                     rows: 2,
                     columns: 1,
                     subplots: [['xy'], ['xy2']],
-                    pattern: 'coupled',
                     roworder: 'top to bottom'
                 },
                 yaxis: {
@@ -33,32 +32,30 @@ export default function () {
                 xaxis: { title: "Chr 16 position" }
 
             };
-            console.log(layout);
-            console.log(traces);
-            Plotly.react(container, traces, layout, { responsive: true })
-
+            Plotly.react(container, traces, layout, { responsive: true });
         })
 
     }
 
 
-    function extractTrace(data: any, key: string) {
-        const [x, y, markers] = data.reduce((acc, curr) => {
-            // get x
-            acc[0].push(curr.pos);
-            acc[1].push(curr[key]);
-            acc[2].push(curr.marker);
-            return acc;
-        }, [[], [], []]);
-
-
+    function extractTrace(data: PlotCoefData[], key: CoefType) : Partial<PlotData>{
+        const traceProperties: { x: number[], y: number[], text: string[] } = {
+            "x": [],
+            "y": [],
+            "text": []
+        };
+        for (let item of data) {
+            traceProperties.x.push(item.pos);
+            traceProperties.y.push(item[key]);
+            traceProperties.text.push(item.marker);
+        }
         return {
-            x,
-            y,
-            name: key,
-            type: "scatter",
+            ...traceProperties,
+            name: key.toString(),
+            type: "scattergl",
             mode: "lines",
-            text: markers,
+            yaxis: "y",
+
         }
     }
 
