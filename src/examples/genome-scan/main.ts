@@ -1,4 +1,4 @@
-import { GenomeScanData, HaplotypeData, PlotCoefData, SnpData } from "../../scripts/types";
+import { GenomeScanData, HaplotypeData, PlotCoefData, SnpsData, SnpData } from "../../scripts/types";
 import { select } from "d3-selection";
 import GenomeScan from "../../scripts/component/genome/genome-scan";
 import QtlCoef from "../../scripts/component/genome/chromosome/qtl-coefficient";
@@ -13,6 +13,7 @@ const significanceThresholdsFile = require('./data/sifgnificance-thresholds.csv'
 const qtlCoefCsv = require('./data/dat-plotcoef.csv');
 const haplotypeCsv = require('./data/dat_plot_haplo.csv');
 const snpsCsv = require('./data/dat_plot_snps.csv');
+const snpCsv = require("./data/dat_plot_snp_boxplot.csv");
 
 // Code
 const data = {};
@@ -21,8 +22,9 @@ Promise.all([
   csv(significanceThresholdsFile),
   csv(qtlCoefCsv),
   csv(haplotypeCsv),
-  csv(snpsCsv)
-]).then(([genomeScanData, significanceThresholds, rawPlotCoefData, rawHaplotypeData, rawSnpsData]) => {
+  csv(snpsCsv),
+  csv(snpCsv),
+]).then(([genomeScanData, significanceThresholds, rawPlotCoefData, rawHaplotypeData, rawSnpsData, rawSnpData]) => {
   // Plot component
   const genomeScan = GenomeScan();
   const qtlCoefPlot = QtlCoef();
@@ -66,16 +68,27 @@ Promise.all([
   }));
 
 
-  const snpsData: SnpData[] = rawSnpsData.map(item => ({
+  const snpsData: SnpsData[] = rawSnpsData.map(item => ({
     ...item,
     snp_id: item.snp_id,
     chr: item.chr,
     pos: parseFloat(item.pos),
     lod: parseFloat(item.lod)
   }));
+  const snpData: SnpData[] = rawSnpData.map(item => {
+    return {
+      ...item,
+      line: item.line,
+      phenotype: parseFloat(item.phenotype),
+      genotype: item.genotype,
+      strains: item.strains
+    }
+  })
+  console.log(snpData);
 
   select(".lod-score-chromosomes").datum(data).call(genomeScan);
   select(".qtl-coefficient").datum(plotCoefData).call(qtlCoefPlot);
   select(".haplotype").datum(haplotypeData).call(haplotypePlot);
   select(".snps").datum(snpsData).call(snpPlot);
+
 })
