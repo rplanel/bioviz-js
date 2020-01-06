@@ -122,8 +122,8 @@ export interface Phylotree {
 export interface LodScoreOnChromosome {
   marker: string;
   chr: string;
-  pos: string;
-  lod: string
+  pos: number;
+  lod: number
 }
 
 export interface SignificanceThreshold {
@@ -141,3 +141,35 @@ export interface GenomeScanData {
   significance_thresholds: SignificanceThreshold[];
 }
 
+
+
+export type CoefType = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "lod"
+
+export interface PlotCoefData {
+  marker: string;
+  chr: string;
+  pos: number;
+  lod: number;
+  A: number;
+  B: number;
+  C: number;
+  D: number;
+  E: number;
+  F: number;
+  G: number;
+  H: number;
+}
+
+export interface HaplotypeData {
+  Phenotype: number;
+  Haplotype: string;
+  Line: string;
+}
+
+export interface SnpData {
+  snp_id: string;
+  chr: string;
+  pos: number;
+  lod: number;
+
+}
