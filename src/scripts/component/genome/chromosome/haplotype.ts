@@ -53,8 +53,6 @@ export default function () {
                     type: "category"
                 }
             })
-            console.log(layout)
-            // const yaxis = layout.yaxis;
             layout.yaxis = {
                 ...layout.yaxis,
                 title: "Phenotype",
