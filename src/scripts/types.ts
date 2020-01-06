@@ -166,10 +166,16 @@ export interface HaplotypeData {
   Line: string;
 }
 
-export interface SnpData {
+export interface SnpsData {
   snp_id: string;
   chr: string;
   pos: number;
   lod: number;
+}
 
+export interface SnpData {
+  line: string;
+  phenotype: number;
+  genotype: string;
+  strains: string;
 }
