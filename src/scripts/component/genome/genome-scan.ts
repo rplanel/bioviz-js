@@ -1,6 +1,6 @@
 import Plotly, { Layout } from "plotly.js-dist";
 import { Data } from "plotly.js";
-import { select, Selection } from "d3-selection";
+import { Selection } from "d3-selection";
 import { nest } from "d3-collection";
 import { max } from "d3-array";
 import { scaleLinear, ScaleLinear } from "d3-scale";
