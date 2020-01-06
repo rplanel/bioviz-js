@@ -14,7 +14,7 @@ export default function () {
                     type: "scattergl",
                     mode: "markers",
                     marker: {
-                        size: 4,
+                        size: 5,
                     },
                     name: "Chromosome 6",
                 };
