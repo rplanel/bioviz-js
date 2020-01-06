@@ -12,7 +12,32 @@ export default function () {
                     .key(d => d.genotype)
                     .entries(_data);
             console.log(perGenotype);
+            const traces = perGenotype.map((genotype, i) => {
+                const j = i + 1;
+                const initTrace: Data & { boxpoints: string } = {
+                    type: "box",
+                    marker: {
+                        size: 4,
+                    },
+                    boxpoints: "all",
+                    xaxis: "x" + j,
+                    yaxis: "y",
+                    name: genotype.key,
+                };
+                const axisData: { x: string[], y: number[] } = {
+                    x: [],
+                    y: [],
+                };
 
+                for (let item of genotype.values) {
+                    axisData.x.push(item.genotype);
+                    axisData.y.push(item.phenotype);
+                }
+                return { ...initTrace, ...axisData };
+            })
+
+
+            console.log(traces);
             // const trace = [_data].map(data => {
             //     const x: number[] = [];
             //     const y: number[] = [];
