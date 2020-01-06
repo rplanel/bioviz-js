@@ -27,11 +27,13 @@ export default function () {
                 const axisData: { x: string[], y: number[] } = {
                     x: [],
                     y: [],
+                    // text: [],
                 };
 
                 for (let item of haplotype.values) {
                     axisData.x.push(item.Line);
                     axisData.y.push(item.Phenotype);
+                    // axisData.text.push(item.Line + " - " + item.Haplotype);
                 }
                 return { ...initTrace, ...axisData };
             });
