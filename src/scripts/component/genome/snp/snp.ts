@@ -1,12 +1,18 @@
 import Plotly, { Data } from "plotly.js-dist";
 import { SnpData } from "src/scripts/types";
 import { Selection } from "d3-selection";
+import { nest } from "d3-collection";
 
 export default function () {
     function snp(_selection: Selection<HTMLDivElement, SnpData[], any, any>) {
         _selection.each(function (_data: SnpData[]) {
             const container = this;
-            console.log(_data);
+            const perGenotype: Array<{ key: string, values: SnpData[] }> =
+                nest<SnpData>()
+                    .key(d => d.genotype)
+                    .entries(_data);
+            console.log(perGenotype);
+
             // const trace = [_data].map(data => {
             //     const x: number[] = [];
             //     const y: number[] = [];
