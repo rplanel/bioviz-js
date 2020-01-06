@@ -1,4 +1,4 @@
-import Plotly, { PlotData } from "plotly.js-dist";
+import Plotly, { Data } from "plotly.js-dist";
 import { SnpsData } from "src/scripts/types";
 import { Selection } from "d3-selection";
 
@@ -10,7 +10,7 @@ export default function () {
                 const x: number[] = [];
                 const y: number[] = [];
                 const text: string[] = [];
-                const initTrace: Partial<PlotData> = {
+                const initTrace: Data = {
                     type: "scattergl",
                     mode: "markers",
                     marker: {
