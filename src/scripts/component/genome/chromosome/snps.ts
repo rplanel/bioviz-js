@@ -1,10 +1,10 @@
-import Plotly, { Layout, PlotData } from "plotly.js-dist";
-import { SnpData } from "src/scripts/types";
+import Plotly, { PlotData } from "plotly.js-dist";
+import { SnpsData } from "src/scripts/types";
 import { Selection } from "d3-selection";
 
 export default function () {
-    function snps(_selection: Selection<HTMLDivElement, SnpData[], any, any>) {
-        _selection.each(function (_data: SnpData[]) {
+    function snps(_selection: Selection<HTMLDivElement, SnpsData[], any, any>) {
+        _selection.each(function (_data: SnpsData[]) {
             const container = this;
             const trace = [_data].map(data => {
                 const x: number[] = [];
