@@ -4,6 +4,8 @@ import GenomeScan from "../../scripts/component/genome/genome-scan";
 import QtlCoef from "../../scripts/component/genome/chromosome/qtl-coefficient";
 import Haplotype from "../../scripts/component/genome/chromosome/haplotype";
 import Snps from "../../scripts/component/genome/chromosome/snps";
+import Snp from "../../scripts/component/genome/snp/snp";
+
 import { csv } from "d3-fetch";
 import { cpus } from "os";
 
@@ -29,7 +31,9 @@ Promise.all([
   const genomeScan = GenomeScan();
   const qtlCoefPlot = QtlCoef();
   const haplotypePlot = Haplotype();
-  const snpPlot = Snps();
+  const snpsPlot = Snps();
+  const snpPlot = Snp();
+
   // Data
   const haplotypeData: HaplotypeData[] = rawHaplotypeData.map(item => ({
     ...item,
@@ -84,11 +88,10 @@ Promise.all([
       strains: item.strains
     }
   })
-  console.log(snpData);
-
   select(".lod-score-chromosomes").datum(data).call(genomeScan);
   select(".qtl-coefficient").datum(plotCoefData).call(qtlCoefPlot);
   select(".haplotype").datum(haplotypeData).call(haplotypePlot);
-  select(".snps").datum(snpsData).call(snpPlot);
+  select(".snps").datum(snpsData).call(snpsPlot);
+  select(".snp").datum(snpData).call(snpPlot);
 
 })
