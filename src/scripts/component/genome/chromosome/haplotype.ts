@@ -7,7 +7,10 @@ export default function () {
     function haplotype(_selection: Selection<HTMLDivElement, HaplotypeData[], any, any>) {
         _selection.each(function (_data: HaplotypeData[]) {
             const container = this;
-            const perHaplotypes: Array<{ key: string, values: HaplotypeData[] }> = nest<HaplotypeData>().key(d => d.Haplotype).entries(_data);
+            const perHaplotypes: Array<{ key: string, values: HaplotypeData[] }> =
+                nest<HaplotypeData>()
+                    .key(d => d.Haplotype)
+                    .entries(_data);
             const traces = perHaplotypes.map((haplotype, i) => {
                 const j = i + 1;
                 const initTrace: Data & { boxpoints: string } = {
