@@ -1,18 +1,13 @@
 
-import PhylogramLayout from "../../scripts/layout/phylogram";
-import CladogramLayout from "../../scripts/layout/cladogram";
-import { RawPhyloTreeNode, } from "../../scripts/types";
 import { select, event } from "d3-selection";
-import Phylotree from "../../scripts/component/tree/phylotree";
-import { cluster, hierarchy } from "d3-hierarchy";
-import { defaultSeparation } from "../../scripts/layout/phylotree";
+import { Types, PhylogramLayout, CladogramLayout, Phylotree } from "bioviz-js";
 
 // CSS
-import '../../styles/phylotree.css';
+import './styles/phylotree.css';
 
 // Code
 const phylotreeComponent = Phylotree();
-const data: RawPhyloTreeNode = {
+const data: Types.RawPhyloTreeNode = {
   "name": "",
   branchLength: 0,
   node: { r: 0 },
@@ -89,7 +84,6 @@ function update(container) {
 
 // Attach event to select button
 select("#tree-layout-select").on("change", () => {
-  console.log(event);
   if (event.srcElement.value === "phylogram") {
     isPhylogram = true;
     update(container)
