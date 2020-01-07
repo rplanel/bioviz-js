@@ -21,5 +21,6 @@ export { default as SelectedChromosome } from "./component/selected-chromosome";
 export { default as linearGene } from "./layout/linear-gene";
 export { default as PhylogramLayout } from "./layout/phylogram";
 export { default as CladogramLayout } from "./layout/cladogram";
+export { default as genomeBrowserLayout } from "./layout/genome-browser";
 
 export { Types }
