@@ -4,4 +4,4 @@ node_modules
 build/
 .vscode
 /lib
-src/examples/genome-scan/data/*.csv
+examples/genome-scan/data/*.csv
