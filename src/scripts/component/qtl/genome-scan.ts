@@ -65,6 +65,7 @@ export default function () {
                     chrDatas.forEach((curr, i) => {
                         const xaxisIndex: string = (i === 0) ? "" : (i + 1).toString();
                         const xaxisKey = "xaxis" + xaxisIndex;
+                        // @ts-ignore
                         layout[xaxisKey] = {
                             title: curr.key,
                             type: "category",
