@@ -1,5 +1,4 @@
-import Plotly, { Layout } from "plotly.js-dist";
-import { Data } from "plotly.js";
+import Plotly, { Layout, Data } from "plotly.js-dist";
 import { Selection } from "d3-selection";
 import { nest } from "d3-collection";
 import { max } from "d3-array";
@@ -36,7 +35,7 @@ export default function () {
                         }
                     });
 
-                    const layout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
+                    const layout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string }} = {
                         height: 608,
                         shapes: thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).map((significance_threshold, i) => {
                             return {
@@ -64,10 +63,11 @@ export default function () {
                         },
                     }
                     chrDatas.forEach((curr, i) => {
-                        const xaxisIndex = (i === 0) ? "" : i + 1;
+                        const xaxisIndex: string = (i === 0) ? "" : (i + 1).toString();
                         const xaxisKey = "xaxis" + xaxisIndex;
                         layout[xaxisKey] = {
                             title: curr.key,
+                            type: "category",
                             showticklabels: false,
                             showgrid: false,
                             zeroline: false,
@@ -78,6 +78,7 @@ export default function () {
                         ...yaxis,
                         title: "LOD score",
                     }
+                    console.log(layout);
                     Plotly.react(container, traces, layout, { responsive: true });
 
                 }

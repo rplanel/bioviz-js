@@ -50,10 +50,10 @@ export default function () {
             perHaplotypes.forEach((item, i) => {
                 const xaxisIndex = (i === 0) ? "" : i + 1;
                 const xaxisKey = "xaxis" + xaxisIndex;
-                layout[xaxisKey] = {
-                    title: item.key,
-                    type: "category"
-                }
+                // layout[xaxisKey] = {
+                //     title: item.key,
+                //     type: "category"
+                // }
             })
             layout.yaxis = {
                 ...layout.yaxis,
