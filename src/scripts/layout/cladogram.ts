@@ -1,10 +1,10 @@
-import { hierarchy, cluster } from "d3-hierarchy";
-import { RawPhyloTreeNode, PhyloTreeNode } from "../types";
+import { HierarchyPointNode, hierarchy, cluster } from "d3-hierarchy";
+import { RawPhyloTreeNode } from "../types";
 import { defaultSeparation } from "./phylotree";
 export default function () {
   const clusterLayout = cluster<RawPhyloTreeNode>();
 
-  let separation: (a: d3.HierarchyPointNode<RawPhyloTreeNode>, b: d3.HierarchyPointNode<RawPhyloTreeNode>) => number = defaultSeparation;
+  let separation: (a: HierarchyPointNode<RawPhyloTreeNode>, b: HierarchyPointNode<RawPhyloTreeNode>) => number = defaultSeparation;
   function cladogram(data: RawPhyloTreeNode) {
 
 
@@ -54,7 +54,7 @@ export default function () {
   }
 
   cladogram.separation = function (
-    separationCb: (a: d3.HierarchyPointNode<RawPhyloTreeNode>, b: d3.HierarchyPointNode<RawPhyloTreeNode>) => number
+    separationCb: (a: HierarchyPointNode<RawPhyloTreeNode>, b: HierarchyPointNode<RawPhyloTreeNode>) => number
   ) {
     separation = separationCb;
   }
