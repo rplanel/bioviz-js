@@ -7,9 +7,6 @@ export default function () {
         _selection.each(function (_data: SnpsData[]) {
             const container = this;
             const trace = [_data].map(data => {
-                const x: number[] = [];
-                const y: number[] = [];
-                const text: string[] = [];
                 const initTrace: Data = {
                     type: "scattergl",
                     mode: "markers",
@@ -18,10 +15,10 @@ export default function () {
                     },
                     name: "Chromosome 6",
                 };
-                const axisData = {
-                    x,
-                    y,
-                    text,
+                const axisData: { x: number[], y: number[], text: string[] } = {
+                    x: [],
+                    y: [],
+                    text: [],
                 }
                 for (let item of data) {
                     axisData.x.push(item.pos);
