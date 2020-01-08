@@ -33,7 +33,7 @@ export default function () {
                 for (let item of haplotype.values) {
                     axisData.x.push(item.Line);
                     axisData.y.push(item.Phenotype);
-                    // axisData.text.push(item.Line + " - " + item.Haplotype);
+                    // axisData.text.push(item.Line);
                 }
                 return { ...initTrace, ...axisData };
             });
@@ -47,14 +47,14 @@ export default function () {
 
                 },
             };
-            perHaplotypes.forEach((item, i) => {
-                const xaxisIndex = (i === 0) ? "" : i + 1;
-                const xaxisKey = "xaxis" + xaxisIndex;
-                // layout[xaxisKey] = {
-                //     title: item.key,
-                //     type: "category"
-                // }
-            })
+            // perHaplotypes.forEach((item, i) => {
+            //     const xaxisIndex = (i === 0) ? "" : i + 1;
+            //     const xaxisKey = "xaxis" + xaxisIndex;
+            //     layout[xaxisKey] = {
+            //         title: item.key,
+            //         type: "category"
+            //     }
+            // })
             layout.yaxis = {
                 ...layout.yaxis,
                 title: "Phenotype",
