@@ -8,16 +8,16 @@ import { LodScoreOnChromosome, GenomeScanData, SignificanceThreshold } from "../
 
 export default function () {
     function genomeScan(_selection: Selection<HTMLDivElement, GenomeScanData, any, any>) {
-        _selection.each(function ({ lod_score_on_chromosome, significance_thresholds }: GenomeScanData) {
+        _selection.each(function ({ lod_score_per_chromosome, significance_thresholds }: GenomeScanData) {
             const container = this;
             if (container) {
-                const maxLodScoreStr = max(lod_score_on_chromosome, d => d.lod);
+                const maxLodScoreStr = max(lod_score_per_chromosome, d => d.lod);
                 if (maxLodScoreStr) {
                     const thresholdColor = scaleLinear<string, string>().domain([90, 100]).range(["orange", "green"])
                     const maxLodScore = maxLodScoreStr;
                     const chrDatas: Array<{ key: string, values: LodScoreOnChromosome[] }> = nest<LodScoreOnChromosome>()
                         .key(d => d.chr)
-                        .entries(lod_score_on_chromosome);
+                        .entries(lod_score_per_chromosome);
                     const chrCount = chrDatas.length;
                     const traces = chrDatas.map((dataPerChr, i): Data => {
                         const j = i + 1;

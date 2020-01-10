@@ -44,7 +44,7 @@ Promise.all([
     Line: item.Line,
   }))
   const data: Types.GenomeScanData = {
-    lod_score_on_chromosome: genomeScanData.map(item => ({
+    lod_score_per_chromosome: genomeScanData.map(item => ({
       ...item,
       pos: parseInt(item.pos),
       chr: item.chr,
@@ -53,7 +53,7 @@ Promise.all([
     })),
     significance_thresholds: significanceThresholds.map(item => ({
       ...item,
-      significance: item.significance,
+      significance: parseFloat(item.significance),
       threshold: parseFloat(item.threshold)
     })),
   };

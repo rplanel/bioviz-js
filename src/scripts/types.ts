@@ -127,7 +127,7 @@ export interface LodScoreOnChromosome {
 }
 
 export interface SignificanceThreshold {
-  significance: string;
+  significance: number;
   threshold: number;
 }
 
@@ -137,7 +137,7 @@ export interface SignificanceThresholdRaw {
 }
 
 export interface GenomeScanData {
-  lod_score_on_chromosome: LodScoreOnChromosome[];
+  lod_score_per_chromosome: LodScoreOnChromosome[];
   significance_thresholds: SignificanceThreshold[];
 }
 
