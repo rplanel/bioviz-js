@@ -79,7 +79,6 @@ export default function () {
                         ...yaxis,
                         title: "LOD score",
                     }
-                    console.log(layout);
                     Plotly.react(container, traces, layout, { responsive: true });
 
                 }
@@ -95,7 +94,7 @@ export default function () {
                 ...st,
                 y0: st.threshold,
                 y1: (i < significanceThresholdsLength - 1) ? arr[i + 1].threshold : max,
-                color: colorScale(parseFloat(st.significance))
+                color: colorScale(st.significance)
             }
         })
     }
