@@ -17,13 +17,14 @@
     "visualization"
   ],
   "scripts": {
-    "prepare": "tsc",
+    "prepare": "npm run build",
     "prepublishOnly": "yarn test && yarn lint",
     "preversion": "yarn lint",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
     "dev": "parcel src/scripts/main-genome-browser.ts",
     "compile": "tsc",
+    "build": "tsc",
     "watch-ts": "tsc -w",
     "lint": "tslint -p tsconfig.json",
     "test": "jest"
