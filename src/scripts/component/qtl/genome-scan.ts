@@ -35,7 +35,7 @@ export default function () {
                         }
                     });
 
-                    const layout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string }} = {
+                    const layout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
                         height: 608,
                         shapes: thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).map((significance_threshold, i) => {
                             return {
@@ -61,6 +61,7 @@ export default function () {
                             pattern: 'coupled',
 
                         },
+                        autosize: true,
                     }
                     chrDatas.forEach((curr, i) => {
                         const xaxisIndex: string = (i === 0) ? "" : (i + 1).toString();
@@ -79,7 +80,7 @@ export default function () {
                         ...yaxis,
                         title: "LOD score",
                     }
-                    Plotly.react(container, traces, layout, { responsive: true });
+                    Plotly.react(container, traces, layout, { responsive: true, autosizable: true });
 
                 }
             }
