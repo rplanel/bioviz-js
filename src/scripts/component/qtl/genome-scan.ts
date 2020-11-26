@@ -83,18 +83,14 @@ export default function () {
                     Plotly.react(container, traces, layout, { responsive: true, autosizable: true }).then(function (root) {
                         console.log(root);
                         root.removeAllListeners('plotly_legendclick')
-                        root.removeAllListeners('plotly_legenddoubleclick')
+                        // root.removeAllListeners('plotly_legenddoubleclick')
 
-                        root.on('plotly_legendclick', (event) => {
-                            // Plotly.purge(root); 
-                            legendClickCallback(event)
-                            return true
-                        })
-                        root.on('plotly_legenddoubleclick', (event) => {
-                            console.log("this is a double click")
-                            console.log(event);
-                            return true
-                        })
+                        root.on('plotly_legendclick', legendClickCallback)
+                        // root.on('plotly_legenddoubleclick', (event) => {
+                        //     console.log("this is a double click")
+                        //     console.log(event);
+                        //     return true
+                        // })
 
                     })
 
