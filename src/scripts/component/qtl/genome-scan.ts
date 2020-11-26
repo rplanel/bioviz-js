@@ -6,7 +6,7 @@ import { scaleLinear, ScaleLinear } from "d3-scale";
 import { LodScoreOnChromosome, GenomeScanData, SignificanceThreshold } from "../../types";
 
 export default function () {
-    function genomeScan(_selection: Selection<HTMLDivElement, GenomeScanData, any, any>, legendClickCallback: (event: Plotly.LegendClickEvent) => boolean) {
+    function genomeScan(_selection: Selection<HTMLDivElement, GenomeScanData, any, any>, legendClickCallback: (event: Plotly.LegendClickEvent) => boolean, legendDoubleClickCallback: (event: Plotly.LegendClickEvent) => boolean) {
         _selection.each(function ({ lod_score_per_chromosome, significance_thresholds }: GenomeScanData) {
             const container = this;
             if (container) {
@@ -84,13 +84,8 @@ export default function () {
                         console.log(root);
                         root.removeAllListeners('plotly_legendclick')
                         root.removeAllListeners('plotly_legenddoubleclick')
-
+                        root.on('plotly_legenddoubleclick', legendDoubleClickCallback)
                         root.on('plotly_legendclick', legendClickCallback)
-                        root.on('plotly_legenddoubleclick', (event) => {
-                            console.log("this is a double click")
-                            console.log(event);
-                            return false
-                        })
 
                     })
 
