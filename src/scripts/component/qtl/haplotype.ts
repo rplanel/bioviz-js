@@ -1,16 +1,18 @@
 import Plotly, { Data, Layout } from "plotly.js-dist";
 import { HaplotypeData } from "src/scripts/types";
 import { Selection } from "d3-selection";
-import { nest } from "d3-collection";
+// import { nest } from "d3-collection";
+import { group } from "d3-array";
 
 export default function () {
     function haplotype(_selection: Selection<HTMLDivElement, HaplotypeData[], any, any>) {
         _selection.each(function (_data: HaplotypeData[]) {
             const container = this;
-            const perHaplotypes: Array<{ key: string, values: HaplotypeData[] }> =
-                nest<HaplotypeData>()
-                    .key(d => d.Haplotype)
-                    .entries(_data);
+            const perHaplotypesMap = group(_data, d => d.Haplotype)
+            // nest<HaplotypeData>()
+            //     .key(d => d.Haplotype)
+            //     .entries(_data);
+            const perHaplotypes = Array.from(perHaplotypesMap, ([key, values]) => ({ key, values }))
             const traces = perHaplotypes.map((haplotype, i) => {
                 const j = i + 1;
                 const initTrace: Data & { boxpoints: string } = {

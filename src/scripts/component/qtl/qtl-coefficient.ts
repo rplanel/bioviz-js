@@ -1,5 +1,5 @@
 
-import Plotly, { Data } from "plotly.js-dist";
+import Plotly, { Data, PlotData } from "plotly.js-dist";
 
 import { Selection } from "d3-selection";
 import { PlotCoefData, CoefType } from "src/scripts/types";
@@ -15,12 +15,13 @@ export default function () {
             const traceLod = extractTrace(_data, "lod");
             traceLod.yaxis = "y2";
             traces.push(traceLod);
-            const layout = {
+
+            const layout: Partial<Plotly.Layout> = {
                 height: 650,
                 grid: {
                     rows: 2,
                     columns: 1,
-                    subplots: [['xy'], ['xy2']],
+                    subplots: ['xy', 'xy2'],
                     roworder: 'top to bottom'
                 },
                 yaxis: {
@@ -37,8 +38,8 @@ export default function () {
 
     }
 
-
-    function extractTrace(data: PlotCoefData[], key: CoefType): Data {
+    function extractTrace(data: PlotCoefData[], key: CoefType): Partial<PlotData> {
+        // const key = "lod"
         const traceProperties: { x: number[], y: number[], text: string[] } = {
             "x": [],
             "y": [],
@@ -51,7 +52,7 @@ export default function () {
         }
         return {
             ...traceProperties,
-            name: key.toString(),
+            name: key,
             type: "scattergl",
             mode: "lines",
             yaxis: "y",

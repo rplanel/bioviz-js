@@ -1,7 +1,6 @@
 import Plotly, { Layout, Data } from "plotly.js-dist";
 import { Selection } from "d3-selection";
-import { nest } from "d3-collection";
-import { max } from "d3-array";
+import { max, group } from "d3-array";
 import { scaleLinear, ScaleLinear } from "d3-scale";
 
 import { LodScoreOnChromosome, GenomeScanData, SignificanceThreshold } from "../../types";
@@ -15,9 +14,10 @@ export default function () {
                 if (maxLodScoreStr) {
                     const thresholdColor = scaleLinear<string, string>().domain([90, 100]).range(["orange", "green"])
                     const maxLodScore = maxLodScoreStr;
-                    const chrDatas: Array<{ key: string, values: LodScoreOnChromosome[] }> = nest<LodScoreOnChromosome>()
-                        .key(d => d.chr)
-                        .entries(lod_score_per_chromosome);
+                    const chrDatasMap = group(lod_score_per_chromosome, d => d.chr);
+                    // .key(d => d.chr)
+                    // .entries(lod_score_per_chromosome);
+                    const chrDatas = Array.from(chrDatasMap, ([key, values]) => ({ key, values }))
                     const chrCount = chrDatas.length;
                     const traces = chrDatas.map((dataPerChr, i): Data => {
                         const j = i + 1;
@@ -51,7 +51,7 @@ export default function () {
                                 line: {
                                     width: 0,
                                 },
-                                name: significance_threshold.significance,
+                                name: significance_threshold.significance.toString(),
                             }
                         }),
                         showlegend: true,
@@ -63,7 +63,7 @@ export default function () {
                         },
                         autosize: true,
                     }
-                    chrDatas.forEach((curr, i) => {
+                    Array.from(chrDatas).forEach((curr, i) => {
                         const xaxisIndex: string = (i === 0) ? "" : (i + 1).toString();
                         const xaxisKey = "xaxis" + xaxisIndex;
                         // @ts-ignore
@@ -80,8 +80,13 @@ export default function () {
                         ...yaxis,
                         title: "LOD score",
                     }
-                    Plotly.react(container, traces, layout, { responsive: true, autosizable: true });
-                    container.on('plotly_legendclick', function () { console.log("click on the legend") })
+                    Plotly.react(container, traces, layout, { responsive: true, autosizable: true }).then(function (root) {
+                        console.log(root);
+                        // root.on('plotly_doubleclick', () => {
+                        //     console.log("click on the legend");
+                        //     // console.log(ev)
+                        // })
+                    })
 
                 }
             }
