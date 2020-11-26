@@ -81,6 +81,7 @@ export default function () {
                         title: "LOD score",
                     }
                     Plotly.react(container, traces, layout, { responsive: true, autosizable: true });
+                    container.on('plotly_legendclick', function () { console.log("click on the legend") })
 
                 }
             }
