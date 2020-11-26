@@ -82,6 +82,11 @@ export default function () {
                     }
                     Plotly.react(container, traces, layout, { responsive: true, autosizable: true }).then(function (root) {
                         console.log(root);
+                        root.on('plotly_legendclick', (event) => {
+                            console.log("eeEEEEEEEEEEEE")
+                            console.log(event);
+                            return true;
+                        })
                         // root.on('plotly_doubleclick', () => {
                         //     console.log("click on the legend");
                         //     // console.log(ev)
