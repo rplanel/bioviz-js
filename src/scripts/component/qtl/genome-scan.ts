@@ -88,6 +88,7 @@ export default function () {
                         root.on('plotly_legendclick', (event) => {
                             // Plotly.purge(root); 
                             legendClickCallback(event)
+                            return true
                         })
                         root.on('plotly_legenddoubleclick', (event) => {
                             console.log("this is a double click")
