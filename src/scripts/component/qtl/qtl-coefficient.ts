@@ -4,7 +4,7 @@ import Plotly, { Data, PlotData } from "plotly.js-dist";
 import { Selection } from "d3-selection";
 import { PlotCoefData, CoefType } from "src/scripts/types";
 export default function () {
-    function qtlCoefficient(_selection: Selection<HTMLDivElement, PlotCoefData[], any, any>) {
+    function qtlCoefficient(_selection: Selection<HTMLDivElement, PlotCoefData[], any, any>, xTitle: string) {
         _selection.each(function (_data: PlotCoefData[]) {
             const container = this;
             const coefTypes: CoefType[] = ["A", "B", "C", "D", "E", "F", "G", "H"];
@@ -30,7 +30,7 @@ export default function () {
                 yaxis2: {
                     title: "LOD score"
                 },
-                xaxis: { title: "Chr 16 position" }
+                xaxis: { title: xTitle }
 
             };
             Plotly.react(container, traces, layout, { responsive: true });
