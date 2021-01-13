@@ -3,7 +3,7 @@ import { Selection } from "d3-selection";
 import { max, group } from "d3-array";
 import { scaleLinear, ScaleLinear } from "d3-scale";
 
-import { LodScoreOnChromosome, GenomeScanData, SignificanceThreshold } from "../../types";
+import { GenomeScanData, SignificanceThreshold } from "../../types";
 
 export default function () {
     function genomeScan(_selection: Selection<HTMLDivElement, GenomeScanData, any, any>, legendClickCallback: (event: Plotly.LegendClickEvent) => boolean, legendDoubleClickCallback: (event: Plotly.LegendClickEvent) => boolean) {
