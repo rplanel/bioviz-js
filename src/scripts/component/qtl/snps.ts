@@ -33,7 +33,8 @@ export default function () {
                     title: xAxisTitle
                 },
                 yaxis: {
-                    title: " Lod Score"
+                    title: " Lod Score",
+                    tick0: 0,
                 },
             };
             Plotly.react(container, trace, layout, { responsive: true });
