@@ -3,7 +3,7 @@ import { SnpsData } from "src/scripts/types";
 import { Selection } from "d3-selection";
 
 export default function () {
-    function snps(_selection: Selection<HTMLDivElement, SnpsData[], any, any>) {
+    function snps(_selection: Selection<HTMLDivElement, SnpsData[], any, any>, xAxisTitle = "") {
         _selection.each(function (_data: SnpsData[]) {
             const container = this;
             const trace = [_data].map(data => {
@@ -30,7 +30,7 @@ export default function () {
             const layout = {
                 height: 600,
                 xaxis: {
-                    title: " Positions chromosome 6 "
+                    title: xAxisTitle
                 },
                 yaxis: {
                     title: " Lod Score"
