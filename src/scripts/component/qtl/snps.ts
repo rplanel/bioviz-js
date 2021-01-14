@@ -27,15 +27,14 @@ export default function () {
                 }
                 return { ...initTrace, ...axisData };
             })
-            const rangemode: "normal" | "tozero" | "nonnegative" | undefined = "nonnegative"
-            const layout = {
+            const layout: Partial<Plotly.Layout> = {
                 height: 600,
                 xaxis: {
                     title: xAxisTitle
                 },
                 yaxis: {
                     title: "Lod Score",
-                    rangemode,
+                    rangemode: "nonnegative",
                 },
             };
             Plotly.react(container, trace, layout, { responsive: true });
