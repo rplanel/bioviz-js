@@ -34,7 +34,7 @@ export default function () {
                 },
                 yaxis: {
                     title: " Lod Score",
-                    tick0: 0,
+                    rangemode: 'nonnegative',
                 },
             };
             Plotly.react(container, trace, layout, { responsive: true });
