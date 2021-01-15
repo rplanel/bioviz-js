@@ -57,6 +57,7 @@ export default function () {
                     pattern: 'coupled',
 
                 },
+                yaxis: { title: "Phenotype" }
             };
             Plotly.react(container, traces, layout, { responsive: true });
 
