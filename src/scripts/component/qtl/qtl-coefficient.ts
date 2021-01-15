@@ -12,7 +12,7 @@ export default function () {
                 (key: CoefType) => {
                     return extractTrace(_data, key, colors[key]);
                 })
-            const traceLod = extractTrace(_data, "lod", "red");
+            const traceLod = extractTrace(_data, "lod", "black");
             traceLod.yaxis = "y2";
             traces.push(traceLod);
 
