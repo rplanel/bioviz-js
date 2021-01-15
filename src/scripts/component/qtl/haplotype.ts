@@ -8,7 +8,7 @@ export default function () {
     function haplotype(_selection: Selection<HTMLDivElement, HaplotypeData[], any, any>) {
         _selection.each(function (_data: HaplotypeData[]) {
             const container = this;
-            const perHaplotypesMap = group(_data, d => d.Haplotype)
+            const perHaplotypesMap = group(_data, d => d.haplotype)
             // nest<HaplotypeData>()
             //     .key(d => d.Haplotype)
             //     .entries(_data);
@@ -33,8 +33,8 @@ export default function () {
                 };
 
                 for (let item of haplotype.values) {
-                    axisData.x.push(item.Line);
-                    axisData.y.push(item.Phenotype);
+                    axisData.x.push(item.line);
+                    axisData.y.push(item.phenotype);
                     // axisData.text.push(item.Line);
                 }
                 return { ...initTrace, ...axisData };

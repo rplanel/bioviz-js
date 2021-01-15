@@ -161,9 +161,9 @@ export interface PlotCoefData {
 }
 
 export interface HaplotypeData {
-  Phenotype: number;
-  Haplotype: string;
-  Line: string;
+  phenotype: number;
+  haplotype: string;
+  line: string;
 }
 
 export interface SnpsData {
