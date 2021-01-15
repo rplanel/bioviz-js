@@ -7,10 +7,12 @@ import { group } from "d3-array"
 export default function () {
     function snp(_selection: Selection<HTMLDivElement, SnpData[], any, any>, colors: Map<string, string>) {
         const getColor = function (key: string) {
+            const defaultColor = "#343434"
+
             if (colors.has(key)) {
                 return colors.get(key)
             } else {
-                return "grey"
+                return defaultColor
             }
 
         }
