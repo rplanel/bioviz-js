@@ -56,6 +56,7 @@ export default function () {
             type: "scattergl",
             mode: "lines",
             yaxis: "y",
+            line: { color: "red" }
 
         }
     }
