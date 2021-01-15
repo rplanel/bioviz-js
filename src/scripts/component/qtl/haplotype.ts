@@ -5,7 +5,17 @@ import { Selection } from "d3-selection";
 import { group } from "d3-array";
 
 export default function () {
-    function haplotype(_selection: Selection<HTMLDivElement, HaplotypeData[], any, any>) {
+    function haplotype(_selection: Selection<HTMLDivElement, HaplotypeData[], any, any>, colors: Map<string, string>) {
+        const getColor = function (key: string) {
+            const defaultColor = "#343434"
+
+            if (colors.has(key)) {
+                return colors.get(key)
+            } else {
+                return defaultColor
+            }
+
+        }
         _selection.each(function (_data: HaplotypeData[]) {
             const container = this;
             const perHaplotypesMap = group(_data, d => d.haplotype)
@@ -19,6 +29,7 @@ export default function () {
                     type: "box",
                     marker: {
                         size: 4,
+                        color: getColor(haplotype.key)
                     },
                     boxpoints: "all",
                     xaxis: "x" + j,
