@@ -4,15 +4,15 @@ import Plotly, { Data, PlotData } from "plotly.js-dist";
 import { Selection } from "d3-selection";
 import { PlotCoefData, CoefType } from "src/scripts/types";
 export default function () {
-    function qtlCoefficient(_selection: Selection<HTMLDivElement, PlotCoefData[], any, any>, xTitle = "") {
+    function qtlCoefficient(_selection: Selection<HTMLDivElement, PlotCoefData[], any, any>, xTitle = "", colors: any) {
         _selection.each(function (_data: PlotCoefData[]) {
             const container = this;
             const coefTypes: CoefType[] = ["A", "B", "C", "D", "E", "F", "G", "H"];
             const traces = coefTypes.map(
                 (key: CoefType) => {
-                    return extractTrace(_data, key);
+                    return extractTrace(_data, key, colors[key]);
                 })
-            const traceLod = extractTrace(_data, "lod");
+            const traceLod = extractTrace(_data, "lod", "red");
             traceLod.yaxis = "y2";
             traces.push(traceLod);
 
@@ -38,7 +38,7 @@ export default function () {
 
     }
 
-    function extractTrace(data: PlotCoefData[], key: CoefType): Partial<PlotData> {
+    function extractTrace(data: PlotCoefData[], key: CoefType, color: string): Partial<PlotData> {
         // const key = "lod"
         const traceProperties: { x: number[], y: number[], text: string[] } = {
             "x": [],
@@ -56,8 +56,7 @@ export default function () {
             type: "scattergl",
             mode: "lines",
             yaxis: "y",
-            line: { color: "red" }
-
+            line: { color }
         }
     }
 
