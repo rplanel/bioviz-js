@@ -4,13 +4,29 @@ import Plotly, { Data, PlotData } from "plotly.js-dist";
 import { Selection } from "d3-selection";
 import { PlotCoefData, CoefType } from "src/scripts/types";
 export default function () {
-    function qtlCoefficient(_selection: Selection<HTMLDivElement, PlotCoefData[], any, any>, xTitle = "", colors: any) {
+    function qtlCoefficient(_selection: Selection<HTMLDivElement, PlotCoefData[], any, any>, xTitle = "", colors: Map<string, string>) {
+        const getColor = function (key: string) {
+            const defaultColor = "#343434"
+            if (colors.has(key)) {
+                const color = colors.get(key)
+                if (typeof color === "undefined") {
+                    return defaultColor
+                }
+                else {
+                    return color
+                }
+
+            } else {
+                return defaultColor
+            }
+
+        }
         _selection.each(function (_data: PlotCoefData[]) {
             const container = this;
             const coefTypes: CoefType[] = ["A", "B", "C", "D", "E", "F", "G", "H"];
             const traces = coefTypes.map(
                 (key: CoefType) => {
-                    return extractTrace(_data, key, colors[key]);
+                    return extractTrace(_data, key, getColor(key));
                 })
             const traceLod = extractTrace(_data, "lod", "black");
             traceLod.yaxis = "y2";
