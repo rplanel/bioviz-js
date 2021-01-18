@@ -35,25 +35,34 @@ export default function () {
                         }
                     });
 
+                    const thresholdShapes: Partial<Plotly.Shape>[] = thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).map((significance_threshold, i) => {
+                        return {
+                            layer: 'below',
+                            type: 'line',
+                            xref: 'paper',
+                            x0: 0,
+                            y0: significance_threshold.y0,
+                            x1: 1,
+                            y1: significance_threshold.y0,
+                            line: {
+                                width: 1,
+                                color: significance_threshold.color,
+                                dash: "solid"
+                            },
+                            name: significance_threshold.significance.toString(),
+                        }
+                    })
+                    const textThresholdTraces: Partial<Plotly.Data>[] = thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).map((significance_threshold, i) => {
+                        console.log(significance_threshold)
+
+                        return {
+
+                        }
+                    })
+
                     const layout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
                         height: 608,
-                        shapes: thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).map((significance_threshold, i) => {
-                            return {
-                                layer: 'below',
-                                type: 'line',
-                                xref: 'paper',
-                                x0: 0,
-                                y0: significance_threshold.y0,
-                                x1: 1,
-                                y1: significance_threshold.y0,
-                                line: {
-                                    width: 1,
-                                    color: significance_threshold.color,
-                                    dash: "solid"
-                                },
-                                name: significance_threshold.significance.toString(),
-                            }
-                        }),
+                        shapes: thresholdShapes,
                         showlegend: true,
                         grid: {
                             rows: 1,
