@@ -49,7 +49,7 @@ export default function () {
                                 line: {
                                     width: 1,
                                     color: significance_threshold.color,
-                                    dash: "longdash"
+                                    dash: "solid"
                                 },
                                 name: significance_threshold.significance.toString(),
                             }
