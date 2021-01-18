@@ -46,10 +46,14 @@ export default function () {
                                 type: "scattergl",
                                 xaxis: `x${j}`,
                                 yaxis: "y",
-                                name: "threholds" + dataPerChr.key,
+                                name: `Significance 80%`,
                                 mode: "lines",
                                 x: [min, max],
                                 y: [4.5, 4.5],
+                                line: {
+                                    dash: "dot",
+                                    color: "orange"
+                                },
                                 text: ["80%", "80%"],
                             }
                         }
