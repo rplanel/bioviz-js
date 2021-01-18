@@ -48,6 +48,7 @@ export default function () {
                                 yaxis: "y",
                                 name: `Significance 80%`,
                                 mode: "lines",
+                                legendgroup: "80",
                                 x: [min, max],
                                 y: [4.5, 4.5],
                                 line: {
