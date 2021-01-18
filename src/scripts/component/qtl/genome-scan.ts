@@ -4,6 +4,7 @@ import { max, group } from "d3-array";
 import { scaleLinear, ScaleLinear } from "d3-scale";
 
 import { GenomeScanData, SignificanceThreshold } from "../../types";
+import { text } from "d3";
 
 export default function () {
     function genomeScan(_selection: Selection<HTMLDivElement, GenomeScanData, any, any>, legendClickCallback: (event: Plotly.LegendClickEvent) => boolean, legendDoubleClickCallback: (event: Plotly.LegendClickEvent) => boolean) {
@@ -35,34 +36,39 @@ export default function () {
                         }
                     });
 
-                    const thresholdShapes: Partial<Plotly.Shape>[] = thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).map((significance_threshold, i) => {
-                        return {
-                            layer: 'below',
-                            type: 'line',
-                            xref: 'paper',
-                            x0: 0,
-                            y0: significance_threshold.y0,
-                            x1: 1,
-                            y1: significance_threshold.y0,
-                            line: {
-                                width: 1,
-                                color: significance_threshold.color,
-                                dash: "solid"
-                            },
-                            name: significance_threshold.significance.toString(),
-                        }
-                    })
-                    const textThresholdTraces: Partial<Plotly.Data>[] = thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).map((significance_threshold, i) => {
+                    // const thresholdShapes: Partial<Plotly.Shape>[] = thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).map((significance_threshold, i) => {
+                    //     return {
+                    //         layer: 'below',
+                    //         type: 'line',
+                    //         xref: 'paper',
+                    //         x0: 0,
+                    //         y0: significance_threshold.y0,
+                    //         x1: 1,
+                    //         y1: significance_threshold.y0,
+                    //         line: {
+                    //             width: 1,
+                    //             color: significance_threshold.color,
+                    //             dash: "solid"
+                    //         },
+                    //         name: significance_threshold.significance.toString(),
+                    //     }
+                    // })
+                    const initPartialThresholdData: { x: number[], y: number[], text: string[] } = { x: [], y: [], text: [] }
+                    const textThresholdTraces: { x: number[], y: number[], text: string[] } = thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).reduce((acc, significance_threshold, i) => {
                         console.log(significance_threshold)
+                        acc.x.push(5)
+                        acc.y.push(significance_threshold.y0)
+                        acc.text.push(`${significance_threshold.significance.toString()} % ${significance_threshold.threshold}`)
+                        return acc
+                    }, initPartialThresholdData)
 
-                        return {
 
-                        }
-                    })
 
+                    const initThresholdTrace: Plotly.Data = { x: textThresholdTraces.x, y: textThresholdTraces.y, text: textThresholdTraces.text, mode: 'text+lines', textposition: 'bottom center', type: "scatter" }
+                    traces.push(initThresholdTrace)
                     const layout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
                         height: 608,
-                        shapes: thresholdShapes,
+                        // shapes: thresholdShapes,
                         showlegend: true,
                         grid: {
                             rows: 1,
