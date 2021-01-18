@@ -12,7 +12,7 @@ export default function () {
             if (container) {
                 const maxLodScoreStr = max(lod_score_per_chromosome, d => d.lod);
                 if (maxLodScoreStr) {
-                    const thresholdColor = scaleLinear<string, string>().domain([90, 100]).range(["orange", "green"])
+                    const thresholdColor = scaleLinear<string, string>().domain([80, 100]).range(["orange", "green"])
                     const maxLodScore = maxLodScoreStr;
                     const chrDatasMap = group(lod_score_per_chromosome, d => d.chr);
                     // .key(d => d.chr)
@@ -41,15 +41,15 @@ export default function () {
                             return {
                                 layer: 'below',
                                 type: 'line',
-                                // xref: 'paper',
+                                xref: 'paper',
                                 x0: 0,
                                 y0: significance_threshold.y0,
                                 x1: 1,
                                 y1: significance_threshold.y0,
-                                // opacity: 0.2,
-                                fillcolor: significance_threshold.color,
                                 line: {
-                                    width: 1,
+                                    width: 3,
+                                    color: significance_threshold.color,
+                                    dash: "longdash"
                                 },
                                 name: significance_threshold.significance.toString(),
                             }
