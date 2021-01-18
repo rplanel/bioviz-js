@@ -35,7 +35,7 @@ export default function () {
                             text: dataPerChr.values.map(d => d.marker),
                         }
                     });
-                    for (const significance of [80, 95]) {
+                    for (const thres of thresholdInterval(significance_thresholds, maxLodScore, thresholdColor)) {
                         const tresholdTraces = chrDatas.map((dataPerChr, i): Data => {
                             const j = i + 1;
                             const [min, max] = extent(dataPerChr.values.map(d => {
@@ -47,15 +47,15 @@ export default function () {
                                     type: "scattergl",
                                     xaxis: `x${j}`,
                                     yaxis: "y",
-                                    name: `Significance ${significance}%`,
+                                    name: `Significance ${thres.threshold}%`,
                                     mode: "lines",
-                                    legendgroup: `${significance}`,
+                                    legendgroup: `${thres.threshold}`,
                                     showlegend: i === 0 ? true : false,
                                     x: [min, max],
-                                    y: [4.5, 4.5],
+                                    y: [thres.significance, thres.significance],
                                     line: {
                                         dash: "dot",
-                                        color: thresholdColor(significance)
+                                        color: thresholdColor(thres.threshold)
                                     },
                                     text: ["80%", "80%"],
                                 }
