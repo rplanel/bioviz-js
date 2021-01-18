@@ -47,15 +47,15 @@ export default function () {
                                     type: "scattergl",
                                     xaxis: `x${j}`,
                                     yaxis: "y",
-                                    name: `Significance ${thres.threshold}%`,
+                                    name: `Significance ${thres.significance}%`,
                                     mode: "lines",
-                                    legendgroup: `${thres.threshold}`,
+                                    legendgroup: `${thres.significance}`,
                                     showlegend: i === 0 ? true : false,
                                     x: [min, max],
-                                    y: [thres.significance, thres.significance],
+                                    y: [thres.threshold, thres.threshold],
                                     line: {
                                         dash: "dot",
-                                        color: thresholdColor(thres.threshold)
+                                        color: thresholdColor(thres.significance)
                                     },
                                     text: ["80%", "80%"],
                                 }
