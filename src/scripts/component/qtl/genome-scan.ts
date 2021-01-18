@@ -40,16 +40,16 @@ export default function () {
                         shapes: thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).map((significance_threshold, i) => {
                             return {
                                 layer: 'below',
-                                type: 'rect',
-                                xref: 'paper',
+                                type: 'line',
+                                // xref: 'paper',
                                 x0: 0,
                                 y0: significance_threshold.y0,
                                 x1: 1,
-                                y1: significance_threshold.y1,
-                                opacity: 0.2,
+                                y1: significance_threshold.y0,
+                                // opacity: 0.2,
                                 fillcolor: significance_threshold.color,
                                 line: {
-                                    width: 0,
+                                    width: 1,
                                 },
                                 name: significance_threshold.significance.toString(),
                             }
