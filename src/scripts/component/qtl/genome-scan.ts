@@ -1,6 +1,6 @@
 import Plotly, { Layout, Data } from "plotly.js-dist";
 import { Selection } from "d3-selection";
-import { max, group } from "d3-array";
+import { max, group, extent } from "d3-array";
 import { scaleLinear, ScaleLinear } from "d3-scale";
 
 import { GenomeScanData, SignificanceThreshold } from "../../types";
@@ -20,9 +20,10 @@ export default function () {
                     const chrCount = chrDatas.length;
                     const traces = chrDatas.map((dataPerChr, i): Data => {
                         const j = i + 1;
+
                         return {
                             type: "scattergl",
-                            xaxis: "x" + j,
+                            xaxis: `x${j}`,
                             yaxis: "y",
                             name: "chr " + dataPerChr.key,
                             mode: "lines",
@@ -36,15 +37,33 @@ export default function () {
 
                     const tresholdTraces = chrDatas.map((dataPerChr, i): Data => {
                         const j = i + 1;
-                        return {
-                            type: "scattergl",
-                            xaxis: "x" + j,
-                            yaxis: "y",
-                            name: "threholds" + dataPerChr.key,
-                            mode: "lines",
-                            x: [0, 100000000],
-                            y: [4.5, 4.5],
-                            text: ["80%", "80%"],
+                        const [min, max] = extent(dataPerChr.values.map(d => {
+                            return d.pos
+                        }))
+                        if (typeof min !== "undefined" && typeof max != "undefined") {
+                            let to = min
+                            return {
+                                type: "scattergl",
+                                xaxis: `x${j}`,
+                                yaxis: "y",
+                                name: "threholds" + dataPerChr.key,
+                                mode: "lines",
+                                x: [min, max],
+                                y: [4.5, 4.5],
+                                text: ["80%", "80%"],
+                            }
+                        }
+                        else {
+                            return {
+                                type: "scattergl",
+                                xaxis: `x${j}`,
+                                yaxis: "y",
+                                name: "threholds" + dataPerChr.key,
+                                mode: "lines",
+                                x: [0, 1],
+                                y: [4.5, 4.5],
+                                text: ["80%", "80%"],
+                            }
                         }
                     })
 
