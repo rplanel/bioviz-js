@@ -5,6 +5,7 @@ import { scaleLinear, ScaleLinear } from "d3-scale";
 
 import { GenomeScanData, SignificanceThreshold } from "../../types";
 import { text } from "d3";
+import { sign } from "crypto";
 
 export default function () {
     function genomeScan(_selection: Selection<HTMLDivElement, GenomeScanData, any, any>, legendClickCallback: (event: Plotly.LegendClickEvent) => boolean, legendDoubleClickCallback: (event: Plotly.LegendClickEvent) => boolean) {
@@ -18,7 +19,7 @@ export default function () {
                     const chrDatasMap = group(lod_score_per_chromosome, d => d.chr);
                     const chrDatas = Array.from(chrDatasMap, ([key, values]) => ({ key, values }))
                     const chrCount = chrDatas.length;
-                    const traces = chrDatas.map((dataPerChr, i): Data => {
+                    let traces = chrDatas.map((dataPerChr, i): Data => {
                         const j = i + 1;
 
                         return {
@@ -34,45 +35,46 @@ export default function () {
                             text: dataPerChr.values.map(d => d.marker),
                         }
                     });
-
-                    const tresholdTraces = chrDatas.map((dataPerChr, i): Data => {
-                        const j = i + 1;
-                        const [min, max] = extent(dataPerChr.values.map(d => {
-                            return d.pos
-                        }))
-                        if (typeof min !== "undefined" && typeof max != "undefined") {
-                            let to = min
-                            return {
-                                type: "scattergl",
-                                xaxis: `x${j}`,
-                                yaxis: "y",
-                                name: `Significance 80%`,
-                                mode: "lines",
-                                legendgroup: "80",
-                                showlegend: i === 0 ? true : false,
-                                x: [min, max],
-                                y: [4.5, 4.5],
-                                line: {
-                                    dash: "dot",
-                                    color: "orange"
-                                },
-                                text: ["80%", "80%"],
+                    for (const significance of [80, 95]) {
+                        const tresholdTraces = chrDatas.map((dataPerChr, i): Data => {
+                            const j = i + 1;
+                            const [min, max] = extent(dataPerChr.values.map(d => {
+                                return d.pos
+                            }))
+                            if (typeof min !== "undefined" && typeof max != "undefined") {
+                                let to = min
+                                return {
+                                    type: "scattergl",
+                                    xaxis: `x${j}`,
+                                    yaxis: "y",
+                                    name: `Significance ${significance}%`,
+                                    mode: "lines",
+                                    legendgroup: `${significance}`,
+                                    showlegend: i === 0 ? true : false,
+                                    x: [min, max],
+                                    y: [4.5, 4.5],
+                                    line: {
+                                        dash: "dot",
+                                        color: thresholdColor(significance)
+                                    },
+                                    text: ["80%", "80%"],
+                                }
                             }
-                        }
-                        else {
-                            return {
-                                type: "scattergl",
-                                xaxis: `x${j}`,
-                                yaxis: "y",
-                                name: "threholds" + dataPerChr.key,
-                                mode: "lines",
-                                x: [0, 1],
-                                y: [4.5, 4.5],
-                                text: ["80%", "80%"],
+                            else {
+                                return {
+                                    type: "scattergl",
+                                    xaxis: `x${j}`,
+                                    yaxis: "y",
+                                    name: "threholds" + dataPerChr.key,
+                                    mode: "lines",
+                                    x: [0, 1],
+                                    y: [4.5, 4.5],
+                                    text: ["80%", "80%"],
+                                }
                             }
-                        }
-                    })
-
+                        })
+                        traces = [...traces, ...tresholdTraces]
+                    }
                     // const thresholdShapes: Partial<Plotly.Shape>[] = thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).map((significance_threshold, i) => {
                     //     return {
                     //         layer: 'below',
@@ -141,7 +143,7 @@ export default function () {
                         ...yaxis,
                         title: "LOD score",
                     }
-                    Plotly.react(container, [...traces, ...tresholdTraces], layout, { responsive: true, autosizable: true }).then(function (root) {
+                    Plotly.react(container, traces, layout, { responsive: true, autosizable: true }).then(function (root) {
                         console.log(root);
                         root.removeAllListeners('plotly_legendclick')
                         root.removeAllListeners('plotly_legenddoubleclick')
