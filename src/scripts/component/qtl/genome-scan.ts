@@ -49,6 +49,7 @@ export default function () {
                                 name: `Significance 80%`,
                                 mode: "lines",
                                 legendgroup: "80",
+                                showlegend: i === 0 ? true : false,
                                 x: [min, max],
                                 y: [4.5, 4.5],
                                 line: {
