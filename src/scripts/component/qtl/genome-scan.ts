@@ -47,7 +47,7 @@ export default function () {
                                 x1: 1,
                                 y1: significance_threshold.y0,
                                 line: {
-                                    width: 3,
+                                    width: 1,
                                     color: significance_threshold.color,
                                     dash: "longdash"
                                 },
