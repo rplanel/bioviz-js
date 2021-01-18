@@ -16,8 +16,6 @@ export default function () {
                     const thresholdColor = scaleLinear<string, string>().domain([80, 100]).range(["orange", "green"])
                     const maxLodScore = maxLodScoreStr;
                     const chrDatasMap = group(lod_score_per_chromosome, d => d.chr);
-                    // .key(d => d.chr)
-                    // .entries(lod_score_per_chromosome);
                     const chrDatas = Array.from(chrDatasMap, ([key, values]) => ({ key, values }))
                     const chrCount = chrDatas.length;
                     const traces = chrDatas.map((dataPerChr, i): Data => {
@@ -36,6 +34,20 @@ export default function () {
                         }
                     });
 
+                    const tresholdTraces = chrDatas.map((dataPerChr, i): Data => {
+                        const j = i + 1;
+                        return {
+                            type: "scattergl",
+                            xaxis: "x" + j,
+                            yaxis: "y",
+                            name: "threholds" + dataPerChr.key,
+                            mode: "lines",
+                            x: [0, 100000000],
+                            y: [4.5, 4.5],
+                            text: ["80%", "80%"],
+                        }
+                    })
+
                     // const thresholdShapes: Partial<Plotly.Shape>[] = thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).map((significance_threshold, i) => {
                     //     return {
                     //         layer: 'below',
@@ -53,19 +65,28 @@ export default function () {
                     //         name: significance_threshold.significance.toString(),
                     //     }
                     // })
-                    const initPartialThresholdData: { x: number[], y: number[], text: string[] } = { x: [], y: [], text: [] }
-                    const textThresholdTraces: { x: number[], y: number[], text: string[] } = thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).reduce((acc, significance_threshold, i) => {
-                        console.log(significance_threshold)
-                        acc.x.push(5)
-                        acc.y.push(significance_threshold.y0)
-                        acc.text.push(`${significance_threshold.significance.toString()} % ${significance_threshold.threshold}`)
-                        return acc
-                    }, initPartialThresholdData)
+
+                    // const trace1 = {
+                    //     x: [0, 2, 3, 4],
+                    //     y: [4, 15, 13, 17],
+                    //     mode: 'markers',
+                    //     name: 'Scatter'
+                    //   };
+
+
+                    // const initPartialThresholdData: { x: number[], y: number[], text: string[] } = { x: [], y: [], text: [] }
+                    // const textThresholdTraces: { x: number[], y: number[], text: string[] } = thresholdInterval(significance_thresholds, maxLodScore, thresholdColor).reduce((acc, significance_threshold, i) => {
+                    //     console.log(significance_threshold)
+                    //     acc.x.push(5)
+                    //     acc.y.push(significance_threshold.y0)
+                    //     acc.text.push(`${significance_threshold.significance.toString()} % ${significance_threshold.threshold}`)
+                    //     return acc
+                    // }, initPartialThresholdData)
 
 
 
-                    const initThresholdTrace: Plotly.Data = { x: textThresholdTraces.x, y: textThresholdTraces.y, text: textThresholdTraces.text, mode: 'text+lines', textposition: 'bottom center', type: "scatter" }
-                    traces.push(initThresholdTrace)
+                    // const initThresholdTrace: Plotly.Data = { x: textThresholdTraces.x, y: textThresholdTraces.y, text: textThresholdTraces.text, mode: 'text+lines', textposition: 'bottom center', type: "scatter" }
+                    // traces.push(initThresholdTrace)
                     const layout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
                         height: 608,
                         // shapes: thresholdShapes,
@@ -95,7 +116,7 @@ export default function () {
                         ...yaxis,
                         title: "LOD score",
                     }
-                    Plotly.react(container, traces, layout, { responsive: true, autosizable: true }).then(function (root) {
+                    Plotly.react(container, [...traces, ...tresholdTraces], layout, { responsive: true, autosizable: true }).then(function (root) {
                         console.log(root);
                         root.removeAllListeners('plotly_legendclick')
                         root.removeAllListeners('plotly_legenddoubleclick')
