@@ -45,7 +45,7 @@ export default function () {
                 }
                 return { ...initTrace, ...axisData };
             })
-            const layout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
+            const layout: Partial<Layout> = {
                 height: 600,
                 // grid: {
                 //     rows: 1,
