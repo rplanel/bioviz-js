@@ -29,17 +29,17 @@ export default function () {
                     boxpoints: "all",
                     pointpos: 0,
                     boxmean: true,
-                    xaxis: "x" + j,
+                    // xaxis: "x" + j,
                     yaxis: "y",
                     name: genotype.key,
                 };
-                const axisData: { x: string[], y: number[], text: string[] } = {
-                    x: [],
+                const axisData: { y: number[], text: string[] } = {
+                    // x: [],
                     y: [],
                     text: [],
                 };
                 for (let item of genotype.values) {
-                    axisData.x.push(item.genotype);
+                    // axisData.x.push(item.genotype);
                     axisData.y.push(item.phenotype);
                     axisData.text.push(item.line);
                 }
