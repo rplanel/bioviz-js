@@ -118,7 +118,7 @@ export default function () {
                     // const initThresholdTrace: Plotly.Data = { x: textThresholdTraces.x, y: textThresholdTraces.y, text: textThresholdTraces.text, mode: 'text+lines', textposition: 'bottom center', type: "scatter" }
                     // traces.push(initThresholdTrace)
                     const layout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
-                        height: 608,
+                        height: 800,
                         // shapes: thresholdShapes,
                         showlegend: true,
                         grid: {
