@@ -52,7 +52,8 @@ export default function () {
                 //     columns: _data.length,
                 //     pattern: 'coupled',
                 // },
-                yaxis: { title: "Phenotype" }
+                yaxis: { title: "Phenotype" },
+                xaxis: { fixedrange: true }
             };
             Plotly.react(container, traces, layout, { responsive: true });
         });
