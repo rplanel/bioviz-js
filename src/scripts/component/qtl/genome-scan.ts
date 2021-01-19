@@ -1,8 +1,8 @@
 import Plotly, { Layout, Data } from "plotly.js-dist";
 import { Selection } from "d3-selection";
 import { max, group, extent } from "d3-array";
-import { scaleLinear, ScaleLinear } from "d3-scale";
-
+import { scaleLinear, ScaleLinear, scaleSequential } from "d3-scale";
+import { interpolateViridis } from "d3-scale-chromatic";
 import { GenomeScanData, SignificanceThreshold } from "../../types";
 import { text } from "d3";
 import { sign } from "crypto";
@@ -14,7 +14,8 @@ export default function () {
             if (container) {
                 const maxLodScoreStr = max(lod_score_per_chromosome, d => d.lod);
                 if (maxLodScoreStr) {
-                    const thresholdColor = scaleLinear<string, string>().domain([80, 100]).range(["orange", "green"])
+                    const other = scaleSequential(interpolateViridis).domain([80, 100])
+                    const thresholdColor = scaleLinear<string, string>().domain([80, 100]).range(["red", "blue"])
                     const maxLodScore = maxLodScoreStr;
                     const chrDatasMap = group(lod_score_per_chromosome, d => d.chr);
                     const chrDatas = Array.from(chrDatasMap, ([key, values]) => ({ key, values }))
@@ -55,7 +56,7 @@ export default function () {
                                     y: [thres.threshold, thres.threshold],
                                     line: {
                                         dash: "dot",
-                                        color: thresholdColor(thres.significance)
+                                        color: other(thres.significance)
                                     },
                                     text: ["80%", "80%"],
                                 }
