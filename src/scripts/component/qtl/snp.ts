@@ -1,11 +1,11 @@
 import Plotly, { Data, Layout } from "plotly.js-dist";
-import { CoefType, SnpData } from "src/scripts/types";
+import { SnpData, SnpDataPerGenotype } from "src/scripts/types";
 import { Selection } from "d3-selection";
 import { group } from "d3-array"
 // import { nest } from "d3-collection";
 
 export default function () {
-    function snp(_selection: Selection<HTMLDivElement, SnpData[], any, any>, colors: Map<string, string>) {
+    function snp(_selection: Selection<HTMLDivElement, SnpDataPerGenotype[], any, any>, colors: Map<string, string>) {
         const getColor = function (key: string) {
             const defaultColor = "#343434"
 
@@ -16,11 +16,11 @@ export default function () {
             }
 
         }
-        _selection.each(function (_data: SnpData[]) {
+        _selection.each(function (_data: SnpDataPerGenotype[]) {
             const container = this;
-            const perGenotypeMap = group(_data, d => d.genotype)
-            const perGenotype = Array.from(perGenotypeMap, ([key, values]) => ({ key, values }))
-            const traces: Partial<Plotly.PlotData>[] = perGenotype.map((genotype, i) => {
+            // const perGenotypeMap = group(_data, d => d.genotype)
+            // const perGenotype = Array.from(perGenotypeMap, ([key, values]) => ({ key, values }))
+            const traces: Partial<Plotly.PlotData>[] = _data.map((genotype, i) => {
                 const j = i + 1;
                 const initTrace: Data & { boxpoints: string } = {
                     type: "box",
@@ -33,15 +33,12 @@ export default function () {
                     xaxis: "x" + j,
                     yaxis: "y",
                     name: genotype.key,
-
                 };
                 const axisData: { x: string[], y: number[], text: string[] } = {
                     x: [],
                     y: [],
                     text: [],
-
                 };
-
                 for (let item of genotype.values) {
                     axisData.x.push(item.genotype);
                     axisData.y.push(item.phenotype);
@@ -53,14 +50,12 @@ export default function () {
                 height: 600,
                 grid: {
                     rows: 1,
-                    columns: perGenotype.length,
+                    columns: _data.length,
                     pattern: 'coupled',
-
                 },
                 yaxis: { title: "Phenotype" }
             };
             Plotly.react(container, traces, layout, { responsive: true });
-
         });
     }
     return snp;
