@@ -179,3 +179,9 @@ export interface SnpData {
   genotype: string;
   strains: string;
 }
+
+export interface SnpDataPerGenotype {
+  key: string;
+  values: SnpData[];
+
+}
