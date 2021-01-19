@@ -1,20 +1,22 @@
 import Plotly, { Layout, Data } from "plotly.js-dist";
 import { Selection } from "d3-selection";
 import { max, group, extent } from "d3-array";
-import { scaleLinear, ScaleLinear, ScaleSequential, scaleSequential } from "d3-scale";
-import { interpolateSinebow } from "d3-scale-chromatic";
+import { format } from "d3-format";
+import { ScaleSequential, scaleSequential } from "d3-scale";
+import { interpolatePlasma } from "d3-scale-chromatic";
 import { GenomeScanData, SignificanceThreshold } from "../../types";
 import { text } from "d3";
 import { sign } from "crypto";
 
 export default function () {
     function genomeScan(_selection: Selection<HTMLDivElement, GenomeScanData, any, any>, legendClickCallback: (event: Plotly.LegendClickEvent) => boolean, legendDoubleClickCallback: (event: Plotly.LegendClickEvent) => boolean) {
+        const threholdFormat = format(".2f");
         _selection.each(function ({ lod_score_per_chromosome, significance_thresholds }: GenomeScanData) {
             const container = this;
             if (container) {
                 const maxLodScoreStr = max(lod_score_per_chromosome, d => d.lod);
                 if (maxLodScoreStr) {
-                    const thresholdColor = scaleSequential(interpolateSinebow).domain([80, 100])
+                    const thresholdColor = scaleSequential(interpolatePlasma).domain([80, 100])
                     // const thresholdColor = scaleLinear<string, string>().domain([80, 100]).range(["red", "blue"])
                     const maxLodScore = maxLodScoreStr;
                     const chrDatasMap = group(lod_score_per_chromosome, d => d.chr);
@@ -48,7 +50,7 @@ export default function () {
                                     type: "scattergl",
                                     xaxis: `x${j}`,
                                     yaxis: "y",
-                                    name: `Significance ${thresholdPartialTrace.significance}% (${thresholdPartialTrace.threshold})`,
+                                    name: `Significance ${thresholdPartialTrace.significance}% (${threholdFormat(thresholdPartialTrace.threshold)})`,
                                     mode: "lines",
                                     legendgroup: `${thresholdPartialTrace.significance}`,
                                     showlegend: i === 0 ? true : false,
