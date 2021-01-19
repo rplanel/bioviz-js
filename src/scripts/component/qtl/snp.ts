@@ -18,8 +18,6 @@ export default function () {
         }
         _selection.each(function (_data: SnpDataPerGenotype[]) {
             const container = this;
-            // const perGenotypeMap = group(_data, d => d.genotype)
-            // const perGenotype = Array.from(perGenotypeMap, ([key, values]) => ({ key, values }))
             const traces: Partial<Plotly.PlotData>[] = _data.map((genotype, i) => {
                 const j = i + 1;
                 const initTrace: Data & { boxpoints: string } = {
@@ -29,6 +27,7 @@ export default function () {
                         color: getColor(genotype.key)
                     },
                     boxpoints: "all",
+                    pointpos: 0,
                     boxmean: true,
                     xaxis: "x" + j,
                     yaxis: "y",
