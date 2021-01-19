@@ -47,11 +47,11 @@ export default function () {
             })
             const layout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
                 height: 600,
-                grid: {
-                    rows: 1,
-                    columns: _data.length,
-                    pattern: 'coupled',
-                },
+                // grid: {
+                //     rows: 1,
+                //     columns: _data.length,
+                //     pattern: 'coupled',
+                // },
                 yaxis: { title: "Phenotype" }
             };
             Plotly.react(container, traces, layout, { responsive: true });
