@@ -32,6 +32,7 @@ export default function () {
                         color: getColor(haplotype.key)
                     },
                     boxpoints: "all",
+                    pointpos: 0,
                     xaxis: "x" + j,
                     yaxis: "y",
                     name: haplotype.key,
