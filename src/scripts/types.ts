@@ -143,13 +143,13 @@ export interface GenomeScanData {
 
 
 
-export type CoefType = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "lod"
+export type CoefType = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "lodscore"
 
 export interface PlotCoefData {
   marker: string;
-  chr: string;
-  pos: number;
-  lod: number;
+  chromosome: string;
+  position: number;
+  lodscore: number;
   A: number;
   B: number;
   C: number;
