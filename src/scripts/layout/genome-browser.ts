@@ -7,14 +7,13 @@ import { format as d3Format } from "d3-format";
 import { scaleOrdinal } from "d3-scale";
 import { color } from "d3";
 import { schemeSet1 } from "d3-scale-chromatic";
-import { event, BaseEvent } from "d3-selection";
 
 const geneColor = scaleOrdinal(
   schemeSet1
 );
 export default function genomeBrowserData(
   state: GenomeBrowserState,
-  brushHandler: (scale: any, state: GenomeBrowserState, event: BaseEvent) => void,
+  brushHandler: (scale: any, state: GenomeBrowserState) => void,
   clickHandler: (geneLocation: [number, number], state: GenomeBrowserState) => void
 ): GenomeBrowserData {
   const {
@@ -38,7 +37,7 @@ export default function genomeBrowserData(
         window,
         maxWindowSize: chromosomeSize,
         eventHandler: {
-          brushed: (scale: any) => brushHandler(scale, state, event)
+          brushed: (scale: any) => brushHandler(scale, state)
         }
       }
     },
