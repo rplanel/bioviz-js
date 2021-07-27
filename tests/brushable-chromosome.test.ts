@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import BrushableChromosomeRuler from "../src/scripts/component/ruler/brushable-chromosome";
 import { BrushableAxisData } from "../src/scripts/types";
 import { select } from "d3-selection";
@@ -27,7 +30,7 @@ describe("Test Chromosome Ruler", () => {
     // expect(container.html()).toBe(result);
   })
   test("Test end event when selection bigger than max", () => {
-    
+
   });
 });
 

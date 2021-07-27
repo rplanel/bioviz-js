@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import Phylogram from "../src/scripts/layout/phylogram";
 import { RawPhyloTreeNode } from "../src/scripts/types";
 

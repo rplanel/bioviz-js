@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import GenomeBrowser from "../src/scripts/component/genome-browser";
 import genomeBrowserDataLayout from "../src/scripts/layout/genome-browser";
 import { GenomeBrowserData, GeneData, GenomeBrowserState } from "../src/scripts/types";
