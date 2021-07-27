@@ -21,7 +21,7 @@
     "prepublishOnly": "yarn test && yarn lint",
     "preversion": "yarn lint",
     "version": "git add -A src",
-    "postversion": "git push && git push --tags",
+    "postversion": "git push && git push --tags && git push github && git push  --tags github",
     "dev": "parcel src/scripts/main-genome-browser.ts",
     "compile": "tsc",
     "build": "tsc",
