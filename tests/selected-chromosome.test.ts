@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import SelectedChromosome from "../src/scripts/component/selected-chromosome";
 import { select } from "d3-selection";
 import { SelectedChromosomeData } from "../src/scripts/types";

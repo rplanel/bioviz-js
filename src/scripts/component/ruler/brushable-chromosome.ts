@@ -1,5 +1,5 @@
 import { BrushableAxisData, GenericAxisData } from "../../types";
-import { select, Selection, event } from "d3-selection";
+import { select, Selection } from "d3-selection";
 import { scaleLinear } from "d3-scale";
 import GenomeAxis from "./chromosome";
 import { brushX, BrushBehavior } from "d3-brush";
@@ -28,7 +28,7 @@ export default function () {
 
       const brush: BrushBehavior<any> = brushX()
         .extent([[0, 0], [width, brushHeight]])
-        .on("brush", () => {
+        .on("brush", (event) => {
           const { selection: [start, end] } = event;
           globalAxisUpdate
             .select(".brush-selection-boundaries")
@@ -49,7 +49,7 @@ export default function () {
             _data.eventHandler.brushed(genomicToPx)
           }
         })
-        .on("end", function () {
+        .on("end", function (event) {
           const { selection: [pxStart, pxEnd] } = event;
           const currentGenomicWindowSize = Math.ceil(genomicToPx.invert(pxEnd) - genomicToPx.invert(pxStart));
           const maxPixelWindowSize = Math.floor(genomicToPx(maxWindowSize));

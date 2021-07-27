@@ -115,3 +115,73 @@ export interface Phylotree {
   marginLeft: number,
 
 }
+
+
+// Genome Scan
+
+export interface LodScoreOnChromosome {
+  marker: string;
+  chr: string;
+  pos: number;
+  lod: number
+}
+
+export interface SignificanceThreshold {
+  significance: number;
+  threshold: number;
+}
+
+export interface SignificanceThresholdRaw {
+  significance: string;
+  threshold: string;
+}
+
+export interface GenomeScanData {
+  lod_score_per_chromosome: LodScoreOnChromosome[];
+  significance_thresholds: SignificanceThreshold[];
+}
+
+
+
+export type CoefType = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "lodscore"
+
+export interface PlotCoefData {
+  marker: string;
+  chromosome: string;
+  position: number;
+  lodscore: number;
+  A: number;
+  B: number;
+  C: number;
+  D: number;
+  E: number;
+  F: number;
+  G: number;
+  H: number;
+}
+
+export interface HaplotypeData {
+  phenotype: number;
+  haplotype: string;
+  line: string;
+}
+
+export interface SnpsData {
+  snp_id: string;
+  chr: string;
+  pos: number;
+  lod: number;
+}
+
+export interface SnpData {
+  line: string;
+  phenotype: number;
+  genotype: string;
+  strains: string;
+}
+
+export interface SnpDataPerGenotype {
+  key: string;
+  values: SnpData[];
+
+}

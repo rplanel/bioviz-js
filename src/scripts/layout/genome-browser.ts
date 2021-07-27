@@ -9,8 +9,6 @@ import { color } from "d3";
 import { schemeSet1 } from "d3-scale-chromatic";
 
 const geneColor = scaleOrdinal(
-  // schemeDark2
-  // schemeCategory10
   schemeSet1
 );
 export default function genomeBrowserData(

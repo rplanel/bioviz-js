@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import Gene from "../src/scripts/component/sequence/gene";
 import { GeneData } from "../src/scripts/types";
 import { select } from "d3-selection";

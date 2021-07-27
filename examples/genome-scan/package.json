@@ -1,0 +1,19 @@
+{
+  "name": "genome-scan",
+  "version": "0.0.1",
+  "description": "Genome scan example",
+  "main": "main.ts",
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rémi Planel",
+  "license": "ISC",
+  "dependencies": {
+    "bioviz-js": "file:../..",
+    "typescript": "^3.7.4"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}

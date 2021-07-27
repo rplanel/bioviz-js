@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import ChromosomeRuler from "../src/scripts/component/ruler/chromosome";
 import { GenericAxisData } from "../src/scripts/types";
 import { select } from "d3-selection";

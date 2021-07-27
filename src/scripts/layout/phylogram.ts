@@ -1,4 +1,4 @@
-import { hierarchy } from "d3-hierarchy";
+import { hierarchy, HierarchyPointNode, HierarchyNode } from "d3-hierarchy";
 import { RawPhyloTreeNode, PhyloTreeNode, PartialNodeInfo, PartialLinkInfo } from "../types";
 import { defaultSeparation, defaultNodeR, defaultNodeFill, defaultNodeStrokeWidth, defaultLinkColor, defaultLinkWidth } from "./phylotree"
 
@@ -6,7 +6,7 @@ export default function () {
   let dx = 1;
   let dy = 1;
   let nodeSize: boolean | null = null;
-  let separation: (a: d3.HierarchyPointNode<PhyloTreeNode>, b: d3.HierarchyPointNode<PhyloTreeNode>) => number = defaultSeparation;
+  let separation: (a: HierarchyPointNode<PhyloTreeNode>, b: HierarchyPointNode<PhyloTreeNode>) => number = defaultSeparation;
   function phylogram(data: RawPhyloTreeNode) {
     // Apply the layout hierarchy.
     const root = hierarchy(data);
@@ -25,9 +25,9 @@ export default function () {
 
   // Functions
 
-  function computeLengthFromRoot(root: d3.HierarchyNode<RawPhyloTreeNode>) {
+  function computeLengthFromRoot(root: HierarchyNode<RawPhyloTreeNode>) {
     let maxLengthFromRoot = 0;
-    const phyloTreeNode = root as d3.HierarchyNode<PhyloTreeNode>;
+    const phyloTreeNode = root as HierarchyNode<PhyloTreeNode>;
     phyloTreeNode.eachBefore(currNode => {
       const { data: { branchLength, node, link } } = currNode;
       currNode.data.node = setNodeInfo(node);
@@ -54,17 +54,17 @@ export default function () {
 
 
   function setRelativePosition(
-    root: d3.HierarchyNode<RawPhyloTreeNode>,
+    root: HierarchyNode<RawPhyloTreeNode>,
     maxLengthFromRoot: number,
   ) {
-    const nodeWithPoint = root as d3.HierarchyPointNode<PhyloTreeNode>;
+    const nodeWithPoint = root as HierarchyPointNode<PhyloTreeNode>;
     nodeWithPoint.x = 0;
     nodeWithPoint.y = 0;
-    let previous: d3.HierarchyPointNode<PhyloTreeNode> | null = null;
+    let previous: HierarchyPointNode<PhyloTreeNode> | null = null;
     let leftNode = nodeWithPoint;
     let rightNode = nodeWithPoint;
     let deepestNodeWithLabel = nodeWithPoint;
-    function computeXposition(node: d3.HierarchyPointNode<PhyloTreeNode>) {
+    function computeXposition(node: HierarchyPointNode<PhyloTreeNode>) {
       const children = node.children;
       if (children) {
         node.x = parseFloat(((children[0].x + children[children.length - 1].x) / 2).toFixed(10));
@@ -97,10 +97,10 @@ export default function () {
 
 
   function setAbsolutePosition(
-    pointPhylotreeRoot: d3.HierarchyPointNode<PhyloTreeNode>,
-    leftNode: d3.HierarchyPointNode<PhyloTreeNode>,
-    rightNode: d3.HierarchyPointNode<PhyloTreeNode>,
-    deepestNodeWithLabel: d3.HierarchyPointNode<PhyloTreeNode>
+    pointPhylotreeRoot: HierarchyPointNode<PhyloTreeNode>,
+    leftNode: HierarchyPointNode<PhyloTreeNode>,
+    rightNode: HierarchyPointNode<PhyloTreeNode>,
+    deepestNodeWithLabel: HierarchyPointNode<PhyloTreeNode>
   ) {
     const margin = leftNode === rightNode ? 1 : separation(leftNode, rightNode) / 2;
     const marginTop = pointPhylotreeRoot.data.node.r + pointPhylotreeRoot.data.link.strokeWidth / 2;
@@ -181,7 +181,7 @@ export default function () {
   }
 
   phylogram.separation = function (
-    separationCb: (a: d3.HierarchyPointNode<PhyloTreeNode>, b: d3.HierarchyPointNode<PhyloTreeNode>) => number
+    separationCb: (a: HierarchyPointNode<PhyloTreeNode>, b: HierarchyPointNode<PhyloTreeNode>) => number
   ) {
     separation = separationCb;
   }

@@ -1,13 +1,12 @@
-import { GeneData, GenomeBrowserData, GenomeBrowserState } from "../../scripts/types";
-import { select, event } from "d3-selection";
-import GenomeBrowser from "../../scripts/component/genome-browser";
-import genomeBrowserLayout from "../../scripts/layout/genome-browser";
-
+// import { GeneData, GenomeBrowserData, GenomeBrowserState } from "../../scripts/types";
+import { select } from "d3-selection";
+import { Types, genomeBrowserLayout, GenomeBrowser } from "bioviz-js";
+import './style.css';
 
 const width = 1500;
 const height = 300;
 const genomeBrowserComponent = GenomeBrowser();
-const geneData: GeneData[] = [
+const geneData: Types.GeneData[] = [
   {
     name: "gene 1",
     strand: "-",
@@ -68,7 +67,7 @@ const geneData: GeneData[] = [
 ];
 
 
-const state: GenomeBrowserState = {
+const state: Types.GenomeBrowserState = {
   width: 1500,
   chromosomeSize: 75000,
   window: [20000, 26000],
@@ -106,7 +105,7 @@ select("#zoom-out").on("click", function () {
 */
 function draw() {
   // Get the data
-  const computedGenomeBrowserData: GenomeBrowserData =
+  const computedGenomeBrowserData: Types.GenomeBrowserData =
     genomeBrowserLayout(state, brushHandler, clickHandler);
 
   // Convert the data to DOM objects
@@ -116,15 +115,15 @@ function draw() {
 
 }
 
-function clickHandler([begin, end]: [number, number], state: GenomeBrowserState) {
+function clickHandler([begin, end]: [number, number], state: Types.GenomeBrowserState) {
   const centerGene = (end + begin) / 2;
   const sizeWindow = state.window[1] - state.window[0];
   state.window = [centerGene - sizeWindow / 2, centerGene + sizeWindow / 2];
   draw();
 }
 
-function brushHandler(scale: any, state: GenomeBrowserState) {
-  if (!event.sourceEvent) return;
+function brushHandler(scale: any, state: Types.GenomeBrowserState, event: any) {
+  if (!event || !event.sourceEvent) return;
   if (event.selection) {
     const { selection: [x1, x2] } = event;
     const newwindow: [number, number] = [scale.invert(x1), scale.invert(x2)];
