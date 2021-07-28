@@ -52,7 +52,7 @@ export default function () {
                     //     .interpolator(interpolateBlues)
                     //     .unknown("#ccc")
 
-                    const color = scaleQuantize(domain, schemeBlues[5])
+                    const color = scaleQuantize([0, 500], schemeBlues[5])
 
                     const container = select(this);
                     container.append("g")
@@ -62,7 +62,7 @@ export default function () {
                         .attr("width", width)
                         .attr("height", getHeight(projection))
                     container.append("g")
-                        .attr("transform", "translate(0, 200)")
+                        .attr("transform", "translate(0, 75)")
                         .selectAll("path")
                         .data(countriesFeat.features)
                         .join("path")
