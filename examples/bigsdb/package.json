@@ -1,0 +1,22 @@
+{
+  "name": "bigsdbmap",
+  "version": "1.0.0",
+  "main": "main.ts",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
+  },
+  "dependencies": {
+    "bioviz-js": "link:../../",
+    "d3-fetch": "^3.0.1",
+    "d3-selection": "^3.0.0",
+    "typescript": "^4.3.5"
+  },
+  "browserslist": [
+    "last 1 Chrome version"
+  ]
+}

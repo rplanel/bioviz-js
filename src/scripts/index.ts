@@ -15,6 +15,7 @@ export { default as Haplotype } from "./component/qtl/haplotype";
 export { default as Snp } from "./component/qtl/snp";
 export { default as Snps } from "./component/qtl/snps";
 export { default as SelectedChromosome } from "./component/selected-chromosome";
+export { default as BigsdbMap } from "./component/maps/bigsdb";
 
 
 // layout

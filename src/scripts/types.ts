@@ -185,3 +185,11 @@ export interface SnpDataPerGenotype {
   values: SnpData[];
 
 }
+
+
+export interface IsolateCount {
+  label: string;
+  value: number;
+  iso3: string;
+
+}
