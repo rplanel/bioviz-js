@@ -5,9 +5,16 @@ import * as GeoJSON from "geojson";
 import { json } from "d3-fetch"
 import { IsolateCount } from "src/scripts/types";
 import { Selection, select } from "d3-selection";
-import { scaleSequential } from "d3-scale";
+import { scaleQuantize } from "d3-scale";
 import { extent } from "d3-array";
 import { interpolateBlues } from "d3";
+import { schemeBlues } from "d3-scale-chromatic"
+import { legend } from "../legend"
+
+
+
+
+
 
 export default function () {
 
@@ -40,16 +47,22 @@ export default function () {
 
                     const domain = extent(Array.from(isolateCount, d => d[1].value)).map(d => d ? d : 0)
                     // let color = colorbrewer.Blues[5]
-                    const color = scaleSequential()
-                        .domain(domain)
-                        .interpolator(interpolateBlues)
-                        .unknown("#ccc")
+                    // const color = scaleSequential()
+                    //     .domain(domain)
+                    //     .interpolator(interpolateBlues)
+                    //     .unknown("#ccc")
+
+                    const color = scaleQuantize(domain, schemeBlues[5])
+
                     const container = select(this);
-                    const genomeBrowser = container
+                    container.append("g")
+                        .attr("transform", "translate(610,20)")
+                        .append(() => legend({ color, title: "test", width: 260 }));
                     container
                         .attr("width", width)
                         .attr("height", getHeight(projection))
                     container.append("g")
+                        .attr("transform", "translate(0, 200)")
                         .selectAll("path")
                         .data(countriesFeat.features)
                         .join("path")
