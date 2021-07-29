@@ -1,4 +1,5 @@
-import { ScaleLinear } from "d3-scale";
+import { scaleQuantile, ScalePower, ScaleDiverging, ScaleQuantize, ScaleSequential, ScaleQuantile, ScaleThreshold, ScaleOrdinal, ScaleLinear } from "d3-scale"
+
 export type Strand = "+" | "-";
 
 export interface GeneData {
@@ -193,3 +194,13 @@ export interface IsolateCount {
   iso3: string;
 
 }
+
+export type LegendColorScale = ScaleQuantize<string, never>
+  | ScaleDiverging<string, never>
+  | ScaleSequential<string, never>
+  | ScaleQuantile<string, never>
+  | ScaleQuantize<string, never>
+  | ScaleThreshold<number, string, never>
+  | ScaleOrdinal<string, string, never>
+  | ScalePower<number, number, never>
+  | ScaleLinear<number, number, number>
