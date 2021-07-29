@@ -1,8 +1,9 @@
 
 import * as d3 from "d3"
+import { Selection } from "d3-selection";
+import { LegendColorScale } from "../types";
 
-
-function ramp(color, n = 256) {
+function ramp(color: any, n = 256) {
   const canvas = DOM.canvas(n, 1);
   const context = canvas.getContext("2d");
   for (let i = 0; i < n; ++i) {
@@ -11,23 +12,41 @@ function ramp(color, n = 256) {
   }
   return canvas;
 }
+const t = d3.scaleLinear([0, 1], [60, 100 * 0.95]).unknown(10)
 
 
-export function legend({
-  color,
-  title,
-  tickSize = 6,
-  width = 320,
-  height = 44 + tickSize,
-  marginTop = 18,
-  marginRight = 0,
-  marginBottom = 16 + tickSize,
-  marginLeft = 0,
-  ticks = width / 64,
-  tickFormat,
-  tickValues
-} = {}) {
 
+
+
+export function legend(options:
+  {
+    color: LegendColorScale,
+    title: string,
+    tickSize?: number,
+    width: number,
+    height?: number,
+    marginTop?: number,
+    marginRight?: number,
+    marginBottom?: number,
+    marginLeft?: number,
+    ticks?: number,
+    tickFormat?: any,
+    tickValues?: any
+  }) {
+  let {
+    color,
+    title,
+    tickSize = 6,
+    width = 320,
+    height = 44 + tickSize,
+    marginTop = 18,
+    marginRight = 0,
+    marginBottom = 16 + tickSize,
+    marginLeft = 0,
+    ticks = width / 64,
+    tickFormat,
+    tickValues
+  } = options
   const svg = d3.create("svg")
     .attr("width", width)
     .attr("height", height)
@@ -35,11 +54,11 @@ export function legend({
     .style("overflow", "visible")
     .style("display", "block");
 
-  let tickAdjust = g => g.selectAll(".tick line").attr("y1", marginTop + marginBottom - height);
+  let tickAdjust = (g: Selection<SVGElement, null, any, any>) => g.selectAll(".tick line").attr("y1", marginTop + marginBottom - height);
   let x: any;
 
   // Continuous
-  if (color.interpolate) {
+  if ("interpolate" in color) {
     const n = Math.min(color.domain().length, color.range().length);
 
     x = color.copy().rangeRound(d3.quantize(d3.interpolate(marginLeft, width - marginRight), n));
@@ -54,7 +73,7 @@ export function legend({
   }
 
   // Sequential
-  else if (color.interpolator) {
+  else if ("interpolator" in color) {
     x = Object.assign(color.copy()
       .interpolator(d3.interpolateRound(marginLeft, width - marginRight)),
       { range() { return [marginLeft, width - marginRight]; } });
@@ -80,11 +99,22 @@ export function legend({
   }
 
   // Threshold
-  else if (color.invertExtent) {
-    const thresholds
-      = color.thresholds ? color.thresholds() // scaleQuantize
-        : color.quantiles ? color.quantiles() // scaleQuantile
-          : color.domain(); // scaleThreshold
+  else if ("invertExtent" in color) {
+
+    let thresholds: number[]
+    if ("thresholds" in color) {
+      thresholds = color.thresholds()
+    }
+    else if ("quantiles" in color) {
+      thresholds = color.quantiles()
+    }
+    else {
+      thresholds = color.domain()
+    }
+    // const thresholds
+    //   = color.thresholds ? color.thresholds() // scaleQuantize
+    //     : color.quantiles ? color.quantiles() // scaleQuantile
+    //       : color.domain(); // scaleThreshold
 
     const thresholdFormat
       = tickFormat === undefined ? d => d
@@ -106,7 +136,7 @@ export function legend({
       .attr("fill", d => d);
 
     tickValues = d3.range(thresholds.length);
-    tickFormat = i => thresholdFormat(thresholds[i], i);
+    tickFormat = (i: number) => thresholdFormat(thresholds[i], i);
   }
 
   // Ordinal
