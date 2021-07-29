@@ -9,7 +9,7 @@ import { scaleQuantize, scaleSequential } from "d3-scale";
 import { extent } from "d3-array";
 import { interpolateBlues, interpolateViridis } from "d3";
 import { schemeBlues } from "d3-scale-chromatic"
-import { legend } from "../legend"
+import Legend from "../legend"
 
 
 
@@ -41,33 +41,13 @@ export default function () {
 
                 const projection = geoEqualEarth()
                 const path = geoPath(projection)
-                // const domain = extent(Array.from(isolateCount, d => d[1].value)).map(d => d ? d : 0)
-                // let color = colorbrewer.Blues[5]
-                // const color = scaleSequential()
-                //     .domain(domain)
-                //     .interpolator(interpolateBlues)
-                //     .unknown("#ccc")
-
                 const color = scaleQuantize([0, 500], schemeBlues[5])
-                // const color = scaleSequential([0, 100], interpolateViridis)
-                console.log(color.invertExtent)
                 const containerNode = _selection.node()
                 if (containerNode) {
-
-
                     const container = select(containerNode);
-                    let mapLegend: SVGSVGElement | "svg" | null = legend({ color, title: "test", width: 260 })
-                    if (mapLegend) {
-                        container
-                            .append("g")
-                            .attr("transform", "translate(610,20)")
-                            .append(() => mapLegend);
-                    } else {
-                        container
-                            .append("g")
-                            .attr("transform", "translate(610,20)")
-                            .append("svg");
-                    }
+                    // draw legend
+                    const legendWidthUnit = width / 4
+                    container.call(Legend(), { color, width: 3 * legendWidthUnit, marginLeft: 1 * legendWidthUnit })
                     container
                         .attr("width", width)
                         .attr("height", getHeight(projection))
