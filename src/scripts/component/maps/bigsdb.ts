@@ -6,6 +6,7 @@ import { json } from "d3-fetch"
 import { IsolateCount } from "src/scripts/types";
 import { Selection, select } from "d3-selection";
 import { scaleQuantize, scaleSequential } from "d3-scale";
+import { zoom, D3ZoomEvent } from "d3-zoom";
 import { extent } from "d3-array";
 import { interpolateBlues, interpolateViridis } from "d3";
 import { schemeBlues } from "d3-scale-chromatic"
@@ -31,8 +32,11 @@ export default function () {
             return dy;
 
         }
+
+
         const _data = _selection.datum()
         if (_data) {
+
             console.log('world')
             console.log(_data)
 
@@ -44,15 +48,21 @@ export default function () {
                 const color = scaleQuantize([0, 500], schemeBlues[5])
                 const containerNode = _selection.node()
                 if (containerNode) {
+                    const mapZoom = zoom()
+                        .scaleExtent([1, 8])
+                        .on("zoom", zoomed);
+
                     const container = select(containerNode);
                     // draw legend
                     const legendWidthUnit = width / 4
                     container.call(Legend(), { color, width: 3 * legendWidthUnit, marginLeft: 1 * legendWidthUnit })
+
                     container
                         .attr("viewBox", `0 0 ${width} ${getHeight(projection)}`)
-                        // .attr("width", width)
-                        // .attr("height", getHeight(projection))
-                    container.append("g")
+                    // .attr("width", width)
+                    // .attr("height", getHeight(projection))
+                    const globalG = container.append("g");
+                    globalG
                         .attr("transform", "translate(0, 75)")
                         .selectAll("path")
                         .data(countriesFeat.features)
@@ -87,6 +97,12 @@ export default function () {
                             }
                             else { return "N/A" }
                         });
+                    container.call(mapZoom);
+                    function zoomed(event: any) {
+                        const { transform } = event;
+                        globalG.attr("transform", transform);
+                        globalG.attr("stroke-width", 1 / transform.k);
+                    }
                 }
             }
         }
