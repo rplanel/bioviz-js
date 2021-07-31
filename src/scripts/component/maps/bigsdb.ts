@@ -49,8 +49,9 @@ export default function () {
                     const legendWidthUnit = width / 4
                     container.call(Legend(), { color, width: 3 * legendWidthUnit, marginLeft: 1 * legendWidthUnit })
                     container
-                        .attr("width", width)
-                        .attr("height", getHeight(projection))
+                        .attr("viewBox", `0 0 ${width} ${getHeight(projection)}`)
+                        // .attr("width", width)
+                        // .attr("height", getHeight(projection))
                     container.append("g")
                         .attr("transform", "translate(0, 75)")
                         .selectAll("path")
