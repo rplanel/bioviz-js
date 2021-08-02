@@ -33,11 +33,12 @@ export default function () {
                 if (countriesFeat.type === "FeatureCollection") {
                     const projection = geoEqualEarth()
                     const path = geoPath(projection)
-                    const domain = Array.from(isolateCount)
+                    const isolateCounts = Array.from(isolateCount)
                         .filter(([_, country]) => country.label !== "Unknown" && country.label !== "No value")
                         .map(item => item[1].value)
-                    console.log(domain)
-                    const color = scaleQuantize(extent(domain), schemeBlues[5])
+                    let domain = extent(isolateCounts)
+                    domain = (domain[0]) ? domain : [0, 0]
+                    const color = scaleQuantize(domain, schemeBlues[5])
 
                     container = select(this)
                     if (container) {

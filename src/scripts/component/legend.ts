@@ -1,4 +1,4 @@
-
+// @ts-nocheck
 import * as d3 from "d3"
 import { Selection } from "d3-selection";
 import { LegendColorScale } from "../types";
@@ -16,7 +16,7 @@ function ramp(color: any, n = 256) {
 
 export default function () {
   function legend(
-    _selection: Selection<SVGSVGElement, any, any, any>,
+    _selection: Selection<SVGGElement, any, any, any>,
     options: {
       color: LegendColorScale,
       title: string,
