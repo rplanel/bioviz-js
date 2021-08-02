@@ -112,11 +112,6 @@ export default function () {
         else {
           thresholds = color.domain()
         }
-        // const thresholds
-        //   = color.thresholds ? color.thresholds() // scaleQuantize
-        //     : color.quantiles ? color.quantiles() // scaleQuantile
-        //       : color.domain(); // scaleThreshold
-
         const thresholdFormat
           = tickFormat === undefined ? d => d
             : typeof tickFormat === "string" ? d3.format(tickFormat)
@@ -161,6 +156,7 @@ export default function () {
 
       legendGroup.append("g")
         .attr("transform", `translate(0,${height - marginBottom})`)
+        .classed("legend-text", true)
         .call(d3.axisBottom(x)
           .ticks(ticks, typeof tickFormat === "string" ? tickFormat : undefined)
           .tickFormat(typeof tickFormat === "function" ? tickFormat : undefined)
