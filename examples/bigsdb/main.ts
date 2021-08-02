@@ -1,11 +1,11 @@
 import { select } from "d3-selection";
 import { json } from "d3-fetch";
-import { BigsdbMap } from "bioviz-js";
+import { BvMaps } from "bioviz-js";
 import { Topology, Objects } from "topojson-specification";
 import { IsolateCount } from "../../lib/types";
 
 console.log("testttt")
-const BigsdbMapComponent = BigsdbMap()
+const BigsdbMapComponent = BvMaps()
 const bigsdbMap = select("svg")
     .attr("width", 1280)
     .attr("height", 800);
