@@ -5,7 +5,7 @@ import {
 } from "../types";
 import { format as d3Format } from "d3-format";
 import { scaleOrdinal } from "d3-scale";
-import { color } from "d3";
+import { color } from "d3-color";
 import { schemeSet1 } from "d3-scale-chromatic";
 
 const geneColor = scaleOrdinal(
