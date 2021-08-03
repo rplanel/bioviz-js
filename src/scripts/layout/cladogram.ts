@@ -26,7 +26,6 @@ export default function () {
       // NEED TO CREATE A FUNCTION TO DO THAT WILL BE SHARED BETWEEN THE LAYOUTS ! 
       // (CF. computeLengthFromRoot : need to split this function and extract the behavior that
       // put that information in the data
-      console.log(maxLabelLength)
       const maxWidth = maxLabelLength * 8
       // Apply the layout hierarchy.
 
