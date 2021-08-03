@@ -9,7 +9,7 @@ import { Selection, select } from "d3-selection";
 import { scaleQuantize } from "d3-scale";
 import { extent } from "d3-array";
 import { zoom, D3ZoomEvent, zoomIdentity, } from "d3-zoom";
-import { schemeBlues } from "d3-scale-chromatic"
+import { schemeBlues, schemeOranges, schemePurples, schemeReds, schemeGreens, schemeGreys } from "d3-scale-chromatic"
 import Legend from "../legend"
 
 
@@ -19,8 +19,15 @@ export default function () {
     const mapZoom = zoom<SVGSVGElement, Topology<Objects<GeoJsonProperties>>>()
         .scaleExtent([1, 8])
     let domain: [number, number] = [0, 500]
-
-    function bigsdb(_selection: Selection<SVGSVGElement, Topology<Objects<GeoJsonProperties>>, any, any>, width: number, isolateCount: Map<string, IsolateCount>, domainParam: [number, number]) {
+    const schemeMap = new Map([
+        ["blues", schemeBlues],
+        ["oranges", schemeOranges],
+        ["purples", schemePurples],
+        ["reds", schemeReds],
+        ["greens", schemeGreens],
+        ["greys", schemeGreys]
+    ])
+    function bigsdb(_selection: Selection<SVGSVGElement, Topology<Objects<GeoJsonProperties>>, any, any>, width: number, isolateCount: Map<string, IsolateCount>, domainParam: [number, number], scheme: "blues" | "oranges" | "purples" = "blues") {
         const isolateCounts = Array.from(isolateCount)
             .filter(([_, country]) => country.label !== "Unknown" && country.label !== "No value")
             .map(item => item[1].value)
@@ -44,7 +51,8 @@ export default function () {
                     const path = geoPath(projection)
 
                     domain = (domain[0]) ? domain : [0, 0]
-                    const color = scaleQuantize(domain, schemeBlues[5])
+                    const theme = schemeMap.get(scheme) || schemeBlues
+                    const color = scaleQuantize(domain, theme[5])
                     const getCountryColor = (d: Feature<Geometry, GeoJsonProperties>) => {
                         if (d?.properties?.name) {
                             if (isolateCount.has(d.properties.name)) {
@@ -143,6 +151,7 @@ export default function () {
     }
     bigsdb.zoomIn = () => container.transition().call(mapZoom.scaleBy, 2)
     bigsdb.zoomOut = () => container.transition().call(mapZoom.scaleBy, 0.5)
+    bigsdb.themes = () => schemeMap.keys()
     return bigsdb
 
 }
