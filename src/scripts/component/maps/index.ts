@@ -1,4 +1,3 @@
-import * as d3 from "d3"
 import { geoPath, geoEqualEarth, GeoProjection } from "d3-geo"
 import { feature } from "topojson-client";
 import { Objects, Topology, } from "topojson-specification";
@@ -8,13 +7,15 @@ import { IsolateCount } from "src/scripts/types";
 import { Selection, select } from "d3-selection";
 import { scaleQuantize } from "d3-scale";
 import { extent } from "d3-array";
-import { zoom, D3ZoomEvent, zoomIdentity, } from "d3-zoom";
+import { zoom, D3ZoomEvent, zoomIdentity, zoomTransform } from "d3-zoom";
 import { schemeBlues, schemeOranges, schemePurples, schemeReds, schemeGreens, schemeGreys } from "d3-scale-chromatic"
 import Legend from "../legend"
 
 
 export default function () {
-    let container: Selection<SVGSVGElement, Topology<Objects<GeoJsonProperties>>, any, any>;
+    let container: Selection<SVGSVGElement, Topology<Objects<GeoJsonProperties>>, any, any>
+    let globalG: Selection<SVGGElement, Topology<Objects<GeoJsonProperties>>, any, any>
+    let reset = () => { }
     const unknownColor = "#ccc"
     const mapZoom = zoom<SVGSVGElement, Topology<Objects<GeoJsonProperties>>>()
         .scaleExtent([1, 8])
@@ -73,7 +74,8 @@ export default function () {
                         const height = getHeight(projection)
                         container
                             .attr("viewBox", `0 0 ${width} ${height + 75}`)
-                        let globalG: Selection<SVGGElement, Topology<Objects<GeoJsonProperties>>, any, any> = container.select("g");
+
+                        globalG = container.select("g");
                         if (globalG.empty()) {
                             globalG = container.append("g")
                         }
@@ -140,6 +142,19 @@ export default function () {
                                     .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
                             );
                         }
+                        reset = () => {
+                            globalG.transition().style("fill", null);
+                            const node = container.node()
+                            if (node) {
+                                container.transition().duration(750).call(
+                                    mapZoom.transform,
+                                    zoomIdentity,
+                                    zoomTransform(node).invert([width / 2, height / 2])
+                                );
+                            }
+                        }
+                        container.on("click", reset)
+
                     }
                     else { console.log("No container defined") }
                 } else {
@@ -151,6 +166,7 @@ export default function () {
     }
     bigsdb.zoomIn = () => container.transition().call(mapZoom.scaleBy, 2)
     bigsdb.zoomOut = () => container.transition().call(mapZoom.scaleBy, 0.5)
+    bigsdb.reset = () => reset()
     bigsdb.themes = () => schemeMap.keys()
     return bigsdb
 
