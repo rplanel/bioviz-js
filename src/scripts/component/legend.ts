@@ -1,9 +1,10 @@
 // @ts-nocheck
 import { Selection, select } from "d3-selection";
-import { range } from "d3-array"
+import { range, quantile } from "d3-array"
 import { format } from "d3-format"
 import { axisBottom } from "d3-axis";
-import { scaleBand, scaleLinear, quantize, interpolate, interpolateRound, quantile } from "d3-scale"
+import { scaleBand, scaleLinear } from "d3-scale"
+import { interpolate, interpolateRound, quantize } from "d3-interpolate"
 import { LegendColorScale } from "../types";
 
 function ramp(color: any, n = 256) {
