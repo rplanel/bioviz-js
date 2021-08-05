@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@types/d3": "^6.2.0",
-    "@types/plotly.js": "^1.54.2",
+    "@types/plotly.js": "^1.54.13",
     "@types/rx": "^4.1.1",
     "@types/topojson-client": "^3.1.0",
     "colorbrewer": "^1.5.1",
@@ -58,7 +58,7 @@
     "d3-selection": "^2.0.0",
     "d3-zoom": "^2.0.0",
     "parcel-bundler": "^1.12.4",
-    "plotly.js-dist": "^1.57.1",
+    "plotly.js-dist": "^2.3.1",
     "rxjs": "^6.5.4",
     "topojson-client": "^3.1.0",
     "tslint": "^5.20.1"
