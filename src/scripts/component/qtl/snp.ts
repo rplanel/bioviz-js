@@ -1,11 +1,9 @@
 import Plotly, { Data, Layout } from "plotly.js-dist";
-import { SnpData, SnpDataPerGenotype } from "src/scripts/types";
-import { Selection } from "d3-selection";
-import { group } from "d3-array"
-// import { nest } from "d3-collection";
+import { SnpDataPerGenotype } from "src/scripts/types";
+import * as d3Selection from "d3-selection";
 
 export default function () {
-    function snp(_selection: Selection<HTMLDivElement, SnpDataPerGenotype[], any, any>, colors: Map<string, string>) {
+    function snp(_selection: d3Selection.Selection<HTMLDivElement, SnpDataPerGenotype[], any, any>, colors: Map<string, string>) {
         const getColor = function (key: string) {
             const defaultColor = "#343434"
 
