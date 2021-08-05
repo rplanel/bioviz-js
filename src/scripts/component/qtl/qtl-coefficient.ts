@@ -1,5 +1,5 @@
 
-import Plotly, { PlotData } from "plotly.js-dist";
+import Plotly from "plotly.js-dist";
 
 import * as d3Selection from "d3-selection";
 import { PlotCoefData, CoefType } from "src/scripts/types";
@@ -54,7 +54,7 @@ export default function () {
 
     }
 
-    function extractTrace(data: PlotCoefData[], key: CoefType, color: string): Partial<PlotData> {
+    function extractTrace(data: PlotCoefData[], key: CoefType, color: string): Partial<Plotly.PlotData> {
         // const key = "lod"
         const traceProperties: { x: number[], y: number[], text: string[] } = {
             "x": [],

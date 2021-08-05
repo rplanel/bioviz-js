@@ -1,4 +1,4 @@
-import Plotly, { Layout, Data } from "plotly.js-dist";
+import Plotly from "plotly.js-dist";
 import * as d3Selection from "d3-selection";
 import * as d3Array from "d3-array";
 import * as d3Format from "d3-format";
@@ -21,7 +21,7 @@ export default function () {
                     const chrDatasMap = d3Array.group(lod_score_per_chromosome, d => d.chr);
                     const chrDatas = Array.from(chrDatasMap, ([key, values]) => ({ key, values }))
                     const chrCount = chrDatas.length;
-                    let traces = chrDatas.map((dataPerChr, i): Data => {
+                    let traces = chrDatas.map((dataPerChr, i): Plotly.Data => {
                         const j = i + 1;
 
                         return {
@@ -38,7 +38,7 @@ export default function () {
                         }
                     });
                     for (const thresholdPartialTrace of thresholdInterval(significance_thresholds, maxLodScore, thresholdColor)) {
-                        const tresholdTraces = chrDatas.map((dataPerChr, i): Data => {
+                        const tresholdTraces = chrDatas.map((dataPerChr, i): Plotly.Data => {
                             const j = i + 1;
                             const [min, max] = d3Array.extent(dataPerChr.values.map(d => {
                                 return d.pos
@@ -77,7 +77,7 @@ export default function () {
                         })
                         traces = [...traces, ...tresholdTraces]
                     }
-                    const layout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
+                    const layout: Partial<Plotly.Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
                         height: 800,
                         showlegend: true,
                         grid: {
@@ -106,7 +106,6 @@ export default function () {
                         title: "LOD score",
                     }
                     Plotly.react(container, traces, layout, { responsive: true, autosizable: true }).then(function (root) {
-                        console.log(root);
                         root.removeAllListeners('plotly_legendclick')
                         root.removeAllListeners('plotly_legenddoubleclick')
                         root.on('plotly_legenddoubleclick', legendDoubleClickCallback)

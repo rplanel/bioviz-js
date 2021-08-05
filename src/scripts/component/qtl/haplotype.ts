@@ -1,4 +1,4 @@
-import Plotly, { Data, Layout } from "plotly.js-dist";
+import Plotly from "plotly.js-dist";
 import { HaplotypeData } from "src/scripts/types";
 import * as d3Selection from "d3-selection";
 import * as d3Array from "d3-array";
@@ -24,7 +24,7 @@ export default function () {
             const perHaplotypes = Array.from(perHaplotypesMap, ([key, values]) => ({ key, values }))
             const traces = perHaplotypes.map((haplotype, i) => {
                 const j = i + 1;
-                const initTrace: Data & { boxpoints: string } = {
+                const initTrace: Plotly.Data & { boxpoints: string } = {
                     type: "box",
                     marker: {
                         size: 4,
@@ -51,7 +51,7 @@ export default function () {
                 return { ...initTrace, ...axisData };
             });
 
-            const layout: Partial<Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
+            const layout: Partial<Plotly.Layout> & { grid: { rows: number, columns: number, pattern: string } } = {
                 height: 600,
                 grid: {
                     rows: 1,
