@@ -9,11 +9,11 @@ export { default as Gene } from "./component/sequence/gene";
 // Components
 export { default as GenomeBrowser } from "./component/genome-browser";
 export { default as Phylotree } from "./component/tree/phylotree";
-export { default as GenomeScan } from "./component/qtl/genome-scan";
-export { default as QtlCoefficient } from "./component/qtl/qtl-coefficient";
-export { default as Haplotype } from "./component/qtl/haplotype";
-export { default as Snp } from "./component/qtl/snp";
-export { default as Snps } from "./component/qtl/snps";
+// export { default as GenomeScan } from "./component/qtl/genome-scan";
+// export { default as QtlCoefficient } from "./component/qtl/qtl-coefficient";
+// export { default as Haplotype } from "./component/qtl/haplotype";
+// export { default as Snp } from "./component/qtl/snp";
+// export { default as Snps } from "./component/qtl/snps";
 export { default as SelectedChromosome } from "./component/selected-chromosome";
 export { default as BvMaps } from "./component/maps";
 
