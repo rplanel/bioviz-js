@@ -1,9 +1,9 @@
 import Plotly, { Data } from "plotly.js-dist";
 import { SnpsData } from "src/scripts/types";
-import { Selection } from "d3-selection";
+import * as d3Selection from "d3-selection";
 
 export default function () {
-    function snps(_selection: Selection<HTMLDivElement, SnpsData[], any, any>, xAxisTitle = "") {
+    function snps(_selection: d3Selection.Selection<HTMLDivElement, SnpsData[], any, any>, xAxisTitle = "") {
         _selection.each(function (_data: SnpsData[]) {
             const container = this;
             const trace = [_data].map(data => {
