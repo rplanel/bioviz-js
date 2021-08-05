@@ -1,24 +1,24 @@
 import Plotly, { Layout, Data } from "plotly.js-dist";
-import { Selection } from "d3-selection";
-import { max, group, extent } from "d3-array";
-import { format } from "d3-format";
-import { ScaleSequential, scaleSequential } from "d3-scale";
-import { interpolatePlasma } from "d3-scale-chromatic";
+import * as d3Selection from "d3-selection";
+import * as d3Array from "d3-array";
+import * as d3Format from "d3-format";
+import * as d3Scale from "d3-scale";
+import * as d3ScaleChromatic from "d3-scale-chromatic";
 import { GenomeScanData, SignificanceThreshold } from "../../types";
 
 
 export default function () {
-    function genomeScan(_selection: Selection<HTMLDivElement, GenomeScanData, any, any>, legendClickCallback: (event: Plotly.LegendClickEvent) => boolean, legendDoubleClickCallback: (event: Plotly.LegendClickEvent) => boolean) {
-        const threholdFormat = format(".2f");
+    function genomeScan(_selection: d3Selection.Selection<HTMLDivElement, GenomeScanData, any, any>, legendClickCallback: (event: Plotly.LegendClickEvent) => boolean, legendDoubleClickCallback: (event: Plotly.LegendClickEvent) => boolean) {
+        const threholdFormat = d3Format.format(".2f");
         _selection.each(function ({ lod_score_per_chromosome, significance_thresholds }: GenomeScanData) {
             const container = this;
             if (container) {
-                const maxLodScoreStr = max(lod_score_per_chromosome, d => d.lod);
+                const maxLodScoreStr = d3Array.max(lod_score_per_chromosome, d => d.lod);
                 if (maxLodScoreStr) {
-                    const thresholdColor = scaleSequential(interpolatePlasma).domain([80, 100])
+                    const thresholdColor = d3Scale.scaleSequential(d3ScaleChromatic.interpolatePlasma).domain([80, 100])
                     // const thresholdColor = scaleLinear<string, string>().domain([80, 100]).range(["red", "blue"])
                     const maxLodScore = maxLodScoreStr;
-                    const chrDatasMap = group(lod_score_per_chromosome, d => d.chr);
+                    const chrDatasMap = d3Array.group(lod_score_per_chromosome, d => d.chr);
                     const chrDatas = Array.from(chrDatasMap, ([key, values]) => ({ key, values }))
                     const chrCount = chrDatas.length;
                     let traces = chrDatas.map((dataPerChr, i): Data => {
@@ -40,7 +40,7 @@ export default function () {
                     for (const thresholdPartialTrace of thresholdInterval(significance_thresholds, maxLodScore, thresholdColor)) {
                         const tresholdTraces = chrDatas.map((dataPerChr, i): Data => {
                             const j = i + 1;
-                            const [min, max] = extent(dataPerChr.values.map(d => {
+                            const [min, max] = d3Array.extent(dataPerChr.values.map(d => {
                                 return d.pos
                             }))
                             if (typeof min !== "undefined" && typeof max != "undefined") {
@@ -120,7 +120,7 @@ export default function () {
         })
     }
 
-    function thresholdInterval(significanceThresholds: SignificanceThreshold[], max: number, colorScale: ScaleSequential<string>) {
+    function thresholdInterval(significanceThresholds: SignificanceThreshold[], max: number, colorScale: d3Scale.ScaleSequential<string>) {
         const significanceThresholdsLength = significanceThresholds.length;
         return significanceThresholds.map((st, i, arr) => {
             return {
