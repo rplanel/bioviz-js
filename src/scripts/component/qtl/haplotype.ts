@@ -1,11 +1,10 @@
 import Plotly, { Data, Layout } from "plotly.js-dist";
 import { HaplotypeData } from "src/scripts/types";
-import { Selection } from "d3-selection";
-// import { nest } from "d3-collection";
-import { group } from "d3-array";
+import * as d3Selection from "d3-selection";
+import * as d3Array from "d3-array";
 
 export default function () {
-    function haplotype(_selection: Selection<HTMLDivElement, HaplotypeData[], any, any>, colors: Map<string, string>) {
+    function haplotype(_selection: d3Selection.Selection<HTMLDivElement, HaplotypeData[], any, any>, colors: Map<string, string>) {
         const getColor = function (key: string) {
             const defaultColor = "#343434"
 
@@ -18,7 +17,7 @@ export default function () {
         }
         _selection.each(function (_data: HaplotypeData[]) {
             const container = this;
-            const perHaplotypesMap = group(_data, d => d.haplotype)
+            const perHaplotypesMap = d3Array.group(_data, d => d.haplotype)
             // nest<HaplotypeData>()
             //     .key(d => d.Haplotype)
             //     .entries(_data);
