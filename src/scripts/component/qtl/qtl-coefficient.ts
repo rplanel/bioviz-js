@@ -1,10 +1,10 @@
 
-import Plotly, { Data, PlotData } from "plotly.js-dist";
+import Plotly, { PlotData } from "plotly.js-dist";
 
-import { Selection } from "d3-selection";
+import * as d3Selection from "d3-selection";
 import { PlotCoefData, CoefType } from "src/scripts/types";
 export default function () {
-    function qtlCoefficient(_selection: Selection<HTMLDivElement, PlotCoefData[], any, any>, xTitle = "", colors: Map<string, string>) {
+    function qtlCoefficient(_selection: d3Selection.Selection<HTMLDivElement, PlotCoefData[], any, any>, xTitle = "", colors: Map<string, string>) {
         const getColor = function (key: string) {
             const defaultColor = "#343434"
             if (colors.has(key)) {
