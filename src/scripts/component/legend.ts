@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { Selection, select } from "d3-selection";
-import { range, quantile } from "d3-array"
-import { format } from "d3-format"
-import { axisBottom } from "d3-axis";
-import { scaleBand, scaleLinear } from "d3-scale"
-import { interpolate, interpolateRound, quantize } from "d3-interpolate"
+import * as d3Selection from "d3-selection";
+import * as d3Array from "d3-array"
+import * as d3Format from "d3-format"
+import * as d3Axis from "d3-axis";
+import * as d3Scale from "d3-scale"
+import * as d3Interpolate from "d3-interpolate"
 import { LegendColorScale } from "../types";
 
 function ramp(color: any, n = 256) {
@@ -20,7 +20,7 @@ function ramp(color: any, n = 256) {
 
 export default function () {
   function legend(
-    _selection: Selection<SVGGElement, any, any, any>,
+    _selection: d3Selection.Selection<SVGGElement, any, any, any>,
     options: {
       color: LegendColorScale,
       title: string,
@@ -53,20 +53,20 @@ export default function () {
 
     const containerNode = _selection.node()
     if (containerNode) {
-      const container = select(containerNode);
+      const container = d3Selection.select(containerNode);
 
 
 
       const legendGroup = container.append("g")
 
-      let tickAdjust = (g: Selection<SVGElement, null, any, any>) => g.selectAll(".tick line").attr("y1", marginTop + marginBottom - height);
+      let tickAdjust = (g: d3Selection.Selection<SVGElement, null, any, any>) => g.selectAll(".tick line").attr("y1", marginTop + marginBottom - height);
       let x: any;
 
       // Continuous
       if ("interpolate" in color) {
         const n = Math.min(color.domain().length, color.range().length);
 
-        x = color.copy().rangeRound(quantize(interpolate(marginLeft, width - marginRight), n));
+        x = color.copy().rangeRound(d3Interpolate.quantize(d3Interpolate.interpolate(marginLeft, width - marginRight), n));
 
         legendGroup.append("image")
           .attr("x", marginLeft)
@@ -74,13 +74,13 @@ export default function () {
           .attr("width", width - marginLeft - marginRight)
           .attr("height", height - marginTop - marginBottom)
           .attr("preserveAspectRatio", "none")
-          .attr("xlink:href", ramp(color.copy().domain(quantize(interpolate(0, 1), n))).toDataURL());
+          .attr("xlink:href", ramp(color.copy().domain(d3Interpolate.quantize(d3Interpolate.interpolate(0, 1), n))).toDataURL());
       }
 
       // Sequential
       else if ("interpolator" in color) {
         x = Object.assign(color.copy()
-          .interpolator(interpolateRound(marginLeft, width - marginRight)),
+          .interpolator(d3Interpolate.interpolateRound(marginLeft, width - marginRight)),
           { range() { return [marginLeft, width - marginRight]; } });
 
         legendGroup.append("image")
@@ -95,10 +95,10 @@ export default function () {
         if (!x.ticks) {
           if (tickValues === undefined) {
             const n = Math.round(ticks + 1);
-            tickValues = range(n).map(i => quantile(color.domain(), i / (n - 1)));
+            tickValues = d3Array.range(n).map(i => d3Array.quantile(color.domain(), i / (n - 1)));
           }
           if (typeof tickFormat !== "function") {
-            tickFormat = format(tickFormat === undefined ? ",f" : tickFormat);
+            tickFormat = d3Format.format(tickFormat === undefined ? ",f" : tickFormat);
           }
         }
       }
@@ -118,10 +118,10 @@ export default function () {
         }
         const thresholdFormat
           = tickFormat === undefined ? d => d
-            : typeof tickFormat === "string" ? format(tickFormat)
+            : typeof tickFormat === "string" ? d3Format.format(tickFormat)
               : tickFormat;
 
-        x = scaleLinear()
+        x = d3Scale.scaleLinear()
           .domain([-1, color.range().length - 1])
           .rangeRound([marginLeft, width - marginRight]);
 
@@ -135,13 +135,13 @@ export default function () {
           .attr("height", height - marginTop - marginBottom)
           .attr("fill", d => d);
 
-        tickValues = range(thresholds.length);
+        tickValues = d3Array.range(thresholds.length);
         tickFormat = (i: number) => thresholdFormat(thresholds[i], i);
       }
 
       // Ordinal
       else {
-        x = scaleBand()
+        x = d3Scale.scaleBand()
           .domain(color.domain())
           .rangeRound([marginLeft, width - marginRight]);
 
@@ -161,7 +161,7 @@ export default function () {
       legendGroup.append("g")
         .attr("transform", `translate(0,${height - marginBottom})`)
         .classed("legend-text", true)
-        .call(axisBottom(x)
+        .call(d3Axis.axisBottom(x)
           .ticks(ticks, typeof tickFormat === "string" ? tickFormat : undefined)
           .tickFormat(typeof tickFormat === "function" ? tickFormat : undefined)
           .tickSize(tickSize)
